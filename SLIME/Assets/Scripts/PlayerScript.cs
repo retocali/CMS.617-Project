@@ -7,10 +7,12 @@ public class PlayerScript : MonoBehaviour
 
 	private Rigidbody2D rb;
 	private float defaultGravity;
-	private float maxDistanceToGround = 0.6f;
-	float maxSpeed = 10.0f;
-	float acceleration = 10.0f;
-	float jump = 10.0f;
+	private float maxDistanceToGround = 0.1f;
+	public float maxSpeed = 10.0f;
+	public float minSpeed = 0.1f;
+	public float acceleration = 10.0f;
+	public float deceleration = 0.5f;
+	public float jump = 10.0f;
 	
 	// Use this for initialization
 	void Start ()
@@ -21,8 +23,7 @@ public class PlayerScript : MonoBehaviour
 	 
 	bool IsGrounded() 
 	{
-		var hit = Physics2D.Raycast(transform.position, -Vector2.up, maxDistanceToGround);
-		// Debug.Log(hit.collider);
+		var hit = Physics2D.CircleCast(transform.position, 0.5f, -Vector2.up, maxDistanceToGround);
 		return hit.collider != null;
 	}
 	
@@ -39,7 +40,12 @@ public class PlayerScript : MonoBehaviour
 				rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
 			}
 		} else {
-			rb.velocity = new Vector2(0, rb.velocity.y);
+			Debug.Log(rb.velocity.x);
+			if (Mathf.Abs(rb.velocity.x) > minSpeed) {
+				rb.velocity = new Vector2(rb.velocity.x*deceleration, rb.velocity.y);
+			} else {
+				rb.velocity = new Vector2(0, rb.velocity.y);
+			}
 		}
 
 		if (v == 1f) 
@@ -59,7 +65,6 @@ public class PlayerScript : MonoBehaviour
 		
 		if (IsGrounded()) 
 		{
-			// rb.gravityScale = defaultGravity;
 			rb.velocity = new Vector2(rb.velocity.x, jump);
 		}
 	}
