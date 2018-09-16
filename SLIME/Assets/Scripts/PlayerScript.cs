@@ -38,6 +38,7 @@ public class PlayerScript : MonoBehaviour
 			Bounce(v);
 			Squish(rb.velocity.y);	
 		}
+		Debug.Log(rb.velocity.x);
 	}
 	public void KillPlayer()
 	{
@@ -55,9 +56,9 @@ public class PlayerScript : MonoBehaviour
 		if (h != 0) 
 		{
 			rb.velocity += new Vector2(Time.deltaTime*h*acceleration, 0);
-			if (rb.velocity.x > maxSpeed) 
+			if (Mathf.Abs(rb.velocity.x) > maxSpeed) 
 			{	
-				rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
+				rb.velocity = new Vector2(maxSpeed*Mathf.Sign(rb.velocity.x), rb.velocity.y);
 			}
 		} 
 		else 

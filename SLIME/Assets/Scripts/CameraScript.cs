@@ -19,13 +19,14 @@ public class CameraScript : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		Vector2 pos = cam.WorldToViewportPoint(player.transform.position);
-		float x = pos.x - 0.5f;
+		float x = pos.x-0.5f;
 		float y = pos.y-0.5f;
 		if (Mathf.Abs(x) < gap)
 			x = 0;
 		if (Mathf.Abs(y) < gap)
 			y = 0;
 		Vector3 delta = new Vector3(x, y, 0);
+		Debug.Log(delta);
 		Vector3 destination = transform.position + skip*delta; 
 		transform.position = Vector3.SmoothDamp(transform.position, destination, ref v, time);	
 	}
