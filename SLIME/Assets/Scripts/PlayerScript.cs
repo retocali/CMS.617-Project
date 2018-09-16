@@ -7,7 +7,7 @@ public class PlayerScript : MonoBehaviour
 
 	private Rigidbody2D rb;
 	private Vector3 normalScale;
-	private float maxDistanceToGround = 0.1f;
+	private float maxDistanceToGround = 0.25f;
 	private float defaultGravity;
 	private bool dead = false;
 	private bool touching = false;
@@ -31,7 +31,7 @@ public class PlayerScript : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	void FixedUpdate () 
 	{
 		float h = Input.GetAxis("Horizontal");
 		float v = Input.GetAxis("Vertical");
@@ -65,7 +65,11 @@ public class PlayerScript : MonoBehaviour
 	}
 	private bool IsGrounded() 
 	{
-		var hit = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 1f), 0f, -Vector2.up, maxDistanceToGround);
+		float x = transform.localScale.x*0.5f;
+		float y = transform.localScale.y*maxDistanceToGround + transform.localScale.y;
+
+		Vector2 scale = new Vector2(x, y);
+		var hit = Physics2D.BoxCast(transform.position, scale, 0f, -Vector2.up, maxDistanceToGround);
 		return hit.collider != null;
 	}
 	private void Move(float h)
@@ -118,7 +122,7 @@ public class PlayerScript : MonoBehaviour
 			if (rb.velocity.y >= 0) {
 				rb.velocity = new Vector2(rb.velocity.x, jump);
 			}
-				
+			Debug.Log("Did it");	
 		}
 	}
 	private void Squish(float final) 

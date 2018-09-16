@@ -9,7 +9,7 @@ public class CameraScript : MonoBehaviour {
 	private Vector3 v = Vector3.zero; 
 	private Vector3 destination = Vector3.zero;
 	float gap = 0.2f;
-	float skip = 15.0f;
+	float skip = 10.0f;
 	float time = 0.3f;
 	// Use this for initialization
 	void Start () 
@@ -18,7 +18,7 @@ public class CameraScript : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () 
+	void LateUpdate () 
 	{
 		if (player == null) 
 		{
