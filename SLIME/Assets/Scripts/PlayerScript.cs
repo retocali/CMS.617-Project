@@ -49,6 +49,11 @@ public class PlayerScript : MonoBehaviour
 		touching = true;
 		normal = c.GetContact(0).normal;
 	}
+	private void OnTriggerEnter2D(Collider2D other) {
+		if (other.gameObject.tag == "hazard") {
+			KillPlayer();
+		}
+	}
 	private void OnCollisionEnter2D(Collision2D other) { Touch(other); }
 	private void OnCollisionStay2D(Collision2D other) { Touch(other); }
 	private void OnCollisionExit2D(Collision2D other) { touching = false; }
@@ -57,6 +62,7 @@ public class PlayerScript : MonoBehaviour
 	{
 		Debug.Log("Player is dead");
 		dead = true;
+		Destroy(gameObject);
 	}
 	private bool IsGrounded() 
 	{
