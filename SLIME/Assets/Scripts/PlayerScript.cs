@@ -6,25 +6,24 @@ public class PlayerScript : MonoBehaviour
 {
 
 	private Rigidbody2D rb;
-	private float defaultGravity;
+	private Vector3 normalScale;
 	private float maxDistanceToGround = 0.1f;
+	private float defaultGravity;
+	private bool dead = false;
+
 	public float maxSpeed = 10.0f;
 	public float minSpeed = 0.1f;
 	public float acceleration = 10.0f;
 	public float deceleration = 0.5f;
 	public float jump = 10.0f;
-	
+	public float minSquish = 0.5f;
+
 	// Use this for initialization
 	void Start ()
 	{
 		rb = GetComponent<Rigidbody2D>();
 		defaultGravity = rb.gravityScale;
-	}
-	 
-	bool IsGrounded() 
-	{
-		var hit = Physics2D.CircleCast(transform.position, 0.5f, -Vector2.up, maxDistanceToGround);
-		return hit.collider != null;
+		normalScale = transform.localScale;
 	}
 	
 	// Update is called once per frame
@@ -33,21 +32,49 @@ public class PlayerScript : MonoBehaviour
 		float h = Input.GetAxis("Horizontal");
 		float v = Input.GetAxis("Vertical");
 		
-		if (h != 0) {
+		if (!dead) 
+		{
+			Move(h);
+			Bounce(v);
+			Squish(rb.velocity.y);	
+		}
+	}
+	public void KillPlayer()
+	{
+		Debug.Log("Player is dead");
+		dead = true;
+	}
+
+	private bool IsGrounded() 
+	{
+		var hit = Physics2D.CircleCast(transform.position, transform.localScale.y/2f , -Vector2.up, maxDistanceToGround);
+		return hit.collider != null;
+	}
+	private void Move(float h)
+	{
+		if (h != 0) 
+		{
 			rb.velocity += new Vector2(Time.deltaTime*h*acceleration, 0);
 			if (rb.velocity.x > maxSpeed) 
 			{	
 				rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
 			}
-		} else {
-			Debug.Log(rb.velocity.x);
-			if (Mathf.Abs(rb.velocity.x) > minSpeed) {
+		} 
+		else 
+		{
+			if (Mathf.Abs(rb.velocity.x) > minSpeed) 
+			{
 				rb.velocity = new Vector2(rb.velocity.x*deceleration, rb.velocity.y);
-			} else {
+			} 
+			else 
+			{
 				rb.velocity = new Vector2(0, rb.velocity.y);
 			}
 		}
+	}
 
+	private void Bounce(float v) 
+	{
 		if (v == 1f) 
 		{
 			rb.gravityScale -= defaultGravity*Time.deltaTime;
@@ -60,12 +87,23 @@ public class PlayerScript : MonoBehaviour
 		}
 		if (v == 0f)
 		{
-			rb.gravityScale = defaultGravity;
+			rb.gravityScale = Mathf.MoveTowards(rb.gravityScale, defaultGravity, jump*defaultGravity*Time.deltaTime);
 		}
-		
+
 		if (IsGrounded()) 
 		{
 			rb.velocity = new Vector2(rb.velocity.x, jump);
 		}
+	}
+	private void Squish(float final) 
+	{
+		float XScale = transform.localScale.x;
+		float YScale = transform.localScale.y;
+		float ZScale = transform.localScale.z;
+
+		XScale = normalScale.x*Mathf.Abs(final/jump);
+
+		XScale = Mathf.Max(XScale, minSquish);
+		transform.localScale = new Vector3(XScale, YScale, ZScale);
 	}
 }
