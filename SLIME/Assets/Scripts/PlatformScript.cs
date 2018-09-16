@@ -12,7 +12,7 @@ public class PlatformScript : MonoBehaviour {
 	public float yVelocity=10;
 	public float xVelocity=0;
 	///after cycles frames the direction switches
-        public uint cycles = 100;
+	public uint cycles = 100;
 	public uint cycleOffset= 50;
 	///number of frames to wait after completing a cycle to switching direction
 	public uint turnAroundDelay=100;

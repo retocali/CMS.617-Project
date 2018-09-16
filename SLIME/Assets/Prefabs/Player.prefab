@@ -135,7 +135,7 @@ MonoBehaviour:
   maxSpeed: 10
   minSpeed: 0.1
   acceleration: 15
-  deceleration: 0.85
+  deceleration: 0.95
   jump: 10
   maxSquish: 1.5
   minSquish: 1

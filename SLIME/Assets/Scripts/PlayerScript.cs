@@ -45,7 +45,6 @@ public class PlayerScript : MonoBehaviour
 	}
 	private void Touch(Collision2D c)
 	{
-		Debug.Log("Touch: "+touching);
 		touching = true;
 		normal = c.GetContact(0).normal;
 	}
@@ -116,7 +115,6 @@ public class PlayerScript : MonoBehaviour
 		else if (touching) 
 		{
 			rb.velocity = jump*normal;
-			Debug.Log(rb.velocity);
 			if (rb.velocity.y >= 0) {
 				rb.velocity = new Vector2(rb.velocity.x, jump);
 			}
