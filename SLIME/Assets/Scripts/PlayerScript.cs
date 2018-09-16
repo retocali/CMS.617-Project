@@ -42,10 +42,10 @@ public class PlayerScript : MonoBehaviour
 			Bounce(v);
 			Squish(rb.velocity.y);	
 		}
-		Debug.Log(rb.velocity.x);
 	}
 	private void Touch(Collision2D c)
 	{
+		Debug.Log("Touch: "+touching);
 		touching = true;
 		normal = c.GetContact(0).normal;
 	}
@@ -110,7 +110,11 @@ public class PlayerScript : MonoBehaviour
 		else if (touching) 
 		{
 			rb.velocity = jump*normal;
-			rb.velocity = new Vector2(rb.velocity.x, jump);
+			Debug.Log(rb.velocity);
+			if (rb.velocity.y >= 0) {
+				rb.velocity = new Vector2(rb.velocity.x, jump);
+			}
+				
 		}
 	}
 	private void Squish(float final) 
