@@ -10,12 +10,16 @@ public class PlayerScript : MonoBehaviour
 	private float maxDistanceToGround = 0.1f;
 	private float defaultGravity;
 	private bool dead = false;
+	private bool touching = false;
+	private Vector2 normal = Vector2.zero;
 
 	public float maxSpeed = 10.0f;
 	public float minSpeed = 0.1f;
 	public float acceleration = 10.0f;
 	public float deceleration = 0.5f;
 	public float jump = 10.0f;
+
+	public float maxSquish = 1.5f;
 	public float minSquish = 0.5f;
 
 	// Use this for initialization
@@ -40,15 +44,23 @@ public class PlayerScript : MonoBehaviour
 		}
 		Debug.Log(rb.velocity.x);
 	}
+	private void Touch(Collision2D c)
+	{
+		touching = true;
+		normal = c.GetContact(0).normal;
+	}
+	private void OnCollisionEnter2D(Collision2D other) { Touch(other); }
+	private void OnCollisionStay2D(Collision2D other) { Touch(other); }
+	private void OnCollisionExit2D(Collision2D other) { touching = false; }
+	
 	public void KillPlayer()
 	{
 		Debug.Log("Player is dead");
 		dead = true;
 	}
-
 	private bool IsGrounded() 
 	{
-		var hit = Physics2D.CircleCast(transform.position, transform.localScale.y/2f , -Vector2.up, maxDistanceToGround);
+		var hit = Physics2D.BoxCast(transform.position, new Vector2(0.5f, 1f), 0f, -Vector2.up, maxDistanceToGround);
 		return hit.collider != null;
 	}
 	private void Move(float h)
@@ -95,6 +107,11 @@ public class PlayerScript : MonoBehaviour
 		{
 			rb.velocity = new Vector2(rb.velocity.x, jump);
 		}
+		else if (touching) 
+		{
+			rb.velocity = jump*normal;
+			rb.velocity = new Vector2(rb.velocity.x, jump);
+		}
 	}
 	private void Squish(float final) 
 	{
@@ -105,6 +122,7 @@ public class PlayerScript : MonoBehaviour
 		XScale = normalScale.x*Mathf.Abs(final/jump);
 
 		XScale = Mathf.Max(XScale, minSquish);
+		XScale = Mathf.Min(XScale, maxSquish);
 		transform.localScale = new Vector3(XScale, YScale, ZScale);
 	}
 }

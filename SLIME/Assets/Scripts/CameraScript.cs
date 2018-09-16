@@ -26,7 +26,6 @@ public class CameraScript : MonoBehaviour {
 		if (Mathf.Abs(y) < gap)
 			y = 0;
 		Vector3 delta = new Vector3(x, y, 0);
-		Debug.Log(delta);
 		Vector3 destination = transform.position + skip*delta; 
 		transform.position = Vector3.SmoothDamp(transform.position, destination, ref v, time);	
 	}
