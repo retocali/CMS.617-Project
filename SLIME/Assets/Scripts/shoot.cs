@@ -15,6 +15,7 @@ public class shoot : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		lastShot = -fireRate;
 	}
 	
 	// Update is called once per frame
@@ -37,7 +38,6 @@ public class shoot : MonoBehaviour {
 		// Add velocity to the bullet
 		bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.forward * -fireSpeed;
 
-		// Destroy the bullet after 2 seconds
-		Destroy(bullet, 2.0f);
+		Destroy(bullet, 2f);
 	}
 }

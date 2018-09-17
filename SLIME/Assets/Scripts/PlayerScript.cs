@@ -41,6 +41,16 @@ public class PlayerScript : MonoBehaviour
 			Move(h);
 			Bounce(v);
 			Squish(rb.velocity.y);	
+		} 
+		else 
+		{
+			float XScale = transform.localScale.x;
+			float YScale = transform.localScale.y;
+			float ZScale = transform.localScale.z;
+
+			XScale = Mathf.Min(XScale*1.05f, 5f);
+			YScale = Mathf.Max(YScale*0.8f, 0.0f);
+			transform.localScale = new Vector3(XScale, YScale, ZScale);
 		}
 	}
 	private void Touch(Collision2D c)
@@ -61,7 +71,8 @@ public class PlayerScript : MonoBehaviour
 	{
 		Debug.Log("Player is dead");
 		dead = true;
-		Destroy(gameObject);
+		GetComponent<Renderer>().material.color = Color.red;
+		Destroy(gameObject, 1.5f);
 	}
 	private bool IsGrounded() 
 	{
@@ -121,8 +132,7 @@ public class PlayerScript : MonoBehaviour
 			rb.velocity = jump*normal;
 			if (rb.velocity.y >= 0) {
 				rb.velocity = new Vector2(rb.velocity.x, jump);
-			}
-			Debug.Log("Did it");	
+			}	
 		}
 	}
 	private void Squish(float final) 

@@ -23,23 +23,24 @@ public class CameraScript : MonoBehaviour {
 		if (player == null) 
 		{
 			player = GameObject.Find("Player(Clone)");
+			if (player == null) 
+			{
+				Debug.Log("Error: Could not find player prefab? Name might have changed");
+				return;
+			}
+			Debug.Log("Resolved: Found player!");
 		} 
-		if (player == null) 
-		{
-			Debug.LogError("Error: Could not find player prefab? Name might have changed");
-		}
-		else 
-		{
-			Vector2 pos = cam.WorldToViewportPoint(player.transform.position);
-			float x = pos.x-0.5f;
-			float y = pos.y-0.5f;
-			if (Mathf.Abs(x) < gap)
-				x = 0;
-			if (Mathf.Abs(y) < gap)
-				y = 0;
-			Vector3 delta = new Vector3(x, y, 0);
-			Vector3 destination = transform.position + skip*delta; 
-			transform.position = Vector3.SmoothDamp(transform.position, destination, ref v, time);	
-		}
+		
+		Vector2 pos = cam.WorldToViewportPoint(player.transform.position);
+		float x = pos.x-0.5f;
+		float y = pos.y-0.5f;
+		if (Mathf.Abs(x) < gap)
+			x = 0;
+		if (Mathf.Abs(y) < gap)
+			y = 0;
+		Vector3 delta = new Vector3(x, y, 0);
+		Vector3 destination = transform.position + skip*delta; 
+		transform.position = Vector3.SmoothDamp(transform.position, destination, ref v, time);	
+	
 	}
 }

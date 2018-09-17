@@ -45,8 +45,8 @@ public class PlatformScript : MonoBehaviour {
 			delayCounter=turnAroundDelay;
 			return;
 		}
-		Debug.Log(rb.velocity);
-		Debug.Log(rb.position);
+		// Debug.Log(rb.velocity);
+		// Debug.Log(rb.position);
 		float deltaT=Time.deltaTime;
 		rb.velocity += new Vector2(deltaT*xAcceleration, deltaT*yAcceleration);
 	}
