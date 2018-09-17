@@ -66,7 +66,7 @@ public class PlayerScript : MonoBehaviour
 	private bool IsGrounded() 
 	{
 		float x = transform.localScale.x*0.5f;
-		float y = transform.localScale.y*maxDistanceToGround + transform.localScale.y;
+		float y = transform.localScale.y;
 
 		Vector2 scale = new Vector2(x, y);
 		var hit = Physics2D.BoxCast(transform.position, scale, 0f, -Vector2.up, maxDistanceToGround);

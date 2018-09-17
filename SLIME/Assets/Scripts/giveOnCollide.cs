@@ -14,7 +14,7 @@ public class giveOnCollide : MonoBehaviour {
 		
 	}
 
-	void OnCollisionEnter2D(Collider2D collider) {
+	void OnCollisionEnter2D(Collision2D collider) {
 		Destroy(gameObject);
 	}
 }
