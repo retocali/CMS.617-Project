@@ -6,19 +6,23 @@ public class PlayerScript : MonoBehaviour
 {
 
 	private Rigidbody2D rb;
+	private Vector2 normal = Vector2.zero;
 	private Vector3 normalScale;
 	private float maxDistanceToGround = 0.25f;
 	private float defaultGravity;
 	private bool dead = false;
 	private bool touching = false;
-	private Vector2 normal = Vector2.zero;
-
+	private int layermask = ~(1 << 9 | 1 << 10);
+	
 	public float maxSpeed = 10.0f;
 	public float minSpeed = 0.1f;
 	public float acceleration = 10.0f;
 	public float deceleration = 0.5f;
 	public float jump = 10.0f;
-
+	public float walljump = 7.5f;
+	public float weightDelta = 10.0f;
+	public float maxWeight = 2.0f;
+	public float minWeight = 0.5f;
 	public float maxSquish = 1.5f;
 	public float minSquish = 0.5f;
 
@@ -80,7 +84,7 @@ public class PlayerScript : MonoBehaviour
 		float y = transform.localScale.y;
 
 		Vector2 scale = new Vector2(x, y);
-		var hit = Physics2D.BoxCast(transform.position, scale, 0f, -Vector2.up, maxDistanceToGround);
+		var hit = Physics2D.BoxCast(transform.position, scale, 0f, -Vector2.up, maxDistanceToGround, layermask);
 		return hit.collider != null;
 	}
 	private void Move(float h)
@@ -110,13 +114,13 @@ public class PlayerScript : MonoBehaviour
 	{
 		if (v == 1f) 
 		{
-			rb.gravityScale -= defaultGravity*Time.deltaTime;
-			rb.gravityScale = Mathf.Max(rb.gravityScale, 0.5f*defaultGravity);
+			rb.gravityScale -= weightDelta*Time.deltaTime;
+			rb.gravityScale = Mathf.Max(rb.gravityScale, minWeight*defaultGravity);
 		}
 		if (v == -1f)
 		{
-			rb.gravityScale += defaultGravity*Time.deltaTime;
-			rb.gravityScale = Mathf.Min(rb.gravityScale, 2.0f*defaultGravity);
+			rb.gravityScale += weightDelta*Time.deltaTime;
+			rb.gravityScale = Mathf.Min(rb.gravityScale, maxWeight*defaultGravity);
 		}
 		if (v == 0f)
 		{
@@ -131,7 +135,7 @@ public class PlayerScript : MonoBehaviour
 		{
 			rb.velocity = jump*normal;
 			if (rb.velocity.y >= 0) {
-				rb.velocity = new Vector2(rb.velocity.x, jump);
+				rb.velocity = new Vector2(rb.velocity.x, walljump);
 			}	
 		}
 	}
