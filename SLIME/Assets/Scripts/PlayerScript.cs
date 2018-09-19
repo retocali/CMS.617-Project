@@ -13,8 +13,10 @@ public class PlayerScript : MonoBehaviour
 	private bool dead = false;
 	private bool touching = false;
 	private int layermask = ~(1 << 9 | 1 << 10);
-	
-	public int scheme = 0; 
+
+	public int scheme = -1;
+	public float crumbTime = 0.01f;
+	public GameObject crumbPrefab;
 	public float maxSpeed = 10.0f;
 	public float minSpeed = 0.1f;
 	public float acceleration = 10.0f;
@@ -33,20 +35,34 @@ public class PlayerScript : MonoBehaviour
 		rb = GetComponent<Rigidbody2D>();
 		defaultGravity = rb.gravityScale;
 		normalScale = transform.localScale;
-		// switch (scheme)
-		// {
-		// 	default:
-		// 	case 0:
-		// 	break;
-		// 	case 1:
-		// 	break;
-		// 	case 2:
-		// 	break;
-		// 	case 3:
-		// 	break;
-		// }
+		switch (scheme)
+		{
+			default:
+				break;
+			case 0:
+				deceleration = 0.1f;
+				acceleration = 20.0f;
+			break;
+			case 1:
+				maxWeight = 2.5f;
+				minWeight = 0.45f;
+				weightDelta = 100.0f;
+			break;
+			case 2:
+				walljump = 15.0f;
+			break;
+			case 3:
+				maxSpeed = 5.0f;
+				acceleration = 30.0f;
+			break;
+		}
 	}
-	
+	void Trail() {
+		var crumb = Instantiate(crumbPrefab,
+									new Vector3(transform.position.x,transform.position.y,-6),
+									transform.rotation) as GameObject;
+		Destroy(crumb, 2.0f);
+	}
 	// Update is called once per frame
 	void FixedUpdate () 
 	{
@@ -58,6 +74,7 @@ public class PlayerScript : MonoBehaviour
 			Move(h);
 			Bounce(v);
 			Squish(rb.velocity.y);	
+			Trail();
 		} 
 		else 
 		{

@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1097021431078066}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.75, y: 0.45, z: -0.029619534}
+  m_LocalPosition: {x: -3.75, y: 0.45, z: 0}
   m_LocalScale: {x: 1.25, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -132,7 +132,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faec13a3214a44abbb70275125a6122f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scheme: 0
+  scheme: 2
+  crumbTime: 0.5
+  crumbPrefab: {fileID: 1612155585748918, guid: a7da833a63b4e437f90728032a65fc2d,
+    type: 2}
   maxSpeed: 10
   minSpeed: 0.1
   acceleration: 15
