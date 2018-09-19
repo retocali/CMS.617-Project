@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 58569798272137972}
   - component: {fileID: 50083925256816330}
   - component: {fileID: 114695265956290582}
-  m_Layer: 2
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -132,10 +132,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faec13a3214a44abbb70275125a6122f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scheme: 0
   maxSpeed: 10
   minSpeed: 0.1
   acceleration: 15
   deceleration: 0.5
   jump: 10
+  walljump: 7.5
+  weightDelta: 10
+  maxWeight: 2
+  minWeight: 0.5
   maxSquish: 1.5
   minSquish: 1

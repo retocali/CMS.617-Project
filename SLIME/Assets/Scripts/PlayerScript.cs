@@ -14,6 +14,7 @@ public class PlayerScript : MonoBehaviour
 	private bool touching = false;
 	private int layermask = ~(1 << 9 | 1 << 10);
 	
+	public int scheme = 0; 
 	public float maxSpeed = 10.0f;
 	public float minSpeed = 0.1f;
 	public float acceleration = 10.0f;
@@ -32,6 +33,18 @@ public class PlayerScript : MonoBehaviour
 		rb = GetComponent<Rigidbody2D>();
 		defaultGravity = rb.gravityScale;
 		normalScale = transform.localScale;
+		// switch (scheme)
+		// {
+		// 	default:
+		// 	case 0:
+		// 	break;
+		// 	case 1:
+		// 	break;
+		// 	case 2:
+		// 	break;
+		// 	case 3:
+		// 	break;
+		// }
 	}
 	
 	// Update is called once per frame
