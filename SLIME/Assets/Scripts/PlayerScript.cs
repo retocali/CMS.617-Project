@@ -146,8 +146,9 @@ public class PlayerScript : MonoBehaviour
 		}
 		else if (touching) 
 		{
+			
 			rb.velocity = jump*normal;
-			if (rb.velocity.y >= 0) {
+			if (rb.velocity.y >= 0 && Input.GetButton("Jump")) {
 				rb.velocity = new Vector2(rb.velocity.x, walljump);
 			}	
 		}

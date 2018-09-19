@@ -136,7 +136,7 @@ MonoBehaviour:
   maxSpeed: 10
   minSpeed: 0.1
   acceleration: 15
-  deceleration: 0.5
+  deceleration: 0.25
   jump: 10
   walljump: 7.5
   weightDelta: 10
