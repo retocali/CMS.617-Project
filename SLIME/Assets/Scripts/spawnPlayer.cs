@@ -8,26 +8,45 @@ public class spawnPlayer : MonoBehaviour {
 
 	public Transform playerSpawn;
 
+	public CheckpointMaster checkMaster;
+
 	// Use this for initialization
 	void Start () {
-		Spawn();
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(transform.childCount < 1){
-			Spawn();
-
+		if (checkMaster == null) {
+			checkMaster = GameObject.FindGameObjectsWithTag("GameMaster")[0].GetComponent<CheckpointMaster>();
 		}
 		
 	}
 
-	void Spawn() {
+	public GameObject Spawn() {
 		var player = (GameObject)Instantiate (
 			playerPrefab,
-			playerSpawn.position,
-			playerSpawn.rotation);
+			this.transform.position,
+			this.transform.rotation);
 
-		player.transform.parent = gameObject.transform;
+		return player;
+
 	}
+
+	
+
+		void OnTriggerEnter2D(Collider2D collider)
+    {
+		if(collider.tag == "Player") {
+		Debug.Log("YO");
+		Debug.Log(checkMaster);
+        checkMaster.ChangePoints(this.gameObject);
+		}
+		
+    }
+
+	public void DestroySelf() {
+		// live = false;
+	}
+
 }
