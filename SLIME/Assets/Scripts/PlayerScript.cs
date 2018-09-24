@@ -13,9 +13,13 @@ public class PlayerScript : MonoBehaviour
 	private bool dead = false;
 	private bool touching = false;
 	private int layermask = ~(1 << 9 | 1 << 10);
+	private GameObject[] crumbs;
+	private int crumbIndex = 0;
+	private float crumbGap = 0f;
 
 	public int scheme = -1;
-	public float crumbTime = 0.01f;
+	public float crumbSpace = 2.0f;
+	public int crumbNum = 50;
 	public GameObject crumbPrefab;
 	public float maxSpeed = 10.0f;
 	public float minSpeed = 0.1f;
@@ -40,8 +44,8 @@ public class PlayerScript : MonoBehaviour
 			default:
 				break;
 			case 0:
-				deceleration = 0.1f;
-				acceleration = 20.0f;
+				deceleration = -0.5f;
+				acceleration = 50.0f;
 			break;
 			case 1:
 				maxWeight = 2.5f;
@@ -50,18 +54,27 @@ public class PlayerScript : MonoBehaviour
 			break;
 			case 2:
 				walljump = 15.0f;
+				jump = 20.0f;
 			break;
 			case 3:
-				maxSpeed = 5.0f;
+				maxSpeed = 15.0f;
 				acceleration = 30.0f;
+				weightDelta = 100.0f;
 			break;
 		}
+		crumbs = new GameObject[crumbNum];
 	}
 	void Trail() {
-		var crumb = Instantiate(crumbPrefab,
-									new Vector3(transform.position.x,transform.position.y,-6),
-									transform.rotation) as GameObject;
-		Destroy(crumb, 2.0f);
+		crumbGap += crumbNum*Time.deltaTime;
+		if (crumbGap < crumbSpace) {
+			return;
+		}
+		crumbGap = 0;
+		Destroy(crumbs[crumbIndex]);
+		crumbs[crumbIndex] = Instantiate(crumbPrefab,
+								new Vector3(transform.position.x,transform.position.y,-6),
+								transform.rotation) as GameObject;
+		crumbIndex = (crumbIndex + 1) % crumbNum;
 	}
 	// Update is called once per frame
 	void FixedUpdate () 
