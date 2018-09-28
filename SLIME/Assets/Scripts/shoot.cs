@@ -38,6 +38,6 @@ public class shoot : MonoBehaviour {
 		// Add velocity to the bullet
 		bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.forward * -fireSpeed;
 
-		Destroy(bullet, 2f);
+		Destroy(bullet, 1.5f);
 	}
 }
