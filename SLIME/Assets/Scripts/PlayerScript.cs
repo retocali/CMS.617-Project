@@ -192,11 +192,11 @@ public class PlayerScript : MonoBehaviour
 	{
 		if (v == 1f) 
 		{
-			jump = maxWeight*defaultJump;
+			jump = maxWeight/1.5f*defaultJump;
 		}
 		if (v == -1f)
 		{
-			jump = minWeight*defaultJump;
+			jump = minWeight/1.5f*defaultJump;
 		}
 		if (v == 0f)
 		{
