@@ -6,11 +6,19 @@ public class CheckpointMaster : MonoBehaviour {
 
 	public GameObject[] currentCheckpoint;
 
+	public GameObject[] currentEnemySpawn;
+
 	private GameObject cur;
 
 	private Vector3 pos;
 
 	private GameObject player;
+
+	private GameObject enemyCur;
+
+	private Vector3 enemyPos;
+
+	private GameObject enemy;
 
 	private int index = 0;
 
@@ -20,8 +28,10 @@ public class CheckpointMaster : MonoBehaviour {
 		pos = cur.transform.position;
 		player = cur.GetComponent<spawnPlayer>().Spawn();
 
-
-		
+		enemyCur = currentEnemySpawn[0];
+		pos = enemyCur.transform.position;
+		enemy = enemyCur.GetComponent<EnemySpawnScript>().Spawn();
+			
 	}
 	
 	// Update is called once per frame
@@ -33,6 +43,8 @@ public class CheckpointMaster : MonoBehaviour {
 
 		if (player == null) {
 			SpawnPlayer();
+			Destroy(enemy);
+			enemy = enemyCur.GetComponent<EnemySpawnScript>().Spawn();
 		}
 
 		if (Input.GetKeyDown("1"))
@@ -41,6 +53,9 @@ public class CheckpointMaster : MonoBehaviour {
             cur = currentCheckpoint[index];
 			pos = currentCheckpoint[index].transform.position;
 			Debug.Log(index);
+
+			enemyCur = currentEnemySpawn[index];
+			pos = currentEnemySpawn[index].transform.position;
         }
 	}
 
@@ -52,6 +67,9 @@ public class CheckpointMaster : MonoBehaviour {
 				Debug.Log(cur);
 				Debug.Log(pos);
 				index = i;
+
+				enemyCur = currentEnemySpawn[index];
+				pos = currentEnemySpawn[index].transform.position;
 			}
 		}
 	}
