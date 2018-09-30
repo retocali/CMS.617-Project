@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faec13a3214a44abbb70275125a6122f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quantumJump: 0
+  quantumJump: 1
   quantumMove: 0
   scheme: 0
   crumbSpace: 0.5
