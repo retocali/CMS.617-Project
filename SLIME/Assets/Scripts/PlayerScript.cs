@@ -10,6 +10,7 @@ public class PlayerScript : MonoBehaviour
 	private Vector3 normalScale;
 	private float maxDistanceToGround = 0.25f;
 	private float defaultGravity;
+	private float defaultJump;
 	private bool dead = false;
 	private bool touching = false;
 	private int layermask = ~(1 << 9 | 1 << 10);
@@ -17,12 +18,13 @@ public class PlayerScript : MonoBehaviour
 	private int crumbIndex = 0;
 	private float crumbGap = 0f;
 
+	public bool quantumJump = false;
+	public bool quantumMove = false;
 	public int scheme = -1;
 	public float crumbSpace = 2.0f;
 	public int crumbNum = 50;
 	public GameObject crumbPrefab;
 	public float maxSpeed = 10.0f;
-	public float minSpeed = 0.1f;
 	public float acceleration = 10.0f;
 	public float deceleration = 0.5f;
 	public float jump = 10.0f;
@@ -38,13 +40,14 @@ public class PlayerScript : MonoBehaviour
 	{
 		rb = GetComponent<Rigidbody2D>();
 		defaultGravity = rb.gravityScale;
+		defaultJump = jump;
 		normalScale = transform.localScale;
 		switch (scheme)
 		{
 			default:
 				break;
 			case 0:
-				deceleration = -0.5f;
+				deceleration = 0.5f;
 				acceleration = 50.0f;
 			break;
 			case 1:
@@ -53,8 +56,8 @@ public class PlayerScript : MonoBehaviour
 				weightDelta = 100.0f;
 			break;
 			case 2:
-				walljump = 15.0f;
-				jump = 20.0f;
+				walljump = 5.0f;
+				jump = 15.0f;
 			break;
 			case 3:
 				maxSpeed = 15.0f;
@@ -84,8 +87,16 @@ public class PlayerScript : MonoBehaviour
 		
 		if (!dead) 
 		{
-			Move(h);
-			Bounce(v);
+			if (quantumJump) {
+				qBounce(v); 
+			} else {
+				Bounce(v);
+			}
+			if (quantumMove) {
+				qMove(h); 
+			} else {
+				Move(h);
+			}
 			Squish(rb.velocity.y);	
 			Trail();
 		} 
@@ -118,6 +129,9 @@ public class PlayerScript : MonoBehaviour
 	{
 		Debug.Log("Player is dead");
 		dead = true;
+		for (int i = 0; i < crumbNum; i++) {
+			Destroy(crumbs[i], 1.5f);
+		}
 		GetComponent<Renderer>().material.color = Color.red;
 		Destroy(gameObject, 1.5f);
 	}
@@ -132,6 +146,7 @@ public class PlayerScript : MonoBehaviour
 	}
 	private void Move(float h)
 	{
+		float minSpeed = 0.1f;
 		if (h != 0) 
 		{
 			rb.velocity += new Vector2(Time.deltaTime*h*acceleration, 0);
@@ -150,6 +165,58 @@ public class PlayerScript : MonoBehaviour
 			{
 				rb.velocity = new Vector2(0, rb.velocity.y);
 			}
+		}
+	}
+	private void qMove(float h)
+	{
+		float minSpeed = 0.1f;
+		if (h != 0) 
+		{
+			rb.velocity += new Vector2(h*acceleration, 0);
+			if (Mathf.Abs(rb.velocity.x) > maxSpeed) 
+			{	
+				rb.velocity = new Vector2(maxSpeed*Mathf.Sign(rb.velocity.x), rb.velocity.y);
+			}
+		} 
+		else 
+		{
+			rb.velocity -= new Vector2(h*acceleration, 0);
+			if (Mathf.Abs(rb.velocity.x) < minSpeed) 
+			{
+				rb.velocity = new Vector2(0, rb.velocity.y);
+			}
+		}
+	}
+
+	private void qBounce(float v) 
+	{
+		if (v == 1f) 
+		{
+			jump = maxWeight*defaultJump;
+		}
+		if (v == -1f)
+		{
+			jump = minWeight*defaultJump;
+		}
+		if (v == 0f)
+		{
+			jump = defaultJump;
+		}
+
+		if (IsGrounded()) 
+		{
+			rb.velocity = new Vector2(rb.velocity.x, jump);
+		}
+		else if (touching) 
+		{
+			rb.velocity = jump*normal;
+			float sign = Mathf.Sign(rb.velocity.y);
+			if (Mathf.Abs(rb.velocity.x) > 0) {
+				sign = 1f;
+			}
+			if (Input.GetButton("Jump")) {
+				rb.velocity = new Vector2(rb.velocity.x, sign*walljump);
+			} 
 		}
 	}
 
@@ -176,11 +243,14 @@ public class PlayerScript : MonoBehaviour
 		}
 		else if (touching) 
 		{
-			
 			rb.velocity = jump*normal;
-			if (rb.velocity.y >= 0 && Input.GetButton("Jump")) {
-				rb.velocity = new Vector2(rb.velocity.x, walljump);
-			}	
+			float sign = Mathf.Sign(rb.velocity.y);
+			if (Mathf.Abs(rb.velocity.x) > 0) {
+				sign = 1f;
+			}
+			if (Input.GetButton("Jump")) {
+				rb.velocity = new Vector2(rb.velocity.x, sign*walljump);
+			} 
 		}
 	}
 	private void Squish(float final) 
@@ -196,3 +266,5 @@ public class PlayerScript : MonoBehaviour
 		transform.localScale = new Vector3(XScale, YScale, ZScale);
 	}
 }
+
+
