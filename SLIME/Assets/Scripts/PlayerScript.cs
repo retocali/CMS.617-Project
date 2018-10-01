@@ -11,7 +11,7 @@ public class PlayerScript : MonoBehaviour
 	private float maxDistanceToGround = 0.25f;
 	private float defaultGravity;
 	private float defaultJump;
-	private bool dead = false;
+	private bool moving = false;
 	private bool touching = false;
 	private int layermask = ~(1 << 9 | 1 << 10);
 	private GameObject[] crumbs;
@@ -85,7 +85,7 @@ public class PlayerScript : MonoBehaviour
 		float h = Input.GetAxis("Horizontal");
 		float v = Input.GetAxis("Vertical");
 		
-		if (!dead) 
+		if (!moving) 
 		{
 			if (quantumJump) {
 				qBounce(v); 
@@ -128,7 +128,7 @@ public class PlayerScript : MonoBehaviour
 	public void KillPlayer()
 	{
 		Debug.Log("Player is dead");
-		dead = true;
+		moving = true;
 		for (int i = 0; i < crumbNum; i++) {
 			Destroy(crumbs[i], 1.5f);
 		}
@@ -169,7 +169,7 @@ public class PlayerScript : MonoBehaviour
 	}
 	private void qMove(float h)
 	{
-		float minSpeed = 0.1f;
+		float minSpeed = 0.5f;
 		if (h != 0) 
 		{
 			rb.velocity += new Vector2(h*acceleration, 0);
@@ -178,14 +178,15 @@ public class PlayerScript : MonoBehaviour
 				rb.velocity = new Vector2(maxSpeed*Mathf.Sign(rb.velocity.x), rb.velocity.y);
 			}
 		} 
-		else 
+		else if (Mathf.Abs(rb.velocity.x) > minSpeed)
 		{
-			rb.velocity -= new Vector2(h*acceleration, 0);
+			rb.velocity -= new Vector2(Mathf.Sign(rb.velocity.x)*acceleration*Time.deltaTime, 0);
 			if (Mathf.Abs(rb.velocity.x) < minSpeed) 
 			{
 				rb.velocity = new Vector2(0, rb.velocity.y);
 			}
 		}
+
 	}
 
 	private void qBounce(float v) 
@@ -207,7 +208,7 @@ public class PlayerScript : MonoBehaviour
 		{
 			rb.velocity = new Vector2(rb.velocity.x, jump);
 		}
-		else if (touching) 
+		else if (touching && !quantumMove) // This is because qmove does not work with quantum with serious rewrites 
 		{
 			rb.velocity = jump*normal;
 			float sign = Mathf.Sign(rb.velocity.y);

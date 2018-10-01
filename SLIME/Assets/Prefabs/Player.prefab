@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quantumJump: 1
-  quantumMove: 0
+  quantumMove: 1
   scheme: 0
   crumbSpace: 0.5
   crumbNum: 10
