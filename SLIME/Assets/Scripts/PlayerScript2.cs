@@ -62,7 +62,7 @@ public class PlayerScript2 : MonoBehaviour {
 //
 ///////////////////////////////////////
 	
-		/**
+	/**
 		Static method to hopefully find the player
 		uses common names for the player to find it 
 	 */
