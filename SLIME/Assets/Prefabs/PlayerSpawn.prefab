@@ -21,12 +21,12 @@ GameObject:
   - component: {fileID: 4980252732305562}
   - component: {fileID: 114530248585919944}
   - component: {fileID: 61024704002076218}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: PlayerSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4980252732305562
 Transform:
@@ -52,7 +52,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_UsedByComposite: 1
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}

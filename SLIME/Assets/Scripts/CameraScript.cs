@@ -8,8 +8,8 @@ public class CameraScript : MonoBehaviour {
 	private Camera cam;
 	private Vector3 v = Vector3.zero; 
 	private Vector3 destination = Vector3.zero;
-	float gap = 0.2f;
-	float skip = 10.0f;
+	float gap = 0.1f;
+	float skip = 20.0f;
 	float time = 0.3f;
 	// Use this for initialization
 	void Start () 

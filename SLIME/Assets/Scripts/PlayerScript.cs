@@ -111,19 +111,17 @@ public class PlayerScript : MonoBehaviour
 			transform.localScale = new Vector3(XScale, YScale, ZScale);
 		}
 	}
-	private void Touch(Collision2D c)
+	private void Touch(Collider2D c)
 	{
-		touching = true;
-		normal = c.GetContact(0).normal;
-	}
-	private void OnTriggerEnter2D(Collider2D other) {
-		if (other.gameObject.tag == "hazard") {
+		if (c.gameObject.tag == "hazard") {
 			KillPlayer();
 		}
+		touching = true;
+		// normal = c.GetContact(0).normal;
 	}
-	private void OnCollisionEnter2D(Collision2D other) { Touch(other); }
-	private void OnCollisionStay2D(Collision2D other) { Touch(other); }
-	private void OnCollisionExit2D(Collision2D other) { touching = false; }
+	private void OnTriggerEnter2D(Collider2D other) { Touch(other); }
+	private void OnTriggerStay2D(Collider2D other) { Touch(other); }
+	private void OnTriggerExit2D(Collider2D other) { touching = false; }
 	
 	public void KillPlayer()
 	{

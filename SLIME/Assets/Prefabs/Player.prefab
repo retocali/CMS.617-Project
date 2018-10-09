@@ -19,11 +19,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4022028944733094}
-  - component: {fileID: 33996795193887804}
-  - component: {fileID: 23655317337504674}
-  - component: {fileID: 58569798272137972}
-  - component: {fileID: 50083925256816330}
-  - component: {fileID: 114695265956290582}
+  - component: {fileID: 114730365212934454}
+  - component: {fileID: 114534065085084154}
+  - component: {fileID: 61969198795642046}
+  - component: {fileID: 33318917798399222}
+  - component: {fileID: 23719555542313454}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -39,12 +39,12 @@ Transform:
   m_GameObject: {fileID: 1097021431078066}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.75, y: 0.45, z: 0}
-  m_LocalScale: {x: 1.25, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23655317337504674
+--- !u!23 &23719555542313454
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -79,35 +79,15 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33996795193887804
+--- !u!33 &33318917798399222
 MeshFilter:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1097021431078066}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!50 &50083925256816330
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1097021431078066}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 3
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 3
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
---- !u!58 &58569798272137972
-CircleCollider2D:
+--- !u!61 &61969198795642046
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -115,13 +95,23 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.5
---- !u!114 &114695265956290582
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &114534065085084154
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,23 +119,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1097021431078066}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faec13a3214a44abbb70275125a6122f, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f0dfbc214b404dd9b71341833870432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quantumJump: 1
-  quantumMove: 1
-  scheme: 0
-  crumbSpace: 0.5
-  crumbNum: 10
-  crumbPrefab: {fileID: 1612155585748918, guid: a7da833a63b4e437f90728032a65fc2d,
-    type: 2}
-  maxSpeed: 10
-  acceleration: 15
-  deceleration: 0.25
-  jump: 10
-  walljump: 7.5
-  weightDelta: 10
-  maxWeight: 2
-  minWeight: 0.5
-  maxSquish: 1.5
-  minSquish: 1
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 311
+  DebugFlag: 1
+--- !u!114 &114730365212934454
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1097021431078066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f5c70aaecdbd4d86b585b2641d6c09e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpTime: 2
+  jumpHeight: 4
+  jumpDistance: 10
