@@ -123,7 +123,7 @@ public class PlayerScript2 : MonoBehaviour {
 		@param count: seconds for how long the player will be
 		stunned
 	 */
-	public void Stun(float count) 
+	public void StunPlayer(float count) 
 	{
 		mesh.material.color = Color.red;
 		velocity = Vector3.zero;
@@ -181,7 +181,7 @@ public class PlayerScript2 : MonoBehaviour {
 			float maxDrop = -jumpVelocity*stunDropModifier;
 			if (prevVelocity.y < maxDrop) 
 			{
-				Stun(Mathf.Abs(prevVelocity.y-maxDrop)*stunCountModifier);
+				StunPlayer(Mathf.Abs(prevVelocity.y-maxDrop)*stunCountModifier);
 			}
 			else if (input.y ==  1) { velocity.y *= extendJumpModifier; }
 			else if (input.y == -1) { velocity.y *= increaseGravityModifier; }
@@ -214,7 +214,15 @@ public class PlayerScript2 : MonoBehaviour {
 	private void Move(ref Vector3 velocity, Vector3 input)
 	{
 		velocity.x += input.x * acceleration * Time.deltaTime;
-		if (input.x == 0) { velocity.x = 0; }
+		if (input.x == 0) 
+		{ 
+			if (c2d.collision.below) { velocity.x = 0; }
+			else 
+			{	
+				float sign = Mathf.Sign(velocity.x);
+				velocity.x -= sign * acceleration * Time.deltaTime;
+			}
+		}
 		velocity.x = Mathf.Max(Mathf.Min(maxSpeedX, velocity.x), -maxSpeedX);
 	} 
 
