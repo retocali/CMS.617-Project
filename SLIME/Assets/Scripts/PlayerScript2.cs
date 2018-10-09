@@ -33,6 +33,14 @@ public class PlayerScript2 : MonoBehaviour {
 	private float stunCounter = 0;
 	private float stunCountModifier = 0.1f;
 	private float stunDropModifier = 2.5f;
+	private GameObject[] crumbs;
+	
+	public GameObject crumbPrefab;
+	public float crumbSpace = 2.0f;
+	public int crumbNum = 50;
+	
+	private int crumbIndex = 0;
+	private float crumbGap = 0f;
 
 	// Use this for initialization
 	void Start () 
@@ -45,6 +53,8 @@ public class PlayerScript2 : MonoBehaviour {
 	
 		mesh = GetComponent<MeshRenderer>();
 		c2d = GetComponent<Controller2D>();
+
+		crumbs = new GameObject[crumbNum];
 	}
 
 //
@@ -93,6 +103,9 @@ public class PlayerScript2 : MonoBehaviour {
 	public void KillPlayer()
 	{
 		mesh.material.color = Color.red;
+		for (int i = 0; i < crumbNum; i++) {
+			Destroy(crumbs[i], 1.5f);
+		}
 		dead = true;
 		velocity = Vector3.zero;
 	}
@@ -124,7 +137,18 @@ public class PlayerScript2 : MonoBehaviour {
 //	 Private Methods
 //
 ///////////////////////////////////////
-
+	private void Trail() {
+		crumbGap += crumbNum*Time.deltaTime;
+		if (crumbGap < crumbSpace) {
+			return;
+		}
+		crumbGap = 0;
+		Destroy(crumbs[crumbIndex]);
+		crumbs[crumbIndex] = Instantiate(crumbPrefab,
+								new Vector3(transform.position.x,transform.position.y,-6),
+								transform.rotation) as GameObject;
+		crumbIndex = (crumbIndex + 1) % crumbNum;
+	}
 	/**
 		Complement to above, is used to eventually
 		"unstun" the character or allow them to move again.
@@ -226,6 +250,7 @@ public class PlayerScript2 : MonoBehaviour {
 				Bounce(ref velocity, input);
 				Move  (ref velocity, input);
 			}
+			Trail();
 		}
 		ApplyGravity(ref velocity, input);
 
