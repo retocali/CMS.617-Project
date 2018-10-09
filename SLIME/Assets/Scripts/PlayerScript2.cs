@@ -10,6 +10,8 @@ public class PlayerScript2 : MonoBehaviour {
 	public float acceleration = 10f;
 
 	private float minWallJumpSpeed = 1f;
+	private float wallJumpAngle = Mathf.Deg2Rad*37.5f;
+	private float wallJumpModifier = 1.5f;
 	private float extendJumpModifier = 1.5f;
 	private float increaseGravityModifier = 1.5f;
 	private float maxSpeedY = 25f;
@@ -64,12 +66,11 @@ public class PlayerScript2 : MonoBehaviour {
 			}
 		}
 		if (c2d.collision.right || c2d.collision.left) {
-			
-
 			if (input.z != 0 && Mathf.Abs(velocity.x) > minWallJumpSpeed) {
 				// velocity.y = Mathf.Min(jumpVelocity*Mathf.Abs(velocity.x/maxSpeedX), jumpVelocity);
-				velocity.y = jumpVelocity;
-				velocity.x *= -1;
+				velocity.y = wallJumpModifier*jumpVelocity*Mathf.Sin(wallJumpAngle);
+				velocity.x = wallJumpModifier*jumpVelocity*Mathf.Cos(wallJumpAngle)*-Mathf.Sign(velocity.x);
+				Debug.Log(velocity);
 			// 	Debug.Log("WallJump: " + velocity.x/maxSpeedX);
 			} else {
 				// velocity.x = 0;
@@ -86,8 +87,8 @@ public class PlayerScript2 : MonoBehaviour {
 			velocity.x = 0;
 		}
 
-		if (c2d.collision.below) {
-			velocity.y = jumpVelocity;
+		if (c2d.collision.below || c2d.collision.above) {
+			velocity.y = c2d.collision.below? jumpVelocity:-jumpVelocity;
 			if (input.y == 1) {
 				velocity.y *= extendJumpModifier;
 			}
