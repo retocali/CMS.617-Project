@@ -2,72 +2,142 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour 
-{
+[RequireComponent(typeof(Controller2D))]
+public class PlayerScript : MonoBehaviour {
 
-	private Rigidbody2D rb;
-	private Vector2 normal = Vector2.zero;
-	private Vector3 normalScale;
-	private float maxDistanceToGround = 0.25f;
-	private float defaultGravity;
-	private float defaultJump;
-	private bool moving = false;
-	private bool touching = false;
-	private int layermask = ~(1 << 9 | 1 << 10);
+	public float jumpTime = 0.5f;
+	public float jumpHeight = 10f;
+	public float acceleration = 10f;
+
+	private float minWallJumpSpeed = 1f;
+	private float wallJumpAngle = Mathf.Deg2Rad*35f;
+	private float wallJumpModifier = 1.1f;
+
+	private float jumpVelocity;
+	private float extendJumpModifier = 1.5f;
+	
+	private float gravity;
+	private float increaseGravityModifier = 1.5f;
+	
+	private float maxSpeedY = 100f;
+	private float minSpeedX = 1f;
+	private float maxSpeedX = 15f;
+
+	private Vector3 prevVelocity;
+	private Vector3 velocity = Vector3.zero;
+	
+	private Controller2D c2d;
+	private MeshRenderer mesh;
+
+	private bool dead = false;
+	private bool stunned = false;
+	private float stunCounter = 0;
+	private float stunCountModifier = 0.1f;
+	private float stunDropModifier = 2.5f;
 	private GameObject[] crumbs;
+	
+	public GameObject crumbPrefab;
+	public float crumbSpace = 2.0f;
+	public int crumbNum = 50;
+	
 	private int crumbIndex = 0;
 	private float crumbGap = 0f;
 
-	public bool quantumJump = false;
-	public bool quantumMove = false;
-	public int scheme = -1;
-	public float crumbSpace = 2.0f;
-	public int crumbNum = 50;
-	public GameObject crumbPrefab;
-	public float maxSpeed = 10.0f;
-	public float acceleration = 10.0f;
-	public float deceleration = 0.5f;
-	public float jump = 10.0f;
-	public float walljump = 7.5f;
-	public float weightDelta = 10.0f;
-	public float maxWeight = 2.0f;
-	public float minWeight = 0.5f;
-	public float maxSquish = 1.5f;
-	public float minSquish = 0.5f;
-
 	// Use this for initialization
-	void Start ()
+	void Start () 
 	{
-		rb = GetComponent<Rigidbody2D>();
-		defaultGravity = rb.gravityScale;
-		defaultJump = jump;
-		normalScale = transform.localScale;
-		switch (scheme)
-		{
-			default:
-				break;
-			case 0:
-				deceleration = 0.5f;
-				acceleration = 50.0f;
-			break;
-			case 1:
-				maxWeight = 2.5f;
-				minWeight = 0.45f;
-				weightDelta = 100.0f;
-			break;
-			case 2:
-				walljump = 5.0f;
-				jump = 15.0f;
-			break;
-			case 3:
-				maxSpeed = 15.0f;
-				acceleration = 30.0f;
-				weightDelta = 100.0f;
-			break;
-		}
+	
+		float t = jumpTime/2;
+		jumpVelocity = 2.0f*jumpHeight/t;
+		gravity = -jumpVelocity/t;
+		
+		mesh = GetComponent<MeshRenderer>();
+		c2d = GetComponent<Controller2D>();
+
 		crumbs = new GameObject[crumbNum];
 	}
-	void Trail() {
+
+//
+//	 Public Methods
+//
+///////////////////////////////////////
+	
+	/**
+		Static method to hopefully find the player
+		uses common names for the player to find it 
+	 */
+	public static GameObject FindPlayer() {
+
+		GameObject player = GameObject.Find("Player");
+		if (player == null) 
+		{
+			player = GameObject.Find("Player(Clone)");
+			if (player == null) 
+			{
+				Debug.LogError("Error: Could not find player prefab? Name might have changed");
+				return null;
+			}
+		}
+		Debug.Log("Resolved: Found player!"); 
+		return player;
+	}
+
+	/**
+		"Spawns" the player by reseting it
+		 and moving to the given location
+	 */
+	public void SpawnPlayer(Vector3 origin)
+	{
+		mesh.material.color = Color.green;
+		dead = false;
+		prevVelocity = Vector3.zero;
+		velocity = Vector3.zero;
+
+		this.transform.position = origin;
+	}
+
+	/**
+		"Kills" the player by disabling input
+		and tinting it.
+	 */
+	public void KillPlayer()
+	{
+		mesh.material.color = Color.red;
+		for (int i = 0; i < crumbNum; i++) {
+			Destroy(crumbs[i], 1.5f);
+		}
+		dead = true;
+		velocity = Vector3.zero;
+	}
+	
+	/**
+		Returns whether the player is alive or not
+	 */
+	public bool IsDead() 
+	{
+		return dead; 
+	}
+
+	/**
+		"Stuns" the player which causes them to be unable to 
+		move in any direction 
+		@param count: seconds for how long the player will be
+		stunned
+	 */
+	public void StunPlayer(float count) 
+	{
+		mesh.material.color = Color.red;
+		velocity = Vector3.zero;
+		prevVelocity = Vector3.zero;
+		stunned = true;
+		stunCounter = count;
+	}
+
+//
+//	 Private Methods
+//
+///////////////////////////////////////
+	private void Trail() {
 		crumbGap += crumbNum*Time.deltaTime;
 		if (crumbGap < crumbSpace) {
 			return;
@@ -79,191 +149,121 @@ public class PlayerScript : MonoBehaviour
 								transform.rotation) as GameObject;
 		crumbIndex = (crumbIndex + 1) % crumbNum;
 	}
-	// Update is called once per frame
-	void FixedUpdate () 
+	/**
+		Complement to above, is used to eventually
+		"unstun" the character or allow them to move again.
+	 */
+	private void UnStun() 
 	{
-		float h = Input.GetAxis("Horizontal");
-		float v = Input.GetAxis("Vertical");
+		stunCounter -= Time.deltaTime;
+		velocity = Vector3.zero;
+		prevVelocity = Vector3.zero;
+		if (stunCounter <= 0)
+		{ 
+			stunCounter = 0; 
+			stunned = false;
+			mesh.material.color = Color.green;
+		}
+	}
+
+	/**
+		Controls the calculation of velocities based on the 
+		bounces the player must make. This calculates wall jumps,
+		ground pounds, high jumps, and high-velocity splats
 		
-		if (!moving) 
-		{
-			if (quantumJump) {
-				qBounce(v); 
-			} else {
-				Bounce(v);
-			}
-			if (quantumMove) {
-				qMove(h); 
-			} else {
-				Move(h);
-			}
-			Squish(rb.velocity.y);	
-			Trail();
-		} 
-		else 
-		{
-			float XScale = transform.localScale.x;
-			float YScale = transform.localScale.y;
-			float ZScale = transform.localScale.z;
-
-			XScale = Mathf.Min(XScale*1.05f, 5f);
-			YScale = Mathf.Max(YScale*0.8f, 0.0f);
-			transform.localScale = new Vector3(XScale, YScale, ZScale);
-		}
-	}
-	private void Touch(Collider2D c)
+		@param velocity: current player velocity to be adjusted
+		@param input: vector3 contained player inputs
+	 */
+	private void Bounce(ref Vector3 velocity, Vector3 input)
 	{
-		if (c.gameObject.tag == "hazard") {
-			KillPlayer();
-		}
-		touching = true;
-		// normal = c.GetContact(0).normal;
-	}
-	private void OnTriggerEnter2D(Collider2D other) { Touch(other); }
-	private void OnTriggerStay2D(Collider2D other) { Touch(other); }
-	private void OnTriggerExit2D(Collider2D other) { touching = false; }
-	
-	public void KillPlayer()
-	{
-		Debug.Log("Player is dead");
-		moving = true;
-		for (int i = 0; i < crumbNum; i++) {
-			Destroy(crumbs[i], 1.5f);
-		}
-		GetComponent<Renderer>().material.color = Color.red;
-		Destroy(gameObject, 1.5f);
-	}
-	private bool IsGrounded() 
-	{
-		float x = transform.localScale.x*0.5f;
-		float y = transform.localScale.y;
-
-		Vector2 scale = new Vector2(x, y);
-		var hit = Physics2D.BoxCast(transform.position, scale, 0f, -Vector2.up, maxDistanceToGround, layermask);
-		return hit.collider != null;
-	}
-	private void Move(float h)
-	{
-		float minSpeed = 0.1f;
-		if (h != 0) 
+		if (c2d.collision.below || c2d.collision.above) 
 		{
-			rb.velocity += new Vector2(Time.deltaTime*h*acceleration, 0);
-			if (Mathf.Abs(rb.velocity.x) > maxSpeed) 
-			{	
-				rb.velocity = new Vector2(maxSpeed*Mathf.Sign(rb.velocity.x), rb.velocity.y);
-			}
-		} 
-		else 
-		{
-			if (Mathf.Abs(rb.velocity.x) > minSpeed) 
+			velocity.y = c2d.collision.below? jumpVelocity:-jumpVelocity;
+			float maxDrop = -jumpVelocity*stunDropModifier;
+			if (prevVelocity.y < maxDrop) 
 			{
-				rb.velocity = new Vector2(rb.velocity.x*deceleration, rb.velocity.y);
+				StunPlayer(Mathf.Abs(prevVelocity.y-maxDrop)*stunCountModifier);
+			}
+			else if (input.y ==  1) { velocity.y *= extendJumpModifier; }
+			else if (input.y == -1) { velocity.y *= increaseGravityModifier; }
+		}
+		if (c2d.collision.right || c2d.collision.left) 
+		{
+			if (input.z != 0) 
+			{
+				float speed = Mathf.Sqrt(velocity.x*velocity.x+velocity.y*velocity.y);
+				if (speed > minWallJumpSpeed) 
+				{
+					velocity.y = wallJumpModifier*speed*Mathf.Sin(wallJumpAngle);
+					velocity.x = wallJumpModifier*speed*Mathf.Cos(wallJumpAngle)*-Mathf.Sign(velocity.x);
+				}
 			} 
 			else 
 			{
-				rb.velocity = new Vector2(0, rb.velocity.y);
-			}
-		}
-	}
-	private void qMove(float h)
-	{
-		float minSpeed = 0.5f;
-		if (h != 0) 
-		{
-			rb.velocity += new Vector2(h*acceleration, 0);
-			if (Mathf.Abs(rb.velocity.x) > maxSpeed) 
-			{	
-				rb.velocity = new Vector2(maxSpeed*Mathf.Sign(rb.velocity.x), rb.velocity.y);
+				velocity.x *= -0.5f;
 			}
 		} 
-		else if (Mathf.Abs(rb.velocity.x) > minSpeed)
+	}
+
+	/**
+		Controls the calculation of velocities in x direction
+		and clamping it.
+		
+		@param velocity: current player velocity to be adjusted
+		@param input: vector3 contained player inputs
+	 */
+	private void Move(ref Vector3 velocity, Vector3 input)
+	{
+		velocity.x += input.x * acceleration * Time.deltaTime;
+		if (input.x == 0) 
+		{ 
+			if (c2d.collision.below) { velocity.x = 0; }
+			else 
+			{	
+				float sign = Mathf.Sign(velocity.x);
+				velocity.x -= sign * acceleration * Time.deltaTime;
+				if (Mathf.Abs(velocity.x) < minSpeedX) {velocity.x = 0;}
+			}
+		}
+		velocity.x = Mathf.Max(Mathf.Min(maxSpeedX, velocity.x), -maxSpeedX);
+	} 
+
+	/**
+		Applies gravity in the y direction and clamps y velocity
+
+		@param velocity: current player velocity to be adjusted
+		@param input: vector3 contained player inputs
+	 */
+	private void ApplyGravity(ref Vector3 velocity, Vector3 input)
+	{
+		float gravityDelta = gravity * Time.deltaTime;
+		if (input.y == -1) { gravityDelta *= increaseGravityModifier*increaseGravityModifier; }
+		velocity.y += gravityDelta;	
+
+		velocity.y = Mathf.Max(Mathf.Min(maxSpeedY, velocity.y), -maxSpeedY);
+	}
+
+	// Update is called once per frame
+	void Update () 
+	{
+		Vector3 input = Vector3.zero;
+		if (!dead) 
 		{
-			rb.velocity -= new Vector2(Mathf.Sign(rb.velocity.x)*acceleration*Time.deltaTime, 0);
-			if (Mathf.Abs(rb.velocity.x) < minSpeed) 
+			input = new Vector3(Input.GetAxisRaw("Horizontal"), 
+								Input.GetAxisRaw("Vertical"),
+								Input.GetAxisRaw("Jump"));
+
+			if (stunned) { UnStun(); }
+			else 
 			{
-				rb.velocity = new Vector2(0, rb.velocity.y);
+				Bounce(ref velocity, input);
+				Move  (ref velocity, input);
 			}
+			Trail();
 		}
+		ApplyGravity(ref velocity, input);
 
-	}
-
-	private void qBounce(float v) 
-	{
-		if (v == 1f) 
-		{
-			jump = maxWeight/1.5f*defaultJump;
-		}
-		if (v == -1f)
-		{
-			jump = minWeight/1.5f*defaultJump;
-		}
-		if (v == 0f)
-		{
-			jump = defaultJump;
-		}
-
-		if (IsGrounded()) 
-		{
-			rb.velocity = new Vector2(rb.velocity.x, jump);
-		}
-		else if (touching && !quantumMove) // This is because qmove does not work with quantum with serious rewrites 
-		{
-			rb.velocity = jump*normal;
-			float sign = Mathf.Sign(rb.velocity.y);
-			if (Mathf.Abs(rb.velocity.x) > 0) {
-				sign = 1f;
-			}
-			if (Input.GetButton("Jump")) {
-				rb.velocity = new Vector2(rb.velocity.x, sign*walljump);
-			} 
-		}
-	}
-
-	private void Bounce(float v) 
-	{
-		if (v == 1f) 
-		{
-			rb.gravityScale -= weightDelta*Time.deltaTime;
-			rb.gravityScale = Mathf.Max(rb.gravityScale, minWeight*defaultGravity);
-		}
-		if (v == -1f)
-		{
-			rb.gravityScale += weightDelta*Time.deltaTime;
-			rb.gravityScale = Mathf.Min(rb.gravityScale, maxWeight*defaultGravity);
-		}
-		if (v == 0f)
-		{
-			rb.gravityScale = Mathf.MoveTowards(rb.gravityScale, defaultGravity, jump*defaultGravity*Time.deltaTime);
-		}
-
-		if (IsGrounded()) 
-		{
-			rb.velocity = new Vector2(rb.velocity.x, jump);
-		}
-		else if (touching) 
-		{
-			rb.velocity = jump*normal;
-			float sign = Mathf.Sign(rb.velocity.y);
-			if (Mathf.Abs(rb.velocity.x) > 0) {
-				sign = 1f;
-			}
-			if (Input.GetButton("Jump")) {
-				rb.velocity = new Vector2(rb.velocity.x, sign*walljump);
-			} 
-		}
-	}
-	private void Squish(float final) 
-	{
-		float XScale = transform.localScale.x;
-		float YScale = transform.localScale.y;
-		float ZScale = transform.localScale.z;
-
-		XScale = normalScale.x*Mathf.Abs(final/jump);
-
-		XScale = Mathf.Max(XScale, minSquish);
-		XScale = Mathf.Min(XScale, maxSquish);
-		transform.localScale = new Vector3(XScale, YScale, ZScale);
+		prevVelocity = velocity;
+		c2d.Move(prevVelocity*Time.deltaTime);
 	}
 }
-
-

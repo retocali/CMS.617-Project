@@ -20,7 +20,7 @@ public class CameraScript : MonoBehaviour {
 		cam = GetComponent<Camera>();
 		if (player == null)
 		{
-			player = PlayerScript2.FindPlayer();
+			player = PlayerScript.FindPlayer();
 		}
 	}
 	
@@ -29,7 +29,7 @@ public class CameraScript : MonoBehaviour {
 	{
 		if (player == null) 
 		{
-			player = PlayerScript2.FindPlayer();
+			player = PlayerScript.FindPlayer();
 		} 
 		
 		Vector2 pos = cam.WorldToViewportPoint(player.transform.position);

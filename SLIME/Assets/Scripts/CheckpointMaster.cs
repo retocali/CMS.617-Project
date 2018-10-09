@@ -35,7 +35,7 @@ public class CheckpointMaster : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (player.GetComponent<PlayerScript2>().IsDead()  == true) {
+		if (player.GetComponent<PlayerScript>().IsDead()  == true) {
 			SpawnPlayer();
 			Destroy(enemy);
 			enemy = enemyCur.GetComponent<EnemySpawnScript>().Spawn();
@@ -72,7 +72,7 @@ public class CheckpointMaster : MonoBehaviour {
 	}
 
 	public void SpawnPlayer() {
-		player.GetComponent<PlayerScript2>().SpawnPlayer(pos);
+		player.GetComponent<PlayerScript>().SpawnPlayer(pos);
 	}
 
 
