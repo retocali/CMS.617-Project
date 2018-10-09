@@ -13,13 +13,13 @@ public class Controller2D : MonoBehaviour
 	public ControllerBounds bounds;
 	
 	private BoxCollider2D cc;
-	private PlayerScript2 ps;
+	private PlayerScript ps;
 	
 	// Use this for initialization
 	void Start () 
 	{
 		cc = GetComponent<BoxCollider2D>();
-		ps = GetComponent<PlayerScript2>();
+		ps = GetComponent<PlayerScript>();
 		collision.reset();
 		bounds.initRay(cc);
 	}

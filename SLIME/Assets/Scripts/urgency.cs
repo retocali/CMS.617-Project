@@ -22,7 +22,7 @@ public class urgency : MonoBehaviour {
 		//refactor into seperate method
 		if (player == null) 
 		{
-			player = PlayerScript2.FindPlayer();
+			player = PlayerScript.FindPlayer();
 			rb.position=new Vector2(startingPos.x,startingPos.y);
 		} 
 		rb.position=Vector2.MoveTowards(rb.position,player.transform.position,speed);

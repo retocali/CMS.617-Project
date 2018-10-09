@@ -134,7 +134,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1097021431078066}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f5c70aaecdbd4d86b585b2641d6c09e, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d59a3252c5454828be3255e184bb35c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   jumpTime: 1
@@ -143,4 +143,4 @@ MonoBehaviour:
   crumbPrefab: {fileID: 1612155585748918, guid: a7da833a63b4e437f90728032a65fc2d,
     type: 2}
   crumbSpace: 0.001
-  crumbNum: 25
+  crumbNum: 50
