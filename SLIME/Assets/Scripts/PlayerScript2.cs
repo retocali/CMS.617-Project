@@ -50,7 +50,6 @@ public class PlayerScript2 : MonoBehaviour {
 		jumpVelocity = 2.0f*jumpHeight/t;
 		gravity = -jumpVelocity/t;
 		
-	
 		mesh = GetComponent<MeshRenderer>();
 		c2d = GetComponent<Controller2D>();
 
@@ -113,7 +112,7 @@ public class PlayerScript2 : MonoBehaviour {
 	/**
 		Returns whether the player is alive or not
 	 */
-	public bool IsAlive() 
+	public bool IsDead() 
 	{
 		return dead; 
 	}

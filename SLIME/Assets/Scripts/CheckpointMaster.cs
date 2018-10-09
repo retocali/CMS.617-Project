@@ -12,7 +12,7 @@ public class CheckpointMaster : MonoBehaviour {
 
 	private Vector3 pos;
 
-	private GameObject player;
+	public GameObject player;
 
 	private GameObject enemyCur;
 
@@ -26,22 +26,16 @@ public class CheckpointMaster : MonoBehaviour {
 	void Start () {
 		cur = currentCheckpoint[0];
 		pos = cur.transform.position;
-		player = cur.GetComponent<spawnPlayer>().Spawn();
 
 		enemyCur = currentEnemySpawn[0];
-		pos = enemyCur.transform.position;
+		enemyPos = enemyCur.transform.position;
 		enemy = enemyCur.GetComponent<EnemySpawnScript>().Spawn();
 			
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		// if (Input.GetButtonDown("1"))
-        // {
-        //     Debug.Log(Input.mousePosition);
-        // }
-
-		if (player == null) {
+		if (player.GetComponent<PlayerScript2>().IsDead()  == true) {
 			SpawnPlayer();
 			Destroy(enemy);
 			enemy = enemyCur.GetComponent<EnemySpawnScript>().Spawn();
@@ -55,7 +49,7 @@ public class CheckpointMaster : MonoBehaviour {
 			Debug.Log(index);
 
 			enemyCur = currentEnemySpawn[index];
-			pos = currentEnemySpawn[index].transform.position;
+			enemyPos = currentEnemySpawn[index].transform.position;
         }
 	}
 
@@ -69,14 +63,16 @@ public class CheckpointMaster : MonoBehaviour {
 				index = i;
 
 				enemyCur = currentEnemySpawn[index];
-				pos = currentEnemySpawn[index].transform.position;
+				enemyPos = currentEnemySpawn[index].transform.position;
+			} else {
+			currentCheckpoint[i].GetComponent<MeshRenderer>().material.color =
+				currentCheckpoint[i].GetComponent<spawnPlayer>().defaultColor;	
 			}
 		}
 	}
 
 	public void SpawnPlayer() {
-		player = cur.GetComponent<spawnPlayer>().Spawn();
-
+		player.GetComponent<PlayerScript2>().SpawnPlayer(pos);
 	}
 
 
