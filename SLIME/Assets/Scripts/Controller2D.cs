@@ -13,11 +13,13 @@ public class Controller2D : MonoBehaviour
 	public ControllerBounds bounds;
 	
 	private BoxCollider2D cc;
+	private PlayerScript2 ps;
 	
 	// Use this for initialization
 	void Start () 
 	{
 		cc = GetComponent<BoxCollider2D>();
+		ps = GetComponent<PlayerScript2>();
 		collision.reset();
 		bounds.initRay(cc);
 	}
@@ -91,11 +93,19 @@ public class Controller2D : MonoBehaviour
 
 			if (hit.collider != null) 
 			{
-				velocity.y = hit.distance * direction;
-				speed = hit.distance;
+				switch(hit.transform.tag)
+				{
+					case "hazard":
+						ps.KillPlayer();
+						break;
+					default:
+						velocity.y = hit.distance * direction;
+						speed = hit.distance;
 
-				collision.above = direction ==  1;
-				collision.below = direction == -1;
+						collision.above = direction ==  1;
+						collision.below = direction == -1;
+						break;
+				}
 			}
 		}
 	}
@@ -126,11 +136,19 @@ public class Controller2D : MonoBehaviour
 
 			if (hit.collider != null) 
 			{
-				velocity.x = hit.distance * direction;
-				speed = hit.distance;
+				switch(hit.transform.tag)
+				{
+					case "hazard":
+						ps.KillPlayer();
+						break;
+					default:
+						velocity.x = hit.distance * direction;
+						speed = hit.distance;
 
-				collision.right = direction ==  1;
-				collision.left  = direction == -1;
+						collision.right = direction ==  1;
+						collision.left  = direction == -1;
+						break;
+				}				
 			}
 		}
 	}

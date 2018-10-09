@@ -178,20 +178,22 @@ public class PlayerScript2 : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update () {
-		if (dead) { return; }
-		Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 
-									Input.GetAxisRaw("Vertical"),
-									Input.GetAxisRaw("Jump"));
+	void Update () 
+	{
+		Vector3 input = new Vector3(0,0,0);
+		if (!dead) 
+		{
+			input = new Vector3(Input.GetAxisRaw("Horizontal"), 
+								Input.GetAxisRaw("Vertical"),
+								Input.GetAxisRaw("Jump"));
 
-		
-		
-		if (stunned) { UnStun(); }
-		else {
-			Bounce(ref velocity, input);
-			Move  (ref velocity, input);
+			if (stunned) { UnStun(); }
+			else 
+			{
+				Bounce(ref velocity, input);
+				Move  (ref velocity, input);
+			}
 		}
-		
 		ApplyGravity(ref velocity, input);
 
 		prevVelocity = velocity;
