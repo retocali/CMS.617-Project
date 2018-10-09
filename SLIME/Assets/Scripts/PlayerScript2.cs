@@ -10,8 +10,8 @@ public class PlayerScript2 : MonoBehaviour {
 	public float acceleration = 10f;
 
 	private float minWallJumpSpeed = 1f;
-	private float wallJumpAngle = Mathf.Deg2Rad*37.5f;
-	private float wallJumpModifier = 1.5f;
+	private float wallJumpAngle = Mathf.Deg2Rad*35f;
+	private float wallJumpModifier = 1.1f;
 
 	private float jumpVelocity;
 	private float extendJumpModifier = 1.5f;
@@ -31,7 +31,7 @@ public class PlayerScript2 : MonoBehaviour {
 	private bool dead = false;
 	private bool stunned = false;
 	private float stunCounter = 0;
-	private float stunDropModifier = 2f;
+	private float stunDropModifier = 2.5f;
 
 	// Use this for initialization
 	void Start () 
@@ -45,6 +45,11 @@ public class PlayerScript2 : MonoBehaviour {
 		mesh = GetComponent<MeshRenderer>();
 		c2d = GetComponent<Controller2D>();
 	}
+
+//
+//	 Public Methods
+//
+///////////////////////////////////////
 
 	/**
 		"Kills" the player by setting an internal flag
@@ -64,7 +69,7 @@ public class PlayerScript2 : MonoBehaviour {
 	{
 		return dead; 
 	}
-	
+
 	/**
 		"Stuns" the player which causes them to be unable to 
 		move in any direction 
@@ -73,11 +78,18 @@ public class PlayerScript2 : MonoBehaviour {
 	 */
 	public void Stun(float count) 
 	{
+		Debug.Log(velocity);
 		mesh.material.color = Color.red;
 		velocity = new Vector3(0,0,0);
+		prevVelocity = new Vector3(0,0,0);
 		stunned = true;
 		stunCounter = count;
 	}
+
+//
+//	 Private Methods
+//
+///////////////////////////////////////
 
 	/**
 		Complement to above, is used to eventually
@@ -86,6 +98,8 @@ public class PlayerScript2 : MonoBehaviour {
 	private void UnStun() 
 	{
 		stunCounter -= Time.deltaTime;
+		velocity = new Vector3(0,0,0);
+		prevVelocity = new Vector3(0,0,0);
 		if (stunCounter <= 0)
 		{ 
 			stunCounter = 0; 
@@ -113,21 +127,19 @@ public class PlayerScript2 : MonoBehaviour {
 			{
 				Stun(Mathf.Abs(prevVelocity.y-maxDrop)*0.1f);
 			}
-			else if (input.y == 1) 
-			{
-				velocity.y *= extendJumpModifier;
-			}
-			else if (input.y == -1) 
-			{
-				velocity.y *= increaseGravityModifier;
-			}
+			else if (input.y ==  1) { velocity.y *= extendJumpModifier; }
+			else if (input.y == -1) { velocity.y *= increaseGravityModifier; }
 		}
 		if (c2d.collision.right || c2d.collision.left) 
 		{
-			if (input.z != 0 && Mathf.Abs(velocity.x) > minWallJumpSpeed) 
+			if (input.z != 0) 
 			{
-				velocity.y = wallJumpModifier*jumpVelocity*Mathf.Sin(wallJumpAngle);
-				velocity.x = wallJumpModifier*jumpVelocity*Mathf.Cos(wallJumpAngle)*-Mathf.Sign(velocity.x);
+				float speed = Mathf.Sqrt(velocity.x*velocity.x+velocity.y*velocity.y);
+				if (speed > minWallJumpSpeed) 
+				{
+					velocity.y = wallJumpModifier*speed*Mathf.Sin(wallJumpAngle);
+					velocity.x = wallJumpModifier*speed*Mathf.Cos(wallJumpAngle)*-Mathf.Sign(velocity.x);
+				}
 			} 
 			else 
 			{
