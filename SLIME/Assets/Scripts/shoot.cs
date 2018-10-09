@@ -36,7 +36,7 @@ public class shoot : MonoBehaviour {
 			bulletSpawn.rotation);
 
 		// Add velocity to the bullet
-		bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.forward * -fireSpeed;
+		bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(fireSpeed, 0);
 
 		Destroy(bullet, 1.5f);
 	}

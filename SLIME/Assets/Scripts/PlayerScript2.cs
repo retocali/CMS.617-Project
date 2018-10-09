@@ -51,6 +51,27 @@ public class PlayerScript2 : MonoBehaviour {
 //	 Public Methods
 //
 ///////////////////////////////////////
+	
+	/**
+		Static method to hopefully find the player
+		uses common names for the player to find it 
+	 */
+	public static GameObject FindPlayer() {
+
+		GameObject player = GameObject.Find("Player");
+		if (player == null) 
+		{
+			player = GameObject.Find("Player(Clone)");
+			if (player == null) 
+			{
+				Debug.LogError("Error: Could not find player prefab? Name might have changed");
+				return null;
+			}
+		}
+		Debug.Log("Resolved: Found player!"); 
+		return player;
+	}
+
 	/**
 		"Spawns" the player by reseting it
 		 and moving to the given location
