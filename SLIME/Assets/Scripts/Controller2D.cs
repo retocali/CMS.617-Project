@@ -5,10 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Controller2D : MonoBehaviour 
 {
+	
 	public LayerMask collisionMask;
+	public bool DebugFlag = true;
+
 	public ControllerCollision collision; 
 	public ControllerBounds bounds;
-	public bool DebugFlag = true;
+	
 	private BoxCollider2D cc;
 	
 	// Use this for initialization
@@ -23,7 +26,7 @@ public class Controller2D : MonoBehaviour
 		Draws a box around the bounding box collider 
 		as well as the outward raycasts
 	 */
-	void DebugCollider() 
+	private void DebugCollider() 
 	{
 		Debug.DrawLine(bounds.bottomLeft, bounds.bottomRight, Color.white);
 		Debug.DrawLine(bounds.bottomLeft, bounds.topLeft,     Color.white);
@@ -45,6 +48,12 @@ public class Controller2D : MonoBehaviour
 		}	
 	}
 
+	/**
+		Moves the player transform based on a given velocity
+		taking into account collisions. Recalculates new
+		collision information
+		@param velocity: given velocity of player movement
+	 */
 	public void Move(Vector3 velocity) 
 	{
 		collision.reset();
@@ -56,13 +65,18 @@ public class Controller2D : MonoBehaviour
 		transform.Translate(velocity);
 	}
 
-	public void VerticalCollisions(ref Vector3 velocity)
+	/** 
+		Calculates the new velocity with respect to y
+		@param velocity: the velocity to be changed
+	 */
+	private void VerticalCollisions(ref Vector3 velocity)
 	{
 		if (velocity.y == 0) { return; }
 		
 		float direction = Mathf.Sign(velocity.y);
 		float speed = Mathf.Abs(velocity.y);
 
+		// Doesn't use rays on the corner to allow for corner fudging
 		for (int i = 1; i < bounds.vRayCount-1; i++)
 		{
 			Vector2 origin = bounds.bottomLeft;
@@ -86,13 +100,18 @@ public class Controller2D : MonoBehaviour
 		}
 	}
 
-	public void HorizontalCollisions(ref Vector3 velocity)
+	/** 
+		Calculates the new velocity with respect to x
+		@param velocity: the velocity to be changed
+	 */
+	private void HorizontalCollisions(ref Vector3 velocity)
 	{
 		if (velocity.x == 0) { return; }
 
 		float direction = Mathf.Sign(velocity.x);
 		float speed = Mathf.Abs(velocity.x);
 
+		// Doesn't use rays on the corner to allow for corner fudging
 		for (int i = 1; i < bounds.hRayCount-1; i++)
 		{
 			Vector2 origin = bounds.bottomLeft;
@@ -107,7 +126,6 @@ public class Controller2D : MonoBehaviour
 
 			if (hit.collider != null) 
 			{
-				Debug.Log("Hit");
 				velocity.x = hit.distance * direction;
 				speed = hit.distance;
 
@@ -117,10 +135,20 @@ public class Controller2D : MonoBehaviour
 		}
 	}
 
+	/** 
+		Struct to contain information on the bounding box
+		as well as the ray cast information
+		@method initRay:
+			Initializes the values of the struct based on the bounding
+			box for the rayCast values, calls reload.
+			@param cc: collider of the controller
+		@method reload:
+			Sets the new bounding box coordinates
+			@param cc: collider of the controller
+	 */
 	public struct ControllerBounds 
 	{
 		public Vector2 topLeft, topRight, bottomLeft, bottomRight;
-
 
 		public int hRayCount, vRayCount;
 		public float hRaySpace, vRaySpace;
@@ -129,7 +157,6 @@ public class Controller2D : MonoBehaviour
 		{
 			Bounds b = cc.bounds;
 			
-			// Make sure we have at least two rays
 			hRayCount = 10;
 			vRayCount = 10;
 
@@ -147,7 +174,13 @@ public class Controller2D : MonoBehaviour
 			bottomRight = new Vector2(b.max.x, b.min.y);
 		}
 	}
-
+	
+	/** 
+		Struct to contain information what sides are colliding
+		with the next translation
+		@method resets:
+			sets all fields to false to be recalculate
+	 */
 	public struct ControllerCollision 
 	{
 		public bool above, below, right, left;

@@ -12,102 +12,177 @@ public class PlayerScript2 : MonoBehaviour {
 	private float minWallJumpSpeed = 1f;
 	private float wallJumpAngle = Mathf.Deg2Rad*37.5f;
 	private float wallJumpModifier = 1.5f;
+
+	private float jumpVelocity;
 	private float extendJumpModifier = 1.5f;
+	
+	private float gravity;
 	private float increaseGravityModifier = 1.5f;
-	private float maxSpeedY = 25f;
+	
+	private float maxSpeedY = 100f;
 	private float maxSpeedX = 15f;
 
-	private float gravity;
-	private float jumpVelocity;
-	private Vector3 velocity;
 	private Vector3 prevVelocity;
+	private Vector3 velocity = new Vector3(0,0,0);
+	
 	private Controller2D c2d;
 	private MeshRenderer mesh;
 
+	private bool dead = false;
 	private bool stunned = false;
 	private float stunCounter = 0;
+	private float stunDropModifier = 2f;
+
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
+	
 		float t = jumpTime/2;
 		jumpVelocity = 2.0f*jumpHeight/t;
 		gravity = -jumpVelocity/t;
-		velocity = new Vector3(0,0,0);
-		Debug.Log("Jump: " + jumpVelocity);
-		Debug.Log("Gravity: " + gravity);
+		
+	
 		mesh = GetComponent<MeshRenderer>();
 		c2d = GetComponent<Controller2D>();
 	}
-	
-	void Stun(float count) {
+
+	/**
+		"Kills" the player by setting an internal flag
+		to true; 
+	 */
+	public void KillPlayer()
+	{
 		mesh.material.color = Color.red;
+		dead = true;
+		velocity = new Vector3(0,0,0);
+	}
+	
+	/**
+		Returns whether the player is alive or not
+	 */
+	public bool IsAlive() 
+	{
+		return dead; 
+	}
+	
+	/**
+		"Stuns" the player which causes them to be unable to 
+		move in any direction 
+		@param count: seconds for how long the player will be
+		stunned
+	 */
+	public void Stun(float count) 
+	{
+		mesh.material.color = Color.red;
+		velocity = new Vector3(0,0,0);
 		stunned = true;
 		stunCounter = count;
 	}
-	void UnStun() {
+
+	/**
+		Complement to above, is used to eventually
+		"unstun" the character or allow them to move again.
+	 */
+	private void UnStun() 
+	{
 		stunCounter -= Time.deltaTime;
-		if (stunCounter <= 0) { 
+		if (stunCounter <= 0)
+		{ 
 			stunCounter = 0; 
 			stunned = false;
 			mesh.material.color = Color.green;
+			return;
 		}
+	}
+
+	/**
+		Controls the calculation of velocities based on the 
+		bounces the player must make. This calculates wall jumps,
+		ground pounds, high jumps, and high-velocity splats
+		
+		@param velocity: current player velocity to be adjusted
+		@param input: vector3 contained player inputs
+	 */
+	private void Bounce(ref Vector3 velocity, Vector3 input)
+	{
+		if (c2d.collision.below || c2d.collision.above) 
+		{
+			velocity.y = c2d.collision.below? jumpVelocity:-jumpVelocity;
+			float maxDrop = -jumpVelocity*stunDropModifier;
+			if (prevVelocity.y < maxDrop) 
+			{
+				Stun(Mathf.Abs(prevVelocity.y-maxDrop)*0.1f);
+			}
+			else if (input.y == 1) 
+			{
+				velocity.y *= extendJumpModifier;
+			}
+			else if (input.y == -1) 
+			{
+				velocity.y *= increaseGravityModifier;
+			}
+		}
+		if (c2d.collision.right || c2d.collision.left) 
+		{
+			if (input.z != 0 && Mathf.Abs(velocity.x) > minWallJumpSpeed) 
+			{
+				velocity.y = wallJumpModifier*jumpVelocity*Mathf.Sin(wallJumpAngle);
+				velocity.x = wallJumpModifier*jumpVelocity*Mathf.Cos(wallJumpAngle)*-Mathf.Sign(velocity.x);
+			} 
+			else 
+			{
+				velocity.x *= -0.5f;
+			}
+		} 
+	}
+
+	/**
+		Controls the calculation of velocities in x direction
+		and clamping it.
+		
+		@param velocity: current player velocity to be adjusted
+		@param input: vector3 contained player inputs
+	 */
+	private void Move(ref Vector3 velocity, Vector3 input)
+	{
+		velocity.x += input.x * acceleration * Time.deltaTime;
+		if (input.x == 0) { velocity.x = 0; }
+		velocity.x = Mathf.Max(Mathf.Min(maxSpeedX, velocity.x), -maxSpeedX);
+	} 
+
+	/**
+		Applies gravity in the y direction and clamps y velocity
+
+		@param velocity: current player velocity to be adjusted
+		@param input: vector3 contained player inputs
+	 */
+	private void ApplyGravity(ref Vector3 velocity, Vector3 input)
+	{
+		float gravityDelta = gravity * Time.deltaTime;
+		if (input.y == -1) { gravityDelta *= increaseGravityModifier*increaseGravityModifier; }
+		velocity.y += gravityDelta;	
+
+		velocity.y = Mathf.Max(Mathf.Min(maxSpeedY, velocity.y), -maxSpeedY);
 	}
 
 	// Update is called once per frame
 	void Update () {
+		if (dead) { return; }
 		Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 
 									Input.GetAxisRaw("Vertical"),
 									Input.GetAxisRaw("Jump"));
-		Vector3 prevVelocity = velocity;
 
-		if (c2d.collision.below || c2d.collision.above) {
-			velocity.y = 0;
-			if (prevVelocity.y < -2*jumpVelocity) {
-				Stun((-prevVelocity.y-2*jumpVelocity)/10f);
-			}
-		}
-		if (c2d.collision.right || c2d.collision.left) {
-			if (input.z != 0 && Mathf.Abs(velocity.x) > minWallJumpSpeed) {
-				// velocity.y = Mathf.Min(jumpVelocity*Mathf.Abs(velocity.x/maxSpeedX), jumpVelocity);
-				velocity.y = wallJumpModifier*jumpVelocity*Mathf.Sin(wallJumpAngle);
-				velocity.x = wallJumpModifier*jumpVelocity*Mathf.Cos(wallJumpAngle)*-Mathf.Sign(velocity.x);
-				Debug.Log(velocity);
-			// 	Debug.Log("WallJump: " + velocity.x/maxSpeedX);
-			} else {
-				// velocity.x = 0;
-				velocity.x *= -0.5f;
-			}
-		} 
 		
-		if (stunned) {
-			UnStun();
-			return;
-		}
-		velocity.x += input.x * acceleration * Time.deltaTime;
-		if (input.x == 0) {
-			velocity.x = 0;
-		}
-
-		if (c2d.collision.below || c2d.collision.above) {
-			velocity.y = c2d.collision.below? jumpVelocity:-jumpVelocity;
-			if (input.y == 1) {
-				velocity.y *= extendJumpModifier;
-			}
-			if (input.y == -1) {
-				velocity.y *= increaseGravityModifier;
-			}
-			Debug.Log("Jump: " + velocity.y);
+		
+		if (stunned) { UnStun(); }
+		else {
+			Bounce(ref velocity, input);
+			Move  (ref velocity, input);
 		}
 		
-		float gravityDelta = gravity * Time.deltaTime;
-		if (input.y == -1) {
-			gravityDelta *= increaseGravityModifier*increaseGravityModifier;
-		}
-		Debug.Log("Gravity: " + gravityDelta/Time.deltaTime);
-		velocity.y += gravityDelta;	
+		ApplyGravity(ref velocity, input);
 
-		// velocity.y = Mathf.Max(Mathf.Min(maxSpeedY, velocity.y), -maxSpeedY);
-		// velocity.x = Mathf.Max(Mathf.Min(maxSpeedX, velocity.x), -maxSpeedX);
-
-		c2d.Move(velocity*Time.deltaTime);
+		prevVelocity = velocity;
+		c2d.Move(prevVelocity*Time.deltaTime);
 	}
 }
