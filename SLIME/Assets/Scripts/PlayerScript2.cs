@@ -67,7 +67,8 @@ public class PlayerScript2 : MonoBehaviour {
 			
 
 			if (input.z != 0 && Mathf.Abs(velocity.x) > minWallJumpSpeed) {
-				velocity.y = Mathf.Min(jumpVelocity*Mathf.Abs(velocity.x/maxSpeedX), jumpVelocity);
+				// velocity.y = Mathf.Min(jumpVelocity*Mathf.Abs(velocity.x/maxSpeedX), jumpVelocity);
+				velocity.y = jumpVelocity;
 				velocity.x *= -1;
 			// 	Debug.Log("WallJump: " + velocity.x/maxSpeedX);
 			} else {
