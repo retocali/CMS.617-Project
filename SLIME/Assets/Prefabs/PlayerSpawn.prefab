@@ -59,7 +59,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 1fb15a9741d12da498526aa05cc47eda, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -146,3 +146,4 @@ MonoBehaviour:
     type: 2}
   playerSpawn: {fileID: 0}
   checkMaster: {fileID: 0}
+  defaultColor: {r: 0, g: 0, b: 0, a: 0}
