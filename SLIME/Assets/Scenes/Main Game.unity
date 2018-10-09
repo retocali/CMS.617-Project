@@ -534,7 +534,7 @@ Prefab:
         type: 2}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2142304788}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea345b27abd1beb4d95ad4bf82b7c958, type: 2}
   m_IsPrefabAsset: 0
@@ -727,7 +727,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 20
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
