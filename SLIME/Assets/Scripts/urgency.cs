@@ -5,7 +5,7 @@ using UnityEngine;
 public class urgency : MonoBehaviour {
 
 	public GameObject player;
-	public ArrayList list;
+	public ArrayList list;	
 	///This item will be at the player's position in time frames
 	public float speed=10;
 	private int counter=0;
@@ -22,17 +22,7 @@ public class urgency : MonoBehaviour {
 		//refactor into seperate method
 		if (player == null) 
 		{
-			player = GameObject.Find("Player");
-			if (player == null) 
-			{
-				player = GameObject.Find("Player(Clone)");
-				if (player == null) 
-				{
-					Debug.Log("Error: Could not find player prefab? Name might have changed");
-					return;
-				}
-			}
-			Debug.Log("Resolved: Found player!");
+			player = PlayerScript2.FindPlayer();
 			rb.position=new Vector2(startingPos.x,startingPos.y);
 		} 
 		rb.position=Vector2.MoveTowards(rb.position,player.transform.position,speed);
