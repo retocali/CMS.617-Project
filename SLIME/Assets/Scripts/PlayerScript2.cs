@@ -23,7 +23,7 @@ public class PlayerScript2 : MonoBehaviour {
 	private float maxSpeedX = 15f;
 
 	private Vector3 prevVelocity;
-	private Vector3 velocity = new Vector3(0,0,0);
+	private Vector3 velocity = Vector3.zero;
 	
 	private Controller2D c2d;
 	private MeshRenderer mesh;
@@ -31,6 +31,7 @@ public class PlayerScript2 : MonoBehaviour {
 	private bool dead = false;
 	private bool stunned = false;
 	private float stunCounter = 0;
+	private float stunCountModifier = 0.1f;
 	private float stunDropModifier = 2.5f;
 
 	// Use this for initialization
@@ -50,16 +51,29 @@ public class PlayerScript2 : MonoBehaviour {
 //	 Public Methods
 //
 ///////////////////////////////////////
+	/**
+		"Spawns" the player by reseting it
+		 and moving to the given location
+	 */
+	public void SpawnPlayer(Vector3 origin)
+	{
+		mesh.material.color = Color.green;
+		dead = false;
+		prevVelocity = Vector3.zero;
+		velocity = Vector3.zero;
+
+		this.transform.position = origin;
+	}
 
 	/**
-		"Kills" the player by setting an internal flag
-		to true; 
+		"Kills" the player by disabling input
+		and tinting it.
 	 */
 	public void KillPlayer()
 	{
 		mesh.material.color = Color.red;
 		dead = true;
-		velocity = new Vector3(0,0,0);
+		velocity = Vector3.zero;
 	}
 	
 	/**
@@ -78,10 +92,9 @@ public class PlayerScript2 : MonoBehaviour {
 	 */
 	public void Stun(float count) 
 	{
-		Debug.Log(velocity);
 		mesh.material.color = Color.red;
-		velocity = new Vector3(0,0,0);
-		prevVelocity = new Vector3(0,0,0);
+		velocity = Vector3.zero;
+		prevVelocity = Vector3.zero;
 		stunned = true;
 		stunCounter = count;
 	}
@@ -98,14 +111,13 @@ public class PlayerScript2 : MonoBehaviour {
 	private void UnStun() 
 	{
 		stunCounter -= Time.deltaTime;
-		velocity = new Vector3(0,0,0);
-		prevVelocity = new Vector3(0,0,0);
+		velocity = Vector3.zero;
+		prevVelocity = Vector3.zero;
 		if (stunCounter <= 0)
 		{ 
 			stunCounter = 0; 
 			stunned = false;
 			mesh.material.color = Color.green;
-			return;
 		}
 	}
 
@@ -125,7 +137,7 @@ public class PlayerScript2 : MonoBehaviour {
 			float maxDrop = -jumpVelocity*stunDropModifier;
 			if (prevVelocity.y < maxDrop) 
 			{
-				Stun(Mathf.Abs(prevVelocity.y-maxDrop)*0.1f);
+				Stun(Mathf.Abs(prevVelocity.y-maxDrop)*stunCountModifier);
 			}
 			else if (input.y ==  1) { velocity.y *= extendJumpModifier; }
 			else if (input.y == -1) { velocity.y *= increaseGravityModifier; }
@@ -180,7 +192,7 @@ public class PlayerScript2 : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		Vector3 input = new Vector3(0,0,0);
+		Vector3 input = Vector3.zero;
 		if (!dead) 
 		{
 			input = new Vector3(Input.GetAxisRaw("Horizontal"), 
