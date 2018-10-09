@@ -142,5 +142,5 @@ MonoBehaviour:
   acceleration: 20
   crumbPrefab: {fileID: 1612155585748918, guid: a7da833a63b4e437f90728032a65fc2d,
     type: 2}
-  crumbSpace: 2
-  crumbNum: 50
+  crumbSpace: 0.001
+  crumbNum: 25
