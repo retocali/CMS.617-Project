@@ -20,11 +20,13 @@ public class PlayerScript : MonoBehaviour {
 	private float increaseGravityModifier = 1.5f;
 	
 	private float maxSpeedY = 100f;
-	private float minSpeedX = 1f;
+	private float minSpeedThresholdX = 1f;
 	private float maxSpeedX = 15f;
 
 	private Vector3 prevVelocity;
 	private Vector3 velocity = Vector3.zero;
+	private Vector3 addedVelocity = Vector3.zero;
+	private float velocityModifier = 1;
 	
 	private Controller2D c2d;
 	private MeshRenderer mesh;
@@ -35,6 +37,7 @@ public class PlayerScript : MonoBehaviour {
 	private float stunCountModifier = 0.1f;
 	private float stunDropModifier = 2.5f;
 	private GameObject[] crumbs;
+
 	
 	public GameObject crumbPrefab;
 	public float crumbSpace = 2.0f;
@@ -42,7 +45,6 @@ public class PlayerScript : MonoBehaviour {
 	
 	private int crumbIndex = 0;
 	private float crumbGap = 0f;
-
 	// Use this for initialization
 	void Start () 
 	{
@@ -133,6 +135,31 @@ public class PlayerScript : MonoBehaviour {
 		stunCounter = count;
 	}
 
+	/**
+		Public getter for velocity
+	 */
+	public Vector3 Velocity()
+	{
+		return new Vector3(velocity.x, velocity.y, velocity.z);
+	}
+
+	/**
+		A method used for adding velocity to the player
+		negative numbers will decrease speed. Accumulates
+	 */
+	public void AddVelocity(Vector3 v)
+	{
+		addedVelocity += v;
+	}
+
+	/**
+		Used to multiply the velocity of the player
+		in a safe manner, overwrites previous value;
+	 */
+	public void MultiplyVelocity(float f)
+	{
+		velocityModifier = f;
+	}
 //
 //	 Private Methods
 //
@@ -217,15 +244,22 @@ public class PlayerScript : MonoBehaviour {
 		velocity.x += input.x * acceleration * Time.deltaTime;
 		if (input.x == 0) 
 		{ 
-			if (c2d.collision.below) { velocity.x = 0; }
+			if (c2d.collision.below) 
+			{ 
+				// Stops when the player hits the ground
+				velocity.x = 0; 
+			}
 			else 
 			{	
+				// Slowly decrease until a threshhold to stop
 				float sign = Mathf.Sign(velocity.x);
 				velocity.x -= sign * acceleration * Time.deltaTime;
-				if (Mathf.Abs(velocity.x) < minSpeedX) {velocity.x = 0;}
+				if (Mathf.Abs(velocity.x) < minSpeedThresholdX) 
+				{
+					velocity.x = 0;
+				}
 			}
 		}
-		velocity.x = Mathf.Max(Mathf.Min(maxSpeedX, velocity.x), -maxSpeedX);
 	} 
 
 	/**
@@ -237,9 +271,16 @@ public class PlayerScript : MonoBehaviour {
 	private void ApplyGravity(ref Vector3 velocity, Vector3 input)
 	{
 		float gravityDelta = gravity * Time.deltaTime;
-		if (input.y == -1) { gravityDelta *= increaseGravityModifier*increaseGravityModifier; }
+		if (input.y == -1) // Ground Pound
+		{ 
+			gravityDelta *= increaseGravityModifier*increaseGravityModifier; 
+		}
 		velocity.y += gravityDelta;	
+	}
 
+	private void ClampSpeeds(ref Vector3 velocity)
+	{
+		velocity.x = Mathf.Max(Mathf.Min(maxSpeedX, velocity.x), -maxSpeedX);
 		velocity.y = Mathf.Max(Mathf.Min(maxSpeedY, velocity.y), -maxSpeedY);
 	}
 
@@ -262,7 +303,14 @@ public class PlayerScript : MonoBehaviour {
 			Trail();
 		}
 		ApplyGravity(ref velocity, input);
+		
+		velocity += addedVelocity;
+		addedVelocity = Vector3.zero;
 
+		velocity *= velocityModifier;
+		velocityModifier = 1;
+
+		ClampSpeeds(ref velocity);
 		prevVelocity = velocity;
 		c2d.Move(prevVelocity*Time.deltaTime);
 	}
