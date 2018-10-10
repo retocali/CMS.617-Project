@@ -39,7 +39,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 			if (gapTime > 0) { gapTime -= Time.deltaTime; }
 			Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 
                                       0,Input.GetAxisRaw("Jump"));
-			if (input.z == 1 && gapTime <= 0)
+			if (input.z == 1 && gapTime <= 0 && !myC2D.collision.above)
 			{
 				Release();
 				return;
@@ -60,8 +60,14 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 	}
 
 	private void Release()
-	{
-		player.transform.position += new Vector3(0,2.0f, 0);
+	{	
+		float clearance = player.transform.lossyScale.y;
+		if (myC2D.VerticalRaycast(clearance).collider != null) {
+			Debug.Log("Cannot release");
+			return;
+		}
+		
+		player.transform.position += new Vector3(0, 1.26f, 0);
 		ps.AddVelocity(new Vector3(0, 1, 0)*shoot);
 		velocity.x = 0;
 		ps = null;	
@@ -74,7 +80,6 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 			return;
 		}
 		gapTime = timeToRelease;
-		Debug.Log("Caught the player");
 		player = p;
 		ps = p.GetComponent<PlayerScript>();
 		c2d = p.GetComponent<Controller2D>();

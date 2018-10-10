@@ -57,7 +57,6 @@ public class spawnPlayer : MonoBehaviour {
 	{	
 		if(collider.tag == "Player") {
 			GetComponent<MeshRenderer>().material.color = new Color(128,128,128, 128);	
-			Debug.Log("YO");
         	checkMaster.ChangePoints(this.gameObject);
 		}
 	}

@@ -24,6 +24,75 @@ public class Controller2D : MonoBehaviour
 		bounds.initRay(cc);
 	}
 	
+//
+//	Public Methods
+//
+/////////////////////////////////////
+
+	/**
+		Moves the player transform based on a given velocity
+		taking into account collisions. Recalculates new
+		collision information
+		@param velocity: given velocity of player movement
+	 */
+	public void Move(Vector3 velocity) 
+	{
+		collision.reset();
+		bounds.reload(cc);
+		VerticalCollisions(ref velocity); 
+		HorizontalCollisions(ref velocity);
+
+		if (DebugFlag) {DebugCollider();}
+		transform.Translate(velocity);
+	}
+
+	public RaycastHit2D VerticalRaycast(float v)
+	{
+		float direction = Mathf.Sign(v);
+		float speed = Mathf.Abs(v);
+		// Doesn't use rays on the corner to allow for corner fudging
+		for (int i = 1; i < bounds.hRayCount-1; i++)
+		{
+			Vector2 origin = bounds.bottomLeft;
+			if (direction == 1) 
+			{
+				origin = bounds.topLeft;
+			}
+			Vector2 shift = new Vector2(i*bounds.hRaySpace, 0);
+			
+			RaycastHit2D hit = Physics2D.Raycast(origin+shift, direction*Vector2.up*v, speed, collisionMask);
+			if (DebugFlag) { Debug.DrawRay(origin+shift, direction*Vector2.up*v, Color.yellow); }
+
+			if (hit.collider != null) { return hit; }
+		}
+		return Physics2D.Raycast(Vector2.zero, Vector2.zero, 0, 0);
+	}
+
+	public RaycastHit2D HorizontalRaycast(float v)
+	{
+		float direction = Mathf.Sign(v);
+		float speed = Mathf.Abs(v);
+		// Doesn't use rays on the corner to allow for corner fudging
+		for (int i = 1; i < bounds.vRayCount-1; i++)
+		{
+			Vector2 origin = bounds.bottomLeft;
+			if (direction == 1) 
+			{
+				origin = bounds.bottomRight;
+			}
+			Vector2 shift = new Vector2(0, i*bounds.vRaySpace);
+			
+			RaycastHit2D hit = Physics2D.Raycast(origin+shift, direction*Vector2.right*v, speed, collisionMask);
+			if (DebugFlag) { Debug.DrawRay(origin+shift, direction*Vector2.right*v, Color.yellow); }
+
+			if (hit.collider != null) { return hit; }
+		}
+		return Physics2D.Raycast(Vector2.zero, Vector2.zero, 0, 0);
+	}
+//
+//	Private Methods
+//
+/////////////////////////////////////
 	/** 
 		Draws a box around the bounding box collider 
 		as well as the outward raycasts
@@ -49,24 +118,6 @@ public class Controller2D : MonoBehaviour
 			Debug.DrawRay(bounds.bottomRight+shift, Vector2.right*0.25f, collision.right?Color.blue:Color.red);
 		}	
 	}
-
-	/**
-		Moves the player transform based on a given velocity
-		taking into account collisions. Recalculates new
-		collision information
-		@param velocity: given velocity of player movement
-	 */
-	public void Move(Vector3 velocity) 
-	{
-		collision.reset();
-		bounds.reload(cc);
-		VerticalCollisions(ref velocity); 
-		HorizontalCollisions(ref velocity);
-
-		if (DebugFlag) {DebugCollider();}
-		transform.Translate(velocity);
-	}
-
 	/** 
 		Calculates the new velocity with respect to y
 		@param velocity: the velocity to be changed

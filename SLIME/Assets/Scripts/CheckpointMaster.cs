@@ -54,7 +54,7 @@ public class CheckpointMaster : MonoBehaviour {
 			index = (index + 1) % currentCheckpoint.Length;
 			cur = currentCheckpoint[index];
 			pos = currentCheckpoint[index].transform.position;
-			Debug.Log(index);
+			
 			enemyCur = currentEnemySpawn[index];
 			enemyPos = currentEnemySpawn[index].transform.position;
 		}
@@ -65,8 +65,6 @@ public class CheckpointMaster : MonoBehaviour {
 			if (currentCheckpoint[i].transform.position == newPoint.transform.position) {
 				cur = currentCheckpoint[i];
 				pos = currentCheckpoint[i].transform.position;
-				Debug.Log(cur);
-				Debug.Log(pos);
 				index = i;
 				if (enemy) {
 					enemyCur = currentEnemySpawn[index];
