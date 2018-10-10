@@ -45,7 +45,13 @@ public class Controller2D : MonoBehaviour
 		if (DebugFlag) {DebugCollider();}
 		transform.Translate(velocity);
 	}
-
+	/**
+		Similar to RigidBody.Raycast, this will take in
+		a float v in a particular direction ((-) = down, (+) = up)
+		it will check the distance abs(v) from that side of the 
+		controller for collisions and returns the successful 
+		raycast or an empty if it didn't hit anything
+	 */
 	public RaycastHit2D VerticalRaycast(float v)
 	{
 		float direction = Mathf.Sign(v);
@@ -68,6 +74,12 @@ public class Controller2D : MonoBehaviour
 		return Physics2D.Raycast(Vector2.zero, Vector2.zero, 0, 0);
 	}
 
+	/**
+		Same as previous, it takes in a float v in 
+		a particular direction ((-) = left, (+) = right)
+		and checks the distance abs(v) from that side of the 
+		controller for collisions, returns the same as above
+	 */
 	public RaycastHit2D HorizontalRaycast(float v)
 	{
 		float direction = Mathf.Sign(v);
