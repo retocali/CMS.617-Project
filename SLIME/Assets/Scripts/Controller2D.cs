@@ -93,22 +93,30 @@ public class Controller2D : MonoBehaviour
 
 			if (hit.collider != null) 
 			{
-				switch(hit.transform.tag)
-				{
-					case "hazard":
-						ps.KillPlayer();
-						break;
-					case "tools":
-						ToolsInterface t = hit.collider.gameObject.GetComponent<ToolsInterface>();
-						t.Interact(gameObject);
-						goto default;
-					default:
-						velocity.y = hit.distance * direction;
-						speed = hit.distance;
+				if (ps != null) {
+					switch(hit.transform.tag)
+					{
+						case "hazard":
+							ps.KillPlayer();
+							break;
+						case "tools":
+							ToolsInterface t = hit.collider.gameObject.GetComponent<ToolsInterface>();
+							t.Interact(gameObject);
+							goto default;
+						default:
+							velocity.y = hit.distance * direction;
+							speed = hit.distance;
 
-						collision.above = direction ==  1;
-						collision.below = direction == -1;
-						break;
+							collision.above = direction ==  1;
+							collision.below = direction == -1;
+							break;
+					}
+				} else {
+					velocity.y = hit.distance * direction;
+					speed = hit.distance;
+
+					collision.above = direction ==  1;
+					collision.below = direction == -1;
 				}
 			}
 		}
@@ -140,23 +148,32 @@ public class Controller2D : MonoBehaviour
 
 			if (hit.collider != null) 
 			{
-				switch(hit.transform.tag)
-				{
-					case "hazard":
-						ps.KillPlayer();
-						break;
-					case "tools":
-						ToolsInterface t = hit.collider.gameObject.GetComponent<ToolsInterface>();
-						t.Interact(gameObject);
-						goto default;
-					default:
-						velocity.x = hit.distance * direction;
-						speed = hit.distance;
+				if (ps != null) {
+					switch(hit.transform.tag)
+					{
+						case "hazard":
+							ps.KillPlayer();
+							break;
+						case "tools":
+							ToolsInterface t = hit.collider.gameObject.GetComponent<ToolsInterface>();
+							t.Interact(gameObject);
+							goto default;
+						default:
+							velocity.x = hit.distance * direction;
+							speed = hit.distance;
 
-						collision.right = direction ==  1;
-						collision.left  = direction == -1;
-						break;
-				}				
+							collision.right = direction ==  1;
+							collision.left  = direction == -1;
+							break;
+					}				
+				}
+				else {
+					velocity.x = hit.distance * direction;
+					speed = hit.distance;
+
+					collision.right = direction ==  1;
+					collision.left  = direction == -1;
+				}
 			}
 		}
 	}

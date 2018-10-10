@@ -24,49 +24,58 @@ public class CheckpointMaster : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		cur = currentCheckpoint[0];
-		pos = cur.transform.position;
+		if (currentCheckpoint.Length > 0) {
+			cur = currentCheckpoint[0];
+			pos = cur.transform.position;
+		} else {
+			Debug.LogWarning("Could not find any checkpoints");
+		}
 
-		enemyCur = currentEnemySpawn[0];
-		enemyPos = enemyCur.transform.position;
-		enemy = enemyCur.GetComponent<EnemySpawnScript>().Spawn();
-			
+		if (currentEnemySpawn.Length > 0) {
+			enemyCur = currentEnemySpawn[0];
+			enemyPos = enemyCur.transform.position;
+			enemy = enemyCur.GetComponent<EnemySpawnScript>().Spawn();
+		} else {
+			Debug.LogWarning("Could not find sense of urgency");
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (player.GetComponent<PlayerScript>().IsDead()  == true) {
+		if (player.GetComponent<PlayerScript>().IsDead() == true) {
 			SpawnPlayer();
-			Destroy(enemy);
-			enemy = enemyCur.GetComponent<EnemySpawnScript>().Spawn();
+			if (enemy) {
+				Destroy(enemy);
+				enemy = enemyCur.GetComponent<EnemySpawnScript>().Spawn();
+			}
 		}
-
 		if (Input.GetKeyDown("1"))
-        {
+		{
 			index = (index + 1) % currentCheckpoint.Length;
-            cur = currentCheckpoint[index];
+			cur = currentCheckpoint[index];
 			pos = currentCheckpoint[index].transform.position;
 			Debug.Log(index);
-
 			enemyCur = currentEnemySpawn[index];
 			enemyPos = currentEnemySpawn[index].transform.position;
-        }
+		}
 	}
 
 	public void ChangePoints(GameObject newPoint) {
-		for(int i=0; i < currentCheckpoint.Length; i++){
-			if(currentCheckpoint[i].transform.position == newPoint.transform.position) {
+		for (int i = 0; i < currentCheckpoint.Length; i++) {
+			if (currentCheckpoint[i].transform.position == newPoint.transform.position) {
 				cur = currentCheckpoint[i];
 				pos = currentCheckpoint[i].transform.position;
 				Debug.Log(cur);
 				Debug.Log(pos);
 				index = i;
-
-				enemyCur = currentEnemySpawn[index];
-				enemyPos = currentEnemySpawn[index].transform.position;
-			} else {
-			currentCheckpoint[i].GetComponent<MeshRenderer>().material.color =
-				currentCheckpoint[i].GetComponent<spawnPlayer>().defaultColor;	
+				if (enemy) {
+					enemyCur = currentEnemySpawn[index];
+					enemyPos = currentEnemySpawn[index].transform.position;
+				}
+			} 
+			else {
+				currentCheckpoint[i].GetComponent<MeshRenderer>().material.color =
+					currentCheckpoint[i].GetComponent<spawnPlayer>().defaultColor;	
 			}
 		}
 	}
@@ -74,6 +83,4 @@ public class CheckpointMaster : MonoBehaviour {
 	public void SpawnPlayer() {
 		player.GetComponent<PlayerScript>().SpawnPlayer(pos);
 	}
-
-
 }
