@@ -42,8 +42,9 @@ public class Controller2D : MonoBehaviour
 		VerticalCollisions(ref velocity); 
 		HorizontalCollisions(ref velocity);
 
-		if (DebugFlag) {DebugCollider();}
 		transform.Translate(velocity);
+		bounds.reload(cc);
+		if (DebugFlag) {DebugCollider();}
 	}
 	/**
 		Similar to RigidBody.Raycast, this will take in

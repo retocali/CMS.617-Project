@@ -276,6 +276,11 @@ public class PlayerScript : MonoBehaviour
 			gravityDelta *= increaseGravityModifier*increaseGravityModifier; 
 		}
 		velocity.y += gravityDelta;	
+		// Just in case 
+		if (transform.position.y > 1<<10 || transform.position.y < -(1<<10)) {
+			Debug.LogWarning("Player escaped bounds, edit bounds if this was intentional");
+			KillPlayer();
+		}
 	}
 
 	private void ClampSpeeds(ref Vector3 velocity)

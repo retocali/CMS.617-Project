@@ -8,7 +8,6 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 
 	private GameObject player;
 	private PlayerScript ps;
-	private Controller2D c2d;
 	private Controller2D myC2D;
 
 	private Vector3 velocity;
@@ -24,12 +23,11 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 	
 	private Color defaultColor;
 	private float colorCount = 0;
-	private float colorDuration = 1f;
+	private float colorDuration = 0.25f;
 
 
 	void Start() {
 		ps = null;	
-		c2d = null;
 		player = null;
 		velocity = Vector3.zero;
 		myC2D = GetComponent<Controller2D>();
@@ -43,6 +41,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 
 		if (ps != null) { WithPlayer(ref velocity);	}
 		if (colorCount > 0) { RevertColor(); }
+		
 		ClampSpeeds(ref velocity);
 		myC2D.Move(velocity*Time.deltaTime);	
 		
@@ -105,19 +104,16 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		player.transform.position += new Vector3(0, 1.26f, 0);
 		ps.AddVelocity(new Vector3(0, 1, 0)*shoot);
 		velocity.x = 0;
-		ps = null;	
-		c2d = null;
+		ps = null;
 		player = null;
 	}
 	public void Interact(GameObject p)
 	{
-		if (Input.GetAxisRaw("Jump") == 0) 
-		{
+		if (Input.GetAxisRaw("Jump") == 0) {
 			return;
 		}
 		gapTime = timeToRelease;
 		player = p;
 		ps = p.GetComponent<PlayerScript>();
-		c2d = p.GetComponent<Controller2D>();
 	}
 }
