@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Controller2D))]
-public class PlayerScript : MonoBehaviour {
-
+public class PlayerScript : MonoBehaviour 
+{
 	public float jumpTime = 0.5f;
 	public float jumpHeight = 10f;
 	public float acceleration = 10f;
@@ -68,8 +68,8 @@ public class PlayerScript : MonoBehaviour {
 		Static method to hopefully find the player
 		uses common names for the player to find it 
 	 */
-	public static GameObject FindPlayer() {
-
+	public static GameObject FindPlayer() 
+	{
 		GameObject player = GameObject.Find("Player");
 		if (player == null) 
 		{
