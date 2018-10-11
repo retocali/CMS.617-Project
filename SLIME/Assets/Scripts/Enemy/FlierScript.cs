@@ -7,7 +7,6 @@ public class FlierScript : MonoBehaviour {
 
 	public Vector2[] directions;
 	public float[] times;
-	public bool loop = false;
 
 	private int i;
 	private float currentTime;
