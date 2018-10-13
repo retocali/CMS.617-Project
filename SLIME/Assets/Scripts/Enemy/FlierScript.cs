@@ -12,7 +12,7 @@ public class FlierScript : EnemyClass {
 	private float speed = 10f;
 
 	// Use this for initialization
-	void Start () {
+	new void Start () {
 		i = 0;
 		currentTime = 0;
 		if (directions.Length == 0 || times.Length == 0) {
@@ -25,7 +25,7 @@ public class FlierScript : EnemyClass {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	new void Update () {
 		if (!functional) { Warn(transform.name+" not functional"); return; }
 
 		currentTime += Time.deltaTime;

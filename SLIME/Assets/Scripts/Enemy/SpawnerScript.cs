@@ -18,7 +18,7 @@ public class SpawnerScript : EnemyClass
 	private float XRange = 10;
 	private float YRange = 5;
 	// Use this for initialization
-	void Start () 
+	new void Start () 
 	{
 		if (spawnPrefab == null)
 		{
@@ -27,9 +27,12 @@ public class SpawnerScript : EnemyClass
 		mesh = GetComponent<MeshRenderer>();
 	}
 	// Update is called once per frame
-	void Update () 
+	new void Update () 
 	{
-		if (!functional) { Warn(transform.name+" not functional"); return; }
+		if (!functional) { 
+			Warn(transform.name+" not functional"); 
+			return; 
+		}
 		if (sensitive && PlayerInRange())
 		{
 			Debug.Log(time-currentTime);

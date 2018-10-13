@@ -12,14 +12,14 @@ public class DropperScript : EnemyClass
 	private float YRange = 0f;
 
 	// Use this for initialization
-	void Start () 
+	new void Start () 
 	{
 		base.Start();
 		gravity = -20f;
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	new void Update () 
 	{
 		if (!falling && !PlayerInRange()) 
 		{

@@ -16,13 +16,13 @@ public class HopperScript : EnemyClass
 	private uint turnAroundDelay = 100;
 
 	// Use this for initialization
-	void Start () {
+	new void Start () {
 		gravity = -40f;
 		base.Start();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	new void Update () {
 		if (delayCounter != 0) 
 		{
 			delayCounter--;

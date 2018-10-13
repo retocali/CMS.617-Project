@@ -15,7 +15,7 @@ public class TeleporterScript : EnemyClass
 	private Transform portal;
 
 	// Use this for initialization
-	void Start () {
+	new void Start () {
 		i = 0;
 		currentTime = 0;
 		if (locations.Length < 2 || times.Length < 2) {
@@ -40,7 +40,7 @@ public class TeleporterScript : EnemyClass
 	}
 
 	// Update is called once per frame
-	void Update () {
+	new void Update () {
 		if (!functional) { Warn(transform.name+" not functional"); return; }
 
 		currentTime += Time.deltaTime;
