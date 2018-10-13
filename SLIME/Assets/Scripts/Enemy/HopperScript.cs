@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Controller2D))]
-public class HopperScript : MonoBehaviour {
-
-	private Vector3 velocity;
-	private Controller2D c2d;
-	private float xAcceleration = 20f;
-	private float gravity = -20f;
+public class HopperScript : EnemyClass 
+{
+	private float xSpeed = 10f;
 	private float jump = 10f;
 
 	// after cycles frames the direction switches
@@ -21,8 +17,8 @@ public class HopperScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		velocity = Vector3.zero;
-		c2d = GetComponent<Controller2D>();
+		gravity = -40f;
+		base.Start();
 	}
 	
 	// Update is called once per frame
@@ -31,15 +27,15 @@ public class HopperScript : MonoBehaviour {
 		{
 			delayCounter--;
 			velocity.x = 0;
-			velocity.y += Time.deltaTime*gravity;
-			c2d.Move(velocity*Time.deltaTime);
+			ApplyGravity(ref velocity, Time.deltaTime);
+			base.Update();
 			return;
 		}
 
 		cycleOffset++;
 		if (cycleOffset % cycles == 0)
 		{
-			xAcceleration = -xAcceleration;
+			xSpeed = -xSpeed;
 			
 			if (turnAroundDelay > 0) 
 			{
@@ -48,16 +44,18 @@ public class HopperScript : MonoBehaviour {
 			delayCounter = turnAroundDelay;
 		}
 
-		if (c2d.collision.below) { velocity.y = jump; }
-		velocity.x += Time.deltaTime*xAcceleration;
-		velocity.y += Time.deltaTime*gravity;
+		velocity.x = xSpeed;
+		ApplyGravity(ref velocity, Time.deltaTime); 
+		ApplyVelocityModifiers();
+		if (c2d.collision.below) { 
+			velocity.y = jump; 
+		}
 		
 		if (c2d.collision.above) {
 			velocity.y = 0;
 		}
-		if (c2d.collision.right || c2d.collision.left) {
-			velocity.x = 0;
-		}
+
+		HorizontalCollisionStop(ref velocity);
 
 		c2d.Move(velocity*Time.deltaTime);
 	}

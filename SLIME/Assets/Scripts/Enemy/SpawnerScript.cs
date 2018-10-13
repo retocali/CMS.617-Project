@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnerScript : MonoBehaviour {
-
+public class SpawnerScript : EnemyClass
+{
 	public GameObject spawnPrefab;
 	
 	public bool sensitive = false;
@@ -15,19 +15,21 @@ public class SpawnerScript : MonoBehaviour {
 	private Transform player;
 	private MeshRenderer mesh;
 
-	private float XRange = 5;
+	private float XRange = 10;
 	private float YRange = 5;
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		if (spawnPrefab == null)
 		{
-			spawnPrefab = gameObject;
+			Warn("Prefab not set");
 		}
-
 		mesh = GetComponent<MeshRenderer>();
 	}
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
+		if (!functional) { Warn(transform.name+" not functional"); return; }
 		if (sensitive && PlayerInRange())
 		{
 			Debug.Log(time-currentTime);
@@ -35,7 +37,8 @@ public class SpawnerScript : MonoBehaviour {
 			mesh.material.color = new Color(1-currentTime/time, 0, 0);
 		}
 		
-		if (currentTime >= time) {
+		if (currentTime >= time) 
+		{
 			currentTime = 0;
 			mesh.material.color = Color.black;
 			Spawn();
@@ -62,7 +65,7 @@ public class SpawnerScript : MonoBehaviour {
 			var s = (GameObject) Instantiate(spawnPrefab,
 											 this.transform.position,
 											 this.transform.rotation);
-			s.GetComponent<DropperScript>().AddVelocity(speed*displacement);
+			s.GetComponent<EnemyClass>().AddVelocity(speed*displacement);
 		}
 	
 	}

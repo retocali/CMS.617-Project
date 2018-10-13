@@ -14,12 +14,13 @@ public class Controller2D : MonoBehaviour
 	
 	private BoxCollider2D cc;
 	private PlayerScript ps;
-	
+	private EnemyClass ec;
 	// Use this for initialization
 	void Start () 
 	{
 		cc = GetComponent<BoxCollider2D>();
 		ps = GetComponent<PlayerScript>();
+		ec = GetComponent<EnemyClass>();
 		collision.reset();
 		bounds.initRay(cc);
 	}
@@ -168,22 +169,28 @@ public class Controller2D : MonoBehaviour
 							t.Interact(gameObject);
 							goto default;
 						default:
-							velocity.y = hit.distance * direction;
-							speed = hit.distance;
-
-							collision.above = direction ==  1;
-							collision.below = direction == -1;
+							speed = VerticalCollide(ref velocity, hit, direction);
 							break;
 					}
+				} else if (ec != null) {
+					if (hit.transform.tag != "Player")
+					{
+						speed = VerticalCollide(ref velocity, hit, direction);
+					}
 				} else {
-					velocity.y = hit.distance * direction;
-					speed = hit.distance;
-
-					collision.above = direction ==  1;
-					collision.below = direction == -1;
+					speed = VerticalCollide(ref velocity, hit, direction);
 				}
 			}
 		}
+	}
+	private float VerticalCollide(ref Vector3 velocity, RaycastHit2D hit, float direction)
+	{
+		velocity.y = hit.distance * direction;
+
+		collision.above = direction ==  1;
+		collision.below = direction == -1;
+
+		return hit.distance;
 	}
 
 	/** 
@@ -223,25 +230,29 @@ public class Controller2D : MonoBehaviour
 							t.Interact(gameObject);
 							goto default;
 						default:
-							velocity.x = hit.distance * direction;
-							speed = hit.distance;
-
-							collision.right = direction ==  1;
-							collision.left  = direction == -1;
+							speed = HorizontalCollide(ref velocity, hit, direction);
 							break;
 					}				
+				} else if (ec != null) {
+					if (hit.transform.tag != "Player")
+					{
+						speed = HorizontalCollide(ref velocity, hit, direction);
+					}
 				}
 				else {
-					velocity.x = hit.distance * direction;
-					speed = hit.distance;
-
-					collision.right = direction ==  1;
-					collision.left  = direction == -1;
+					speed = HorizontalCollide(ref velocity, hit, direction);
 				}
 			}
 		}
 	}
+	private float HorizontalCollide(ref Vector3 velocity, RaycastHit2D hit, float direction)
+	{
+		velocity.x = hit.distance * direction;
 
+		collision.right = direction ==  1;
+		collision.left  = direction == -1;
+		return hit.distance;
+	}
 	/** 
 		Struct to contain information on the bounding box
 		as well as the ray cast information

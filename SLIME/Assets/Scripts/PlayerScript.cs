@@ -59,6 +59,15 @@ public class PlayerScript : MonoBehaviour
 		crumbs = new GameObject[crumbNum];
 	}
 
+	void OnTriggerEnter2D(Collider2D collider) { Touch(collider); }
+	void OnTriggerStay2D(Collider2D collider)  { Touch(collider); }
+	void OnTriggerExit2D(Collider2D collider)  { Touch(collider); }
+	void Touch(Collider2D collider) {
+		if(collider.tag == "hazard") {
+			KillPlayer();
+		}
+	}
+	
 //
 //	 Public Methods
 //
