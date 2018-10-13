@@ -6,29 +6,26 @@ public class WaverScript : EnemyClass
 {
 
 	public Curve[] parameters;
-	public float[] times;
 
 	private int i;
-	private float currentTime;
-	private float speed = 10f;
+	private float degrees;
 
 	[System.Serializable]
 	public struct Curve {
-		public float degree;
-		public float amplitude;
-		public float speed;
+		public float width;
+		public float height;
+		public float totalDegrees;
+		public float startDegrees;
+		public float step;
 	}
 	// Use this for initialization
 	new void Start () 
 	{
 		i = 0;
-		currentTime = 0;
-		if (parameters.Length == 0 || times.Length == 0) {
-			Warn("Directions and times must not be empty");
+		if (parameters.Length == 0) {
+			Warn("Parameters must not be empty, use a spike instead");
 		}
-		if (parameters.Length != times.Length) {
-			Warn("Directions and times must be the same length!");
-		}
+		degrees = parameters[0].startDegrees;
 		base.Start();
 	}
 	
@@ -39,22 +36,19 @@ public class WaverScript : EnemyClass
 			Warn(transform.name+" not functional"); 
 			return; 
 		}
-		currentTime += Time.deltaTime;
-		if (currentTime >= times[i]) 
+		Curve p = parameters[i];
+		degrees += p.step;
+		if (degrees >= p.totalDegrees) 
 		{
-			currentTime = 0;
 			i = (i+1) % parameters.Length;
+			degrees = parameters[i].startDegrees;
 		}
-
-		Debug.Log(currentTime);
-		// float A = parameters[i].x;
-		// float f = parameters[i].y;
-		// float p = parameters[i].z;
 		
-		float t = (currentTime/times[i])*2*Mathf.PI;
+		float t = degrees*Mathf.Deg2Rad;
 
-		transform.position = initialLoc+speed*new Vector3(Mathf.Cos(t), Mathf.Sin(t), 0);
-		
-		// base.Update();
+		velocity.x = p.width  * p.step * Mathf.Cos(t);
+		velocity.y = p.height * p.step * Mathf.Sin(t);
+
+		base.Update();
 	}
 }
