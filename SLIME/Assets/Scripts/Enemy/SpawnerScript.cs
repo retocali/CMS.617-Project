@@ -15,8 +15,8 @@ public class SpawnerScript : EnemyClass
 	private Transform player;
 	private MeshRenderer mesh;
 
-	private float XRange = 10;
-	private float YRange = 5;
+	public float XRange = 10;
+	public float YRange = 5;
 	// Use this for initialization
 	new void Start () 
 	{
@@ -35,7 +35,6 @@ public class SpawnerScript : EnemyClass
 		}
 		if (sensitive && PlayerInRange())
 		{
-			Debug.Log(time-currentTime);
 			currentTime += Time.deltaTime;
 			mesh.material.color = new Color(1-currentTime/time, 0, 0);
 		}
