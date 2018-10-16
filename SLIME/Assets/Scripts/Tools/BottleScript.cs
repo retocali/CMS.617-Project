@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Controller2D))]
 public class BottleScript : MonoBehaviour, ToolsInterface 
 {
+	public bool weaponized = false;
 
 	private GameObject player;
 	private PlayerScript ps;
@@ -16,6 +17,8 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 	private float maxSpeedX = 15f;
 	private float maxSpeedY = 500f;
 	private float acceleration = 10f;
+	private float deceleration = 0.95f;
+	private float minSpeedToZero = 0.05f;
 	
 	private float shoot = 10;
 	private float gapTime = 0;
@@ -24,7 +27,6 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 	private Color defaultColor;
 	private float colorCount = 0;
 	private float colorDuration = 0.25f;
-
 
 	void Start() {
 		ps = null;	
@@ -39,7 +41,13 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		
 		velocity.y = gravity * Time.deltaTime;
 
-		if (ps != null) { WithPlayer(ref velocity);	}
+		if (ps != null) { 
+			WithPlayer(ref velocity);	
+		} else {
+			velocity.x *= deceleration;
+			if (Mathf.Abs(velocity.x) < minSpeedToZero)
+				velocity.x = 0;
+		}
 		if (colorCount > 0) { RevertColor(); }
 		
 		ClampSpeeds(ref velocity);
@@ -103,7 +111,6 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 
 		player.transform.position += new Vector3(0, 1.26f, 0);
 		ps.AddVelocity(new Vector3(0, 1, 0)*shoot);
-		velocity.x = 0;
 		ps = null;
 		player = null;
 	}
