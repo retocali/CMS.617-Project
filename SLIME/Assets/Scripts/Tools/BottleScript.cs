@@ -116,7 +116,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 	}
 	public void Interact(GameObject p)
 	{
-		if (Input.GetAxisRaw("Jump") == 0) {
+        if (Input.GetAxisRaw("Jump") == 0) {
 			return;
 		}
 		gapTime = timeToRelease;
