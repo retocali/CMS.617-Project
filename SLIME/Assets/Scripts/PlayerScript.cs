@@ -20,8 +20,9 @@ public class PlayerScript : MonoBehaviour
 	private float increaseGravityModifier = 1.5f;
 	
 	private float maxSpeedY = 100f;
+	private float maxSpeedThresholdX = 15f;
 	private float minSpeedThresholdX = 1f;
-	private float maxSpeedX = 15f;
+	private float maxSpeedX = 100f;
 
 	private Vector3 prevVelocity;
 	private Vector3 velocity = Vector3.zero;
@@ -250,7 +251,14 @@ public class PlayerScript : MonoBehaviour
 	 */
 	private void Move(ref Vector3 velocity, Vector3 input)
 	{
-		velocity.x += input.x * acceleration * Time.deltaTime;
+		
+		if (Mathf.Abs(velocity.x) < maxSpeedThresholdX)
+		{
+			velocity.x += input.x * acceleration * Time.deltaTime;
+		} else if (Mathf.Sign(input.x) != Mathf.Sign(velocity.x)) {
+			velocity.x += input.x * acceleration * Time.deltaTime;
+		}
+		
 		if (input.x == 0) 
 		{ 
 			if (c2d.collision.below) 
