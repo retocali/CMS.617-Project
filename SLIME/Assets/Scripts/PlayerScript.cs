@@ -33,6 +33,7 @@ public class PlayerScript : MonoBehaviour
 	private MeshRenderer mesh;
 
 	private bool dead = false;
+	public bool inactive = false;
 	private bool stunned = false;
 	private float stunCounter = 0;
 	private float stunCountModifier = 0.1f;
@@ -310,7 +311,7 @@ public class PlayerScript : MonoBehaviour
 	void Update () 
 	{
 		Vector3 input = Vector3.zero;
-		if (!dead) 
+		if (!dead && !inactive) 
 		{
 			input = new Vector3(Input.GetAxisRaw("Horizontal"), 
 								Input.GetAxisRaw("Vertical"),
@@ -323,6 +324,9 @@ public class PlayerScript : MonoBehaviour
 				Move  (ref velocity, input);
 			}
 			Trail();
+		} if (inactive) {
+			if (c2d.collision.below || c2d.collision.above) 
+				velocity.y = c2d.collision.below? jumpVelocity:-jumpVelocity;
 		}
 		ApplyGravity(ref velocity, input);
 		

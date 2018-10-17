@@ -19,7 +19,7 @@ public class ButtonScript : MonoBehaviour {
 		pressed = false;
 		target = initial;
 		player = PlayerScript.FindPlayer();
-		player.GetComponent<PlayerScript>().enabled = false;
+		player.GetComponent<PlayerScript>().inactive = true;
 	}
 	
 	// Update is called once per frame
@@ -36,7 +36,7 @@ public class ButtonScript : MonoBehaviour {
 	}
 	private void OnMouseUpAsButton() {
 		pressed = true;
-		player.GetComponent<PlayerScript>().enabled = true;
+		player.GetComponent<PlayerScript>().inactive = false;
 		Destroy(gameObject);
 	}
 	
