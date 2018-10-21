@@ -30,7 +30,7 @@ public class PlayerScript : MonoBehaviour
 	private float velocityModifier = 1;
 	
 	private Controller2D c2d;
-	private MeshRenderer mesh;
+	private SpriteRenderer sprRend;
 
 	private bool dead = false;
 	public bool inactive = false;
@@ -55,7 +55,7 @@ public class PlayerScript : MonoBehaviour
 		jumpVelocity = 2.0f*jumpHeight/t;
 		gravity = -jumpVelocity/t;
 		
-		mesh = GetComponent<MeshRenderer>();
+		sprRend = GetComponentInChildren<SpriteRenderer>();
 		c2d = GetComponent<Controller2D>();
 
 		crumbs = new GameObject[crumbNum];
@@ -101,7 +101,7 @@ public class PlayerScript : MonoBehaviour
 	 */
 	public void SpawnPlayer(Vector3 origin)
 	{
-		mesh.material.color = Color.green;
+		sprRend.material.color = Color.green;
 		dead = false;
 		prevVelocity = Vector3.zero;
 		velocity = Vector3.zero;
@@ -115,7 +115,7 @@ public class PlayerScript : MonoBehaviour
 	 */
 	public void KillPlayer()
 	{
-		mesh.material.color = Color.red;
+		sprRend.material.color = Color.red;
 		for (int i = 0; i < crumbNum; i++) {
 			Destroy(crumbs[i], 1.5f);
 		}
@@ -139,7 +139,7 @@ public class PlayerScript : MonoBehaviour
 	 */
 	public void StunPlayer(float count) 
 	{
-		mesh.material.color = Color.red;
+		sprRend.material.color = Color.red;
 		velocity = Vector3.zero;
 		prevVelocity = Vector3.zero;
 		stunned = true;
@@ -200,7 +200,7 @@ public class PlayerScript : MonoBehaviour
 		{ 
 			stunCounter = 0; 
 			stunned = false;
-			mesh.material.color = Color.green;
+			sprRend.material.color = Color.green;
 		}
 	}
 
@@ -259,6 +259,14 @@ public class PlayerScript : MonoBehaviour
 		} else if (Mathf.Sign(input.x) != Mathf.Sign(velocity.x)) {
 			velocity.x += input.x * acceleration * Time.deltaTime;
 		}
+
+        if (velocity.x > 0)
+        {
+            sprRend.flipX = true;
+        } else if (velocity.x < 0)
+        {
+            sprRend.flipX = false;
+        }
 		
 		if (input.x == 0) 
 		{ 

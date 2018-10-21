@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 61044486570256616}
   - component: {fileID: 114260028538729622}
   m_Layer: 8
-  m_Name: Splitter 1
+  m_Name: Splitter
   m_TagString: tools
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
