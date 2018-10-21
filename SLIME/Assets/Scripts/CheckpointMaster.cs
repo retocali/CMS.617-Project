@@ -54,7 +54,6 @@ public class CheckpointMaster : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		urgencyPos = urgencyCur.transform.position;
 		if (currentCheckpoint.Length > 0) {
 			cur = currentCheckpoint[0];
 			pos = cur.transform.position;
@@ -62,7 +61,7 @@ public class CheckpointMaster : MonoBehaviour {
 			Debug.LogWarning("Could not find any checkpoints");
 		}
 
-		if (urgency && useSpawns) {
+		if ( urgency != null && useSpawns) {
 			if (currentUrgencySpawn.Length > 0) {
 				urgencyCur = currentUrgencySpawn[0];
 				urgencyPos = urgencyCur.transform.position;
@@ -71,10 +70,10 @@ public class CheckpointMaster : MonoBehaviour {
 				Debug.LogWarning("Could not find sense of urgency");
 			}
 		}
-		if (urgency && !useSpawns) {
+		if (urgency != null && !useSpawns) {
 			lastUrgencyPos = urgency.transform.position;
 		}
-		if (!urgency && !useSpawns) {
+		if (urgency == null && !useSpawns) {
 			Debug.LogWarning("No Urgency Being Used");
 		}
 	}
@@ -83,7 +82,7 @@ public class CheckpointMaster : MonoBehaviour {
 	void Update () {
 		if (player.GetComponent<PlayerScript>().IsDead() == true) {
 			SpawnPlayer();
-			if (urgency && useSpawns) {
+			if (urgency != null && useSpawns) {
 				Destroy(urgency);
 				urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
 			}
@@ -94,7 +93,7 @@ public class CheckpointMaster : MonoBehaviour {
 			cur = currentCheckpoint[index];
 			pos = currentCheckpoint[index].transform.position;
 			
-			if( urgency && useSpawns) {
+			if ( urgency != null && useSpawns) {
 				urgencyCur = currentUrgencySpawn[index];
 				urgencyPos = currentUrgencySpawn[index].transform.position;
 			}
@@ -106,13 +105,16 @@ public class CheckpointMaster : MonoBehaviour {
 		for (int i = 0; i < currentCheckpoint.Length; i++) {
 			if (currentCheckpoint[i].transform.position == newPoint.transform.position) {
 				if (pos != currentCheckpoint[i].transform.position) {
-					lastUrgencyPos = urgency.transform.position;
+					if ( urgency != null) {
+						lastUrgencyPos = urgency.transform.position;
+					}
+
 					checkpointActivated = true;
 				}
 				cur = currentCheckpoint[i];
 				pos = currentCheckpoint[i].transform.position;
 				index = i;
-				if (urgency && useSpawns) {
+				if (urgency != null && useSpawns) {
 					urgencyCur = currentUrgencySpawn[index];
 					urgencyPos = currentUrgencySpawn[index].transform.position;
 				}
@@ -125,6 +127,7 @@ public class CheckpointMaster : MonoBehaviour {
 	}
 
 	public void SpawnPlayer() {
+		gameObject.GetComponent<SplitterMasterScript>().resetSplitters();
 		player.GetComponent<PlayerScript>().SpawnPlayer(pos);
 	}
 

@@ -2,31 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
-[RequireComponent(typeof(Controller2D))]
+ [RequireComponent(typeof(Controller2D))]
 public class HookScript : MonoBehaviour, ToolsInterface
  {
-
-	 private bool hooked = false;
-
-	 private bool moved = false;
-
-
-	 private GameObject player;
-
-	 private int gapTime = 0;
-
-	 public float elasticity = 50.0f;
+ 	 private bool hooked = false;
+ 	 private bool moved = false;
+ 	 private GameObject player;
+ 	 private int gapTime = 0;
+ 	 public float elasticity = 50.0f;
 	 private int timeToRelease = 5;
-
-	 private float timeToHook = 0.02f;
-
-	 private float y; 
-
-	 private float x;
-
-
-	// Use this for initialization
+ 	 private float timeToHook = 0.02f;
+ 	 private float y; 
+ 	 private float x;
+ 	// Use this for initialization
 	void Start () {
 		y = gameObject.transform.position.y;
 		x = gameObject.transform.position.x;
@@ -36,19 +24,15 @@ public class HookScript : MonoBehaviour, ToolsInterface
 	void Update () {
 		if (gapTime > 0) { gapTime -= 1; }
 		if (hooked) {
-
-			WithPlayer();
+ 			WithPlayer();
 		}
 	}
-
-	private void WithPlayer()
+ 	private void WithPlayer()
 	{
 		Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 
 									Input.GetAxisRaw("Vertical"),
 									Input.GetAxisRaw("Jump"));
-
-
-		if (gapTime <= 0)
+ 		if (gapTime <= 0)
 		{
 			if (input.y == -1) {
 				moved = true;
@@ -80,36 +64,29 @@ public class HookScript : MonoBehaviour, ToolsInterface
 				Release();
 				moved = false;
 				return;
-
-			}
+ 			}
 		}
-
-
-			
+ 			
 			
 		
-
-		player.GetComponent<PlayerScript>().MultiplyVelocity(0);
+ 		player.GetComponent<PlayerScript>().MultiplyVelocity(0);
 	}
 	private void Release()
 	{	
 		var diff = gameObject.transform.position - player.transform.position;
 		var pX = Math.Abs(diff.x) * elasticity;
 		var pY = Math.Abs(diff.y) * elasticity;
-
-		if (player.transform.position.x >= x) {
+ 		if (player.transform.position.x >= x) {
 			pX *= -1;
 		}
 		if (player.transform.position.y >= y) {
 			pY *= -1;
 		}
-
-		player.transform.position = transform.position;
+ 		player.transform.position = transform.position;
 		player.transform.position += new Vector3(0, 1.2f, 0);
 		player.GetComponent<PlayerScript>().AddVelocity(new Vector3(pX, pY, 0));
 		hooked = false;
-
-	}
+ 	}
 	public void Interact(GameObject p)
 	{
 		if (Input.GetAxisRaw("Jump") == 0 ) {
