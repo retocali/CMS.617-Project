@@ -45,7 +45,6 @@ public class CheckpointMaster : MonoBehaviour {
 
 	// Checks whether or not the player just recently activated a new checkpoint
 	public bool newCheckpointActivated() {
-		lastUrgencyPos = urgency.transform.position;
 		return checkpointActivated;
 	}
 
@@ -107,6 +106,7 @@ public class CheckpointMaster : MonoBehaviour {
 		for (int i = 0; i < currentCheckpoint.Length; i++) {
 			if (currentCheckpoint[i].transform.position == newPoint.transform.position) {
 				if (pos != currentCheckpoint[i].transform.position) {
+					lastUrgencyPos = urgency.transform.position;
 					checkpointActivated = true;
 				}
 				cur = currentCheckpoint[i];
