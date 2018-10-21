@@ -9,7 +9,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 
 	private GameObject player;
 	private PlayerScript ps;
-	private Controller2D myC2D;
+	private Controller2D c2d;
 
 	private Vector3 velocity;
 	
@@ -32,7 +32,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		ps = null;	
 		player = null;
 		velocity = Vector3.zero;
-		myC2D = GetComponent<Controller2D>();
+		c2d = GetComponent<Controller2D>();
 		defaultColor = GetComponent<MeshRenderer>().material.color;	
 	}
 	// Update is called once per frame
@@ -51,7 +51,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		if (colorCount > 0) { RevertColor(); }
 		
 		ClampSpeeds(ref velocity);
-		myC2D.Move(velocity*Time.deltaTime);	
+		c2d.Move(velocity*Time.deltaTime);	
 		
 		if (player != null) { player.transform.position = transform.position; }
 	}
@@ -65,11 +65,11 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 	}
 	private void CollisionClamping(ref Vector3 velocity)
 	{
-		if (myC2D.collision.above || myC2D.collision.below) 
+		if (c2d.collision.above || c2d.collision.below) 
 		{
 			velocity.y = 0;
 		}
-		if (myC2D.collision.right || myC2D.collision.left) 
+		if (c2d.collision.right || c2d.collision.left) 
 		{
 			velocity.x = 0;
 		}
@@ -82,7 +82,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 									0,
 									Input.GetAxisRaw("Jump"));
 
-		if (input.z == 1 && gapTime <= 0 && !myC2D.collision.above)
+		if (input.z == 1 && gapTime <= 0 && !c2d.collision.above)
 		{
 			Release();
 			return;
@@ -101,7 +101,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 	private void Release()
 	{	
 		float clearance = player.transform.lossyScale.y;
-		if (myC2D.VerticalRaycast(clearance).collider != null) 
+		if (c2d.VerticalRaycast(clearance).collider != null) 
 		{
 			Debug.Log("Cannot release");
 			GetComponent<MeshRenderer>().material.color = new Color(0, 0.5f, 1f, 0.5f);

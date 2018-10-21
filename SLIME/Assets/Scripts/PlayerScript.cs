@@ -20,8 +20,9 @@ public class PlayerScript : MonoBehaviour
 	private float increaseGravityModifier = 1.5f;
 	
 	private float maxSpeedY = 100f;
+	private float maxSpeedThresholdX = 15f;
 	private float minSpeedThresholdX = 1f;
-	private float maxSpeedX = 15f;
+	private float maxSpeedX = 100f;
 
 	private Vector3 prevVelocity;
 	private Vector3 velocity = Vector3.zero;
@@ -32,6 +33,7 @@ public class PlayerScript : MonoBehaviour
 	private MeshRenderer mesh;
 
 	private bool dead = false;
+	public bool inactive = false;
 	private bool stunned = false;
 	private float stunCounter = 0;
 	private float stunCountModifier = 0.1f;
@@ -250,7 +252,14 @@ public class PlayerScript : MonoBehaviour
 	 */
 	private void Move(ref Vector3 velocity, Vector3 input)
 	{
-		velocity.x += input.x * acceleration * Time.deltaTime;
+		
+		if (Mathf.Abs(velocity.x) < maxSpeedThresholdX)
+		{
+			velocity.x += input.x * acceleration * Time.deltaTime;
+		} else if (Mathf.Sign(input.x) != Mathf.Sign(velocity.x)) {
+			velocity.x += input.x * acceleration * Time.deltaTime;
+		}
+		
 		if (input.x == 0) 
 		{ 
 			if (c2d.collision.below) 
@@ -302,7 +311,7 @@ public class PlayerScript : MonoBehaviour
 	void Update () 
 	{
 		Vector3 input = Vector3.zero;
-		if (!dead) 
+		if (!dead && !inactive) 
 		{
 			input = new Vector3(Input.GetAxisRaw("Horizontal"), 
 								Input.GetAxisRaw("Vertical"),
@@ -315,6 +324,9 @@ public class PlayerScript : MonoBehaviour
 				Move  (ref velocity, input);
 			}
 			Trail();
+		} if (inactive) {
+			if (c2d.collision.below || c2d.collision.above) 
+				velocity.y = c2d.collision.below? jumpVelocity:-jumpVelocity;
 		}
 		ApplyGravity(ref velocity, input);
 		

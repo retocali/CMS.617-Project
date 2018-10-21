@@ -56,7 +56,7 @@ public class spawnPlayer : MonoBehaviour {
 	private void ActivatePoint(Collider2D collider)
 	{	
 		if(collider.tag == "Player") {
-			GetComponent<MeshRenderer>().material.color = new Color(128,128,128, 128);	
+			GetComponent<MeshRenderer>().material.color = new Color(1,1,1,0.15f);	
         	checkMaster.ChangePoints(this.gameObject);
 		}
 	}
