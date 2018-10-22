@@ -85,7 +85,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0067191124, y: -0.004811965}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -96,7 +96,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.50274396, y: 0.47968155}
   m_EdgeRadius: 0
 --- !u!95 &95927131860154882
 Animator:
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpTime: 0.75
-  jumpHeight: 2
+  jumpHeight: 2.2
   acceleration: 20
   inactive: 0
   crumbPrefab: {fileID: 1612155585748918, guid: a7da833a63b4e437f90728032a65fc2d,
