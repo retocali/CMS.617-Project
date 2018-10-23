@@ -19,10 +19,10 @@ public class PlayerScript : MonoBehaviour
 	private float gravity;
 	private float increaseGravityModifier = 1.5f;
 	
-	private float maxSpeedY = 100f;
+	private float maxSpeedY = 50f;
+	private float maxSpeedX = 50f;
 	private float maxSpeedThresholdX = 15f;
 	private float minSpeedThresholdX = 1f;
-	private float maxSpeedX = 100f;
 
 	private Vector3 prevVelocity;
 	private Vector3 velocity = Vector3.zero;
