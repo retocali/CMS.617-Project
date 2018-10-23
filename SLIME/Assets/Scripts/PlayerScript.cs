@@ -8,7 +8,7 @@ public class PlayerScript : MonoBehaviour
 	public float jumpTime = 0.5f;
 	public float jumpHeight = 10f;
 	public float acceleration = 10f;
-
+	public bool mainPlayer = true;
 	private float minWallJumpSpeed = 1f;
 	private float wallJumpAngle = Mathf.Deg2Rad*35f;
 	private float wallJumpModifier = 1.1f;
@@ -129,6 +129,24 @@ public class PlayerScript : MonoBehaviour
 	public bool IsDead() 
 	{
 		return dead; 
+	}
+
+	/**
+		Returns whether the player is the main slime when split (meant to keep references
+		for checkpoint master)
+	*/
+	 	public bool IsMain() 
+	{
+		return mainPlayer; 
+	}
+
+	/**
+		Returns whether the player is the main slime when split (meant to keep references
+		for checkpoint master)
+	*/
+	 	public void duplicateSlime() 
+	{
+		mainPlayer = false;
 	}
 
 	/**

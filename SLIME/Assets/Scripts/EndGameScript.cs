@@ -17,7 +17,6 @@ public class EndGameScript : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D collider) 
     {
-		Debug.Log("collide");
         if (collider.gameObject.tag == "Player") {
 			SceneManager.LoadScene("EndGame");
 		}

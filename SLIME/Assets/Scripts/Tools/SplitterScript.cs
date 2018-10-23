@@ -35,15 +35,23 @@ public class SplitterScript : MonoBehaviour, ToolsInterface {
 			p.transform.position = new Vector3(x - 1, y, 0);
 			player.GetComponent<PlayerScript>().MultiplyVelocity(0);
 			player2 = Instantiate(p, new Vector3(x + 1, y, 0), Quaternion.identity);
+			player2.GetComponent<PlayerScript>().duplicateSlime();
 			split = true;
 		}
 
 		
 	}
 
+
 	public void resetSplitter() {
+		// player2.GetComponent<PlayerScript>().KillPlayer();
 		Destroy(player2);
 		split = false;
+
+	}
+
+	public bool isSplit() {
+		return split;
 	}
 }
 

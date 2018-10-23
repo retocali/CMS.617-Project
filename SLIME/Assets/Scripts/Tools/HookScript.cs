@@ -11,7 +11,6 @@ public class HookScript : MonoBehaviour, ToolsInterface
  	 private int gapTime = 0;
  	 public float elasticity = 50.0f;
 	 private int timeToRelease = 5;
- 	 private float timeToHook = 0.02f;
  	 private float y; 
  	 private float x;
  	// Use this for initialization

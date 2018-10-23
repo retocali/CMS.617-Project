@@ -9,7 +9,7 @@ public class giveOnCollide : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        cam = Camera.main;
+        // cam = Camera.main;
     }
 
     // Update is called once per frame
@@ -26,6 +26,6 @@ public class giveOnCollide : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collider)
     {
-        Destroy(gameObject);
+        // Destroy(gameObject);
     }
 }
