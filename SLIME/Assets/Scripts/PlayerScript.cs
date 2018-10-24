@@ -38,13 +38,13 @@ public class PlayerScript : MonoBehaviour
 	private float stunCounter = 0;
 	private float stunCountModifier = 0.1f;
 	private float stunDropModifier = 2.5f;
-	private GameObject[] crumbs;
+	private Color defaultColor;
 
-	
 	public GameObject crumbPrefab;
 	public float crumbSpace = 2.0f;
 	public int crumbNum = 50;
-	
+	private bool trailing = true;
+	private GameObject[] crumbs;
 	private int crumbIndex = 0;
 	private float crumbGap = 0f;
 	// Use this for initialization
@@ -58,6 +58,7 @@ public class PlayerScript : MonoBehaviour
 		sprRend = GetComponentInChildren<SpriteRenderer>();
 		c2d = GetComponent<Controller2D>();
 
+		defaultColor = sprRend.material.color;
 		crumbs = new GameObject[crumbNum];
 	}
 
@@ -101,14 +102,18 @@ public class PlayerScript : MonoBehaviour
 	 */
 	public void SpawnPlayer(Vector3 origin)
 	{
-		sprRend.material.color = Color.green;
+		sprRend.material.color = defaultColor;
 		dead = false;
 		prevVelocity = Vector3.zero;
 		velocity = Vector3.zero;
 
 		this.transform.position = origin;
 	}
-
+	public void DestroyCrumbs(float t) {
+		for (int i = 0; i < crumbNum; i++) {
+			Destroy(crumbs[i], t);
+		}
+	}
 	/**
 		"Kills" the player by disabling input
 		and tinting it.
@@ -116,9 +121,7 @@ public class PlayerScript : MonoBehaviour
 	public void KillPlayer()
 	{
 		sprRend.material.color = Color.red;
-		for (int i = 0; i < crumbNum; i++) {
-			Destroy(crumbs[i], 1.5f);
-		}
+		DestroyCrumbs(1.5f);
 		dead = true;
 		velocity = Vector3.zero;
 	}
@@ -157,10 +160,12 @@ public class PlayerScript : MonoBehaviour
 	 */
 	public void StunPlayer(float count) 
 	{
-		sprRend.material.color = Color.red;
+		sprRend.material.color = Color.blue;
 		velocity = Vector3.zero;
 		prevVelocity = Vector3.zero;
 		stunned = true;
+		trailing = false;
+		DestroyCrumbs(0);
 		stunCounter = count;
 	}
 
@@ -194,6 +199,7 @@ public class PlayerScript : MonoBehaviour
 //
 ///////////////////////////////////////
 	private void Trail() {
+		if (!trailing) {return;}
 		crumbGap += crumbNum*Time.deltaTime;
 		if (crumbGap < crumbSpace) {
 			return;
@@ -216,9 +222,10 @@ public class PlayerScript : MonoBehaviour
 		prevVelocity = Vector3.zero;
 		if (stunCounter <= 0)
 		{ 
+			trailing = true;
 			stunCounter = 0; 
 			stunned = false;
-			sprRend.material.color = Color.green;
+			sprRend.material.color = defaultColor;
 		}
 	}
 
