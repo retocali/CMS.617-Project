@@ -33,7 +33,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		player = null;
 		velocity = Vector3.zero;
 		c2d = GetComponent<Controller2D>();
-		defaultColor = GetComponent<MeshRenderer>().material.color;	
+		defaultColor = transform.GetChild(0).GetComponent<SpriteRenderer>().material.color;	
 	}
 	// Update is called once per frame
 	void Update () {
@@ -52,7 +52,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		
 		ClampSpeeds(ref velocity);
 		c2d.Move(velocity*Time.deltaTime);	
-		
+		transform.GetChild(0).Rotate(new Vector3(0,0,-1)*velocity.x);
 		if (player != null) { player.transform.position = transform.position; }
 	}
 	private void RevertColor()
@@ -60,7 +60,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		colorCount -= Time.deltaTime;
 		if (colorCount <= 0)
 		{
-			GetComponent<MeshRenderer>().material.color = defaultColor;	
+			transform.GetChild(0).GetComponent<SpriteRenderer>().material.color = defaultColor;	
 		}
 	}
 	private void CollisionClamping(ref Vector3 velocity)
@@ -104,7 +104,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		if (c2d.VerticalRaycast(clearance).collider != null) 
 		{
 			Debug.Log("Cannot release");
-			GetComponent<MeshRenderer>().material.color = new Color(0, 0.5f, 1f, 0.5f);
+			transform.GetChild(0).GetComponent<SpriteRenderer>().material.color = new Color(0, 0.5f, 1f, 0.5f);
 			colorCount = colorDuration;
 			return;
 		}
