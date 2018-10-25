@@ -51,7 +51,6 @@ public class PlayerScript : MonoBehaviour
 
 	public AudioClip deathSound;
 	public AudioClip bounceSound;
-	public AudioClip wallHitSound;
 	public AudioClip wallJumpSound;
 	private int playing = 3;
 
@@ -277,7 +276,6 @@ public class PlayerScript : MonoBehaviour
 			} 
 			else 
 			{
-				PlayAudio(wallHitSound);
 				velocity.x *= -0.5f;
 			}
 		} 
