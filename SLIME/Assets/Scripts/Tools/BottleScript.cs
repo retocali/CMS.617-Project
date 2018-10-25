@@ -14,9 +14,10 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 	private Vector3 velocity;
 	
 	private float gravity = -500f;
+	private float minSpeedX = 0.25f;
 	private float maxSpeedX = 15f;
 	private float maxSpeedY = 500f;
-	private float acceleration = 10f;
+	private float acceleration = 15f;
 	private float deceleration = 0.95f;
 	private float minSpeedToZero = 0.05f;
 	
@@ -96,6 +97,9 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 	{
 		velocity.x = Mathf.Max(Mathf.Min(maxSpeedX, velocity.x), -maxSpeedX);
 		velocity.y = Mathf.Max(Mathf.Min(maxSpeedY, velocity.y), -maxSpeedY);
+		if (Mathf.Abs(velocity.x) < minSpeedX) {
+			velocity.x = 0;
+		}
 	}
 
 	private void Release()

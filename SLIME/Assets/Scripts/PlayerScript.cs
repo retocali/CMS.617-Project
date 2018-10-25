@@ -31,6 +31,7 @@ public class PlayerScript : MonoBehaviour
 	
 	private Controller2D c2d;
 	private SpriteRenderer sprRend;
+	private AudioSource audSrc;
 
 	private bool dead = false;
 	public bool inactive = false;
@@ -41,12 +42,19 @@ public class PlayerScript : MonoBehaviour
 	private Color defaultColor;
 
 	public GameObject crumbPrefab;
-	public float crumbSpace = 2.0f;
-	public int crumbNum = 50;
+	private float crumbSpace = 2.0f;
+	private int crumbNum = 50;
 	private bool trailing = true;
 	private GameObject[] crumbs;
 	private int crumbIndex = 0;
 	private float crumbGap = 0f;
+
+	public AudioClip deathSound;
+	public AudioClip bounceSound;
+	public AudioClip wallHitSound;
+	public AudioClip wallJumpSound;
+	private int playing = 3;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -57,6 +65,7 @@ public class PlayerScript : MonoBehaviour
 		
 		sprRend = GetComponentInChildren<SpriteRenderer>();
 		c2d = GetComponent<Controller2D>();
+		audSrc = GetComponent<AudioSource>();
 
 		defaultColor = sprRend.material.color;
 		crumbs = new GameObject[crumbNum];
@@ -120,6 +129,9 @@ public class PlayerScript : MonoBehaviour
 	 */
 	public void KillPlayer()
 	{
+		if (!dead) { 
+			audSrc.PlayOneShot(deathSound);
+		}
 		sprRend.material.color = Color.red;
 		DestroyCrumbs(1.5f);
 		dead = true;
@@ -242,6 +254,7 @@ public class PlayerScript : MonoBehaviour
 		if (c2d.collision.below || c2d.collision.above) 
 		{
 			velocity.y = c2d.collision.below? jumpVelocity:-jumpVelocity;
+			PlayAudio(bounceSound);
 			float maxDrop = -jumpVelocity*stunDropModifier;
 			if (prevVelocity.y < maxDrop) 
 			{
@@ -257,12 +270,14 @@ public class PlayerScript : MonoBehaviour
 				float speed = Mathf.Sqrt(velocity.x*velocity.x+velocity.y*velocity.y);
 				if (speed > minWallJumpSpeed) 
 				{
+					PlayAudio(wallJumpSound);
 					velocity.y = wallJumpModifier*speed*Mathf.Sin(wallJumpAngle);
 					velocity.x = wallJumpModifier*speed*Mathf.Cos(wallJumpAngle)*-Mathf.Sign(velocity.x);
 				}
 			} 
 			else 
 			{
+				PlayAudio(wallHitSound);
 				velocity.x *= -0.5f;
 			}
 		} 
@@ -373,4 +388,17 @@ public class PlayerScript : MonoBehaviour
 		prevVelocity = velocity;
 		c2d.Move(prevVelocity*Time.deltaTime);
 	}
+
+	private void PlayAudio(AudioClip clip)
+    {
+         if (playing <= 0) return;
+         StartCoroutine(PlayClip(clip));
+    }
+	IEnumerator PlayClip(AudioClip clip)
+    {
+         playing--;
+         audSrc.PlayOneShot(clip);
+         yield return new WaitForSeconds(clip.length);
+         playing++;
+    }
 }
