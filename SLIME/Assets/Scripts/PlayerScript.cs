@@ -19,10 +19,10 @@ public class PlayerScript : MonoBehaviour
 	private float gravity;
 	private float increaseGravityModifier = 1.5f;
 	
-	private float maxSpeedY = 100f;
+	private float maxSpeedY = 50f;
+	private float maxSpeedX = 50f;
 	private float maxSpeedThresholdX = 15f;
 	private float minSpeedThresholdX = 1f;
-	private float maxSpeedX = 100f;
 
 	private Vector3 prevVelocity;
 	private Vector3 velocity = Vector3.zero;
@@ -31,6 +31,7 @@ public class PlayerScript : MonoBehaviour
 	
 	private Controller2D c2d;
 	private SpriteRenderer sprRend;
+	private AudioSource audSrc;
 
 	private bool dead = false;
 	public bool inactive = false;
@@ -38,15 +39,21 @@ public class PlayerScript : MonoBehaviour
 	private float stunCounter = 0;
 	private float stunCountModifier = 0.1f;
 	private float stunDropModifier = 2.5f;
-	private GameObject[] crumbs;
+	private Color defaultColor;
 
-	
 	public GameObject crumbPrefab;
-	public float crumbSpace = 2.0f;
-	public int crumbNum = 50;
-	
+	private float crumbSpace = 2.0f;
+	private int crumbNum = 50;
+	private bool trailing = true;
+	private GameObject[] crumbs;
 	private int crumbIndex = 0;
 	private float crumbGap = 0f;
+
+	public AudioClip deathSound;
+	public AudioClip bounceSound;
+	public AudioClip wallJumpSound;
+	private int playing = 3;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -57,7 +64,9 @@ public class PlayerScript : MonoBehaviour
 		
 		sprRend = GetComponentInChildren<SpriteRenderer>();
 		c2d = GetComponent<Controller2D>();
+		audSrc = GetComponent<AudioSource>();
 
+		defaultColor = sprRend.material.color;
 		crumbs = new GameObject[crumbNum];
 	}
 
@@ -101,24 +110,29 @@ public class PlayerScript : MonoBehaviour
 	 */
 	public void SpawnPlayer(Vector3 origin)
 	{
-		sprRend.material.color = Color.green;
+		sprRend.material.color = defaultColor;
 		dead = false;
 		prevVelocity = Vector3.zero;
 		velocity = Vector3.zero;
 
 		this.transform.position = origin;
 	}
-
+	public void DestroyCrumbs(float t) {
+		for (int i = 0; i < crumbNum; i++) {
+			Destroy(crumbs[i], t);
+		}
+	}
 	/**
 		"Kills" the player by disabling input
 		and tinting it.
 	 */
 	public void KillPlayer()
 	{
-		sprRend.material.color = Color.red;
-		for (int i = 0; i < crumbNum; i++) {
-			Destroy(crumbs[i], 1.5f);
+		if (!dead) { 
+			audSrc.PlayOneShot(deathSound);
 		}
+		sprRend.material.color = Color.red;
+		DestroyCrumbs(1.5f);
 		dead = true;
 		velocity = Vector3.zero;
 	}
@@ -157,10 +171,12 @@ public class PlayerScript : MonoBehaviour
 	 */
 	public void StunPlayer(float count) 
 	{
-		sprRend.material.color = Color.red;
+		sprRend.material.color = Color.blue;
 		velocity = Vector3.zero;
 		prevVelocity = Vector3.zero;
 		stunned = true;
+		trailing = false;
+		DestroyCrumbs(0);
 		stunCounter = count;
 	}
 
@@ -194,6 +210,7 @@ public class PlayerScript : MonoBehaviour
 //
 ///////////////////////////////////////
 	private void Trail() {
+		if (!trailing) {return;}
 		crumbGap += crumbNum*Time.deltaTime;
 		if (crumbGap < crumbSpace) {
 			return;
@@ -216,9 +233,10 @@ public class PlayerScript : MonoBehaviour
 		prevVelocity = Vector3.zero;
 		if (stunCounter <= 0)
 		{ 
+			trailing = true;
 			stunCounter = 0; 
 			stunned = false;
-			sprRend.material.color = Color.green;
+			sprRend.material.color = defaultColor;
 		}
 	}
 
@@ -235,6 +253,7 @@ public class PlayerScript : MonoBehaviour
 		if (c2d.collision.below || c2d.collision.above) 
 		{
 			velocity.y = c2d.collision.below? jumpVelocity:-jumpVelocity;
+			PlayAudio(bounceSound);
 			float maxDrop = -jumpVelocity*stunDropModifier;
 			if (prevVelocity.y < maxDrop) 
 			{
@@ -250,6 +269,7 @@ public class PlayerScript : MonoBehaviour
 				float speed = Mathf.Sqrt(velocity.x*velocity.x+velocity.y*velocity.y);
 				if (speed > minWallJumpSpeed) 
 				{
+					PlayAudio(wallJumpSound);
 					velocity.y = wallJumpModifier*speed*Mathf.Sin(wallJumpAngle);
 					velocity.x = wallJumpModifier*speed*Mathf.Cos(wallJumpAngle)*-Mathf.Sign(velocity.x);
 				}
@@ -366,4 +386,17 @@ public class PlayerScript : MonoBehaviour
 		prevVelocity = velocity;
 		c2d.Move(prevVelocity*Time.deltaTime);
 	}
+
+	private void PlayAudio(AudioClip clip)
+    {
+         if (playing <= 0) return;
+         StartCoroutine(PlayClip(clip));
+    }
+	IEnumerator PlayClip(AudioClip clip)
+    {
+         playing--;
+         audSrc.PlayOneShot(clip);
+         yield return new WaitForSeconds(clip.length);
+         playing++;
+    }
 }

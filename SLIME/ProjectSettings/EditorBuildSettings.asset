@@ -12,9 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/hub-world.unity
     guid: 3a7a78ad3ac034446b87b0524cda404a
   - enabled: 1
-    path: Assets/Scenes/EndGame.unity
-    guid: d9afd804e5d564f46b965c46000ab93a
-  - enabled: 1
     path: Assets/Scenes/l1.unity
     guid: 811f0bf37fe86ae4e8d6f4fe72258034
+  - enabled: 1
+    path: Assets/Scenes/l2.unity
+    guid: 20ed8a5383a304ec8b5f1cb4283dc919
+  - enabled: 1
+    path: Assets/Scenes/EndGame.unity
+    guid: d9afd804e5d564f46b965c46000ab93a
   m_configObjects: {}
