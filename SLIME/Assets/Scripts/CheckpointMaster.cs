@@ -28,6 +28,8 @@ public class CheckpointMaster : MonoBehaviour {
 
 	private Vector3 lastUrgencyPos;
 
+	public int spawnUrgencyAt = 0;
+
 	//////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////
@@ -62,7 +64,7 @@ public class CheckpointMaster : MonoBehaviour {
 		}
 
 		if ( urgency != null && useSpawns) {
-			if (currentUrgencySpawn.Length > 0) {
+			if (currentUrgencySpawn.Length > 0 && index >= spawnUrgencyAt) {
 				urgencyCur = currentUrgencySpawn[0];
 				urgencyPos = urgencyCur.transform.position;
 				urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
@@ -82,7 +84,7 @@ public class CheckpointMaster : MonoBehaviour {
 	void Update () {
 		if (player.GetComponent<PlayerScript>().IsDead() == true) {
 			SpawnPlayer();
-			if (urgency != null && useSpawns) {
+			if (urgency != null && useSpawns && index >= spawnUrgencyAt) {
 				Destroy(urgency);
 				urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
 			}
@@ -93,9 +95,9 @@ public class CheckpointMaster : MonoBehaviour {
 			cur = currentCheckpoint[index];
 			pos = currentCheckpoint[index].transform.position;
 			
-			if ( urgency != null && useSpawns) {
-				urgencyCur = currentUrgencySpawn[index];
-				urgencyPos = currentUrgencySpawn[index].transform.position;
+			if ( urgency != null && useSpawns && index >= spawnUrgencyAt) {
+				urgencyCur = currentUrgencySpawn[index - spawnUrgencyAt];
+				urgencyPos = currentUrgencySpawn[index - spawnUrgencyAt].transform.position;
 			}
 		}
 	}
@@ -114,9 +116,20 @@ public class CheckpointMaster : MonoBehaviour {
 				cur = currentCheckpoint[i];
 				pos = currentCheckpoint[i].transform.position;
 				index = i;
-				if (urgency != null && useSpawns) {
-					urgencyCur = currentUrgencySpawn[index];
-					urgencyPos = currentUrgencySpawn[index].transform.position;
+				if (urgency != null && useSpawns && index >= spawnUrgencyAt) {
+					if (index - spawnUrgencyAt <= currentUrgencySpawn.Length - 1) {
+						urgencyCur = currentUrgencySpawn[index - spawnUrgencyAt];
+						urgencyPos = currentUrgencySpawn[index - spawnUrgencyAt].transform.position;
+					}
+
+				}
+				else if (urgency == null && useSpawns && index >= spawnUrgencyAt) {
+					urgencyCur = currentUrgencySpawn[index - spawnUrgencyAt];
+					urgencyPos = currentUrgencySpawn[index - spawnUrgencyAt].transform.position;
+					if (index == spawnUrgencyAt) {
+						urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
+					}
+					
 				}
 			} 
 			else {
