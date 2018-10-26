@@ -11,7 +11,7 @@ public class PlayerScript : MonoBehaviour
 	public bool mainPlayer = true;
 	private float minWallJumpSpeed = 1f;
 	private float wallJumpAngle = Mathf.Deg2Rad*35f;
-	private float wallJumpModifier = 1.25f;
+	private float wallJumpModifier = 1.20f;
 
 	private float jumpVelocity;
 	private float extendJumpModifier = 1.5f;
@@ -19,8 +19,8 @@ public class PlayerScript : MonoBehaviour
 	private float gravity;
 	private float increaseGravityModifier = 1.5f;
 	
-	private float maxSpeedY = 30f;
-	private float maxSpeedX = 30f;
+	private float maxSpeedY = 35f;
+	private float maxSpeedX = 35f;
 	private float maxSpeedThresholdX = 15f;
 	private float minSpeedThresholdX = 1f;
 

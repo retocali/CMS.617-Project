@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ButtonScript : MonoBehaviour {
 
@@ -8,8 +9,13 @@ public class ButtonScript : MonoBehaviour {
 	private Color hover = Color.red;
 	private Color target;
 	private float speed = 10;
-	private GameObject player;
-
+	
+	public bool start = true;
+	public string sceneName = "hub-world";
+	public GameObject load;
+	private bool loaded = false;
+	public float time = 2f;
+	
 	private TextMesh text;
 	private bool pressed;
 
@@ -18,15 +24,18 @@ public class ButtonScript : MonoBehaviour {
 		text = GetComponent<TextMesh>();
 		pressed = false;
 		target = initial;
-		player = PlayerScript.FindPlayer();
-		player.GetComponent<PlayerScript>().inactive = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (!pressed)
-			Input.ResetInputAxes();
 		text.color = Color.Lerp(text.color, target, Time.deltaTime*speed);
+		if (loaded) {
+			time -= Time.deltaTime;
+			if (time <= 0)
+			{
+				SceneManager.LoadSceneAsync(sceneName);
+			}
+		}
 	}
 	private void OnMouseOver() {
 		target = hover;
@@ -36,8 +45,12 @@ public class ButtonScript : MonoBehaviour {
 	}
 	private void OnMouseUpAsButton() {
 		pressed = true;
-		player.GetComponent<PlayerScript>().inactive = false;
-		Destroy(gameObject);
+		if (start) {
+			Destroy(gameObject);
+		} else {
+			load.SetActive(true);
+			loaded = true;
+		}
 	}
 	
 }
