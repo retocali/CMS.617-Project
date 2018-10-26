@@ -34,6 +34,7 @@ public class ButtonScript : MonoBehaviour {
 			if (time <= 0)
 			{
 				SceneManager.LoadSceneAsync(sceneName);
+				time = 100f;
 			}
 		}
 	}

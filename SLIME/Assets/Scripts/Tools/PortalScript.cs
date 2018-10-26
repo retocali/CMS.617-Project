@@ -16,6 +16,7 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 		if (time <= 0)
 		{
 			SceneManager.LoadSceneAsync(sceneName);
+			time = 100f;
 		}
 	}
 	
