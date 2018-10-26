@@ -5,27 +5,34 @@ using UnityEngine.SceneManagement;
 
 public class EndGameScript : MonoBehaviour {
 
+	private bool touched = false;
+	private float time = 2;
+	private Transform player;
 	// Use this for initialization
-	void Start () {
-		
-	}
+	void Start () {}
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log("Here");	
+		if (touched)
+		{
+			player.position = transform.position;
+			Debug.Log(time);
+			time -= Time.deltaTime;
+			if (time < 0)
+			{
+				SceneManager.LoadScene("EndGame");
+			}
+		}
 	}
-	// void OnCollisionEnter2D(Collision2D collider) 
-    // {
-	// 	Debug.Log(collider.gameObject.tag);
-    //     if (collider.gameObject.tag == "Player") {
-	// 		SceneManager.LoadScene("EndGame");
-	// 	}
-    // }
+	
 	void OnTriggerEnter2D(Collider2D collider) 
     {
 		Debug.Log(collider.gameObject.tag);
         if (collider.gameObject.tag == "Player") {
-			SceneManager.LoadScene("EndGame");
+			touched = true;
+			collider.gameObject.GetComponent<PlayerScript>().inactive = true;
+			collider.gameObject.GetComponent<PlayerScript>().MultiplyVelocity(0);
+			player = collider.gameObject.transform;
 		}
     }
 }
