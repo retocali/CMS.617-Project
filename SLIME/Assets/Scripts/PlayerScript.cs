@@ -9,7 +9,9 @@ public class PlayerScript : MonoBehaviour
 	public float jumpHeight = 10f;
 	public float acceleration = 10f;
 	public bool mainPlayer = true;
+
 	private float minWallJumpSpeed = 15f;
+	private float maxWallJumpSpeed = 25f;
 	private float wallJumpAngle = Mathf.Deg2Rad*35f;
 	private float wallJumpModifier = 1.1f;
 
@@ -19,9 +21,9 @@ public class PlayerScript : MonoBehaviour
 	private float gravity;
 	private float increaseGravityModifier = 1.5f;
 	
-	private float maxSpeedY = 35f;
-	private float maxSpeedX = 35f;
-	private float maxSpeedThresholdX = 15f;
+	private float maxSpeedY = 50f;
+	private float maxSpeedX = 50f;
+	private float maxSpeedThresholdX = 10f;
 	private float minSpeedThresholdX = 1f;
 
 	private Vector3 prevVelocity;
@@ -282,7 +284,10 @@ public class PlayerScript : MonoBehaviour
 			{
 				float speed = Mathf.Sqrt(velocity.x*velocity.x+velocity.y*velocity.y);
 				PlayAudio(wallJumpSound);
-				if (speed > minWallJumpSpeed) 
+				if (speed > maxWallJumpSpeed) {
+					velocity.y = wallJumpModifier*maxWallJumpSpeed*Mathf.Sin(wallJumpAngle);
+					velocity.x = wallJumpModifier*maxWallJumpSpeed*Mathf.Cos(wallJumpAngle)*-Mathf.Sign(velocity.x);
+				} else if (speed > minWallJumpSpeed) 
 				{
 					
 					velocity.y = wallJumpModifier*speed*Mathf.Sin(wallJumpAngle);

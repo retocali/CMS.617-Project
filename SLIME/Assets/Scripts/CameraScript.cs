@@ -11,7 +11,7 @@ public class CameraScript : MonoBehaviour {
 	
 	float gap = 0.2f;
 	float skip = 20.0f;
-	float time = 0.3f;
+	float time = 0.5f;
 	
 	// Use this for initialization
 	void Start () 
