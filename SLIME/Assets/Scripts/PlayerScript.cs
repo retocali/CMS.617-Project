@@ -9,9 +9,9 @@ public class PlayerScript : MonoBehaviour
 	public float jumpHeight = 10f;
 	public float acceleration = 10f;
 	public bool mainPlayer = true;
-	private float minWallJumpSpeed = 1f;
+	private float minWallJumpSpeed = 15f;
 	private float wallJumpAngle = Mathf.Deg2Rad*35f;
-	private float wallJumpModifier = 1.20f;
+	private float wallJumpModifier = 1.1f;
 
 	private float jumpVelocity;
 	private float extendJumpModifier = 1.5f;
@@ -32,6 +32,7 @@ public class PlayerScript : MonoBehaviour
 	private Controller2D c2d;
 	private SpriteRenderer sprRend;
 	private AudioSource audSrc;
+	private ParticleSystem partSys;
 
 	private bool dead = false;
 	public bool inactive = false;
@@ -65,6 +66,7 @@ public class PlayerScript : MonoBehaviour
 		sprRend = GetComponentInChildren<SpriteRenderer>();
 		c2d = GetComponent<Controller2D>();
 		audSrc = GetComponent<AudioSource>();
+		partSys = GetComponent<ParticleSystem>();
 
 		defaultColor = sprRend.material.color;
 		crumbs = new GameObject[crumbNum];
@@ -110,6 +112,12 @@ public class PlayerScript : MonoBehaviour
 	 */
 	public void SpawnPlayer(Vector3 origin)
 	{
+		StartCoroutine(spawningPlayer(origin));
+	}
+	private IEnumerator spawningPlayer(Vector3 origin)
+	{
+		yield return new WaitForSeconds(0.25f);
+		partSys.Stop();
 		sprRend.material.color = defaultColor;
 		dead = false;
 		prevVelocity = Vector3.zero;
@@ -117,11 +125,7 @@ public class PlayerScript : MonoBehaviour
 
 		this.transform.position = origin;
 	}
-	public void DestroyCrumbs(float t) {
-		for (int i = 0; i < crumbNum; i++) {
-			Destroy(crumbs[i], t);
-		}
-	}
+
 	/**
 		"Kills" the player by disabling input
 		and tinting it.
@@ -130,8 +134,8 @@ public class PlayerScript : MonoBehaviour
 	{
 		if (!dead) { 
 			audSrc.PlayOneShot(deathSound);
+			partSys.Play();
 		}
-		sprRend.material.color = Color.red;
 		DestroyCrumbs(1.5f);
 		dead = true;
 		velocity = Vector3.zero;
@@ -162,7 +166,15 @@ public class PlayerScript : MonoBehaviour
 	{
 		mainPlayer = false;
 	}
-
+	
+	/**
+		Destroys all the crumbs the player produces
+	 */
+	public void DestroyCrumbs(float t) {
+		for (int i = 0; i < crumbNum; i++) {
+			Destroy(crumbs[i], t);
+		}
+	}
 	/**
 		"Stuns" the player which causes them to be unable to 
 		move in any direction 
@@ -267,11 +279,17 @@ public class PlayerScript : MonoBehaviour
 			if (input.z != 0) 
 			{
 				float speed = Mathf.Sqrt(velocity.x*velocity.x+velocity.y*velocity.y);
+				PlayAudio(wallJumpSound);
 				if (speed > minWallJumpSpeed) 
 				{
-					PlayAudio(wallJumpSound);
+					
 					velocity.y = wallJumpModifier*speed*Mathf.Sin(wallJumpAngle);
 					velocity.x = wallJumpModifier*speed*Mathf.Cos(wallJumpAngle)*-Mathf.Sign(velocity.x);
+				} 
+				else 
+				{
+					velocity.y = wallJumpModifier*minWallJumpSpeed*Mathf.Sin(wallJumpAngle);
+					velocity.x = wallJumpModifier*minWallJumpSpeed*Mathf.Cos(wallJumpAngle)*-Mathf.Sign(velocity.x);
 				}
 			} 
 			else 
