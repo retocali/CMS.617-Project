@@ -32,6 +32,7 @@ public class PlayerScript : MonoBehaviour
 	private Controller2D c2d;
 	private SpriteRenderer sprRend;
 	private AudioSource audSrc;
+    private Animator animor;
 
 	private bool dead = false;
 	public bool inactive = false;
@@ -65,6 +66,7 @@ public class PlayerScript : MonoBehaviour
 		sprRend = GetComponentInChildren<SpriteRenderer>();
 		c2d = GetComponent<Controller2D>();
 		audSrc = GetComponent<AudioSource>();
+        animor = GetComponentInChildren<Animator>();
 
 		defaultColor = sprRend.material.color;
 		crumbs = new GameObject[crumbNum];
@@ -385,6 +387,8 @@ public class PlayerScript : MonoBehaviour
 		ClampSpeeds(ref velocity);
 		prevVelocity = velocity;
 		c2d.Move(prevVelocity*Time.deltaTime);
+
+        animor.SetFloat("vspeed", velocity.y);
 	}
 
 	private void PlayAudio(AudioClip clip)
