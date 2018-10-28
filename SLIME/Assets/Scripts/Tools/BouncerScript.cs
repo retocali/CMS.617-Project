@@ -9,6 +9,8 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
     public float directionDeg = 0;
     public float magnitude = 1;
 
+    private float disableTime = 0;
+
     private GameObject player;
 
     
@@ -17,13 +19,19 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
         /**
          * Adds the bouncers velocity to the player on contact
          */
-        Debug.Log("Bounce!");
-        PlayerScript ps = player.GetComponent<PlayerScript>();
-        if(ps != null)
+        
+        if (disableTime <= 0)
         {
-            Vector3 deltav = new Vector3(magnitude * Mathf.Cos(directionDeg * Mathf.PI / 180), magnitude * Mathf.Sin(directionDeg * Mathf.PI / 180));
-            ps.AddVelocity(deltav);
+            Debug.Log("Bounce!");
+            PlayerScript ps = player.GetComponent<PlayerScript>();
+            if (ps != null)
+            {
+                Vector3 deltav = new Vector3(magnitude * Mathf.Cos(directionDeg * Mathf.PI / 180), magnitude * Mathf.Sin(directionDeg * Mathf.PI / 180));
+                ps.AddVelocity(deltav);
+                disableTime = 1;
+            }
         }
+ 
 
     }
 
@@ -34,6 +42,10 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
 	
 	// Update is called once per frame
 	void Update () {
+        if(disableTime > 0)
+        {
+            disableTime -= Time.deltaTime;
+        }
 		
 	}
 }
