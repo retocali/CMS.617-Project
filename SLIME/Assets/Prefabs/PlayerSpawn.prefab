@@ -146,4 +146,5 @@ MonoBehaviour:
     type: 2}
   playerSpawn: {fileID: 0}
   checkMaster: {fileID: 0}
-  defaultColor: {r: 0, g: 0, b: 0, a: 0}
+  defaultColor: {r: 0, g: 0, b: 0, a: 0.5019608}
+  activeColor: {r: 1, g: 1, b: 1, a: 0.5019608}

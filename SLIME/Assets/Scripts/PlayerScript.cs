@@ -138,6 +138,7 @@ public class PlayerScript : MonoBehaviour
 	{
 		if (!dead) { 
 			audSrc.PlayOneShot(deathSound);
+			partSys.Clear();
 			partSys.Play();
 		}
 		DestroyCrumbs(1.5f);

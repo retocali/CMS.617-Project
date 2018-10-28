@@ -10,10 +10,12 @@ public class spawnPlayer : MonoBehaviour {
 
 	public CheckpointMaster checkMaster;
 	public Color defaultColor;
+	public Color activeColor;
 	
 	// Use this for initialization
 	void Start () {
-		defaultColor = GetComponent<MeshRenderer>().material.color;	
+		defaultColor = GetComponent<MeshRenderer>().material.color;
+		activeColor = new Color(128,128,128,128);
 	}
 	
 	// Update is called once per frame
@@ -56,7 +58,7 @@ public class spawnPlayer : MonoBehaviour {
 	private void ActivatePoint(Collider2D collider)
 	{	
 		if(collider.tag == "Player") {
-			GetComponent<MeshRenderer>().material.color = new Color(1,1,1,0.15f);	
+			GetComponent<MeshRenderer>().material.color = activeColor;
         	checkMaster.ChangePoints(this.gameObject);
 		}
 	}
