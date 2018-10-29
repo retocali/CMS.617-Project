@@ -248,8 +248,8 @@ MonoBehaviour:
   crumbPrefab: {fileID: 1612155585748918, guid: a7da833a63b4e437f90728032a65fc2d,
     type: 2}
   deathSound: {fileID: 8300000, guid: 634baba90c21b4eaaada5b7e46fbb6fd, type: 3}
-  bounceSound: {fileID: 8300000, guid: 8b4021456a6244165bbe3cf7fcd008e8, type: 3}
-  wallJumpSound: {fileID: 8300000, guid: 9e82d24b4850646079dd71756497f5ce, type: 3}
+  bounceSound: {fileID: 8300000, guid: 9e82d24b4850646079dd71756497f5ce, type: 3}
+  wallJumpSound: {fileID: 8300000, guid: 8b4021456a6244165bbe3cf7fcd008e8, type: 3}
 --- !u!198 &198318591792926938
 ParticleSystem:
   m_ObjectHideFlags: 1

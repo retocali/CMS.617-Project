@@ -16,6 +16,9 @@ public class spawnPlayer : MonoBehaviour {
 	void Start () {
 		defaultColor = GetComponent<MeshRenderer>().material.color;
 		activeColor = new Color(128,128,128,128);
+		if (checkMaster == null) {
+			checkMaster = GameObject.FindGameObjectsWithTag("GameMaster")[0].GetComponent<CheckpointMaster>();
+		}
 	}
 	
 	// Update is called once per frame
