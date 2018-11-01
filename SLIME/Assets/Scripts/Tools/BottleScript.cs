@@ -13,7 +13,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 
 	private Vector3 velocity;
 	
-	private float gravity = -500f;
+	private float gravity = -20f;
 	private float minSpeedX = 0.25f;
 	private float maxSpeedX = 15f;
 	private float maxSpeedY = 500f;
@@ -40,7 +40,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 	void Update () {
 		CollisionClamping(ref velocity);
 		
-		velocity.y = gravity * Time.deltaTime;
+		velocity.y += gravity * Time.deltaTime;
 
 		if (ps != null) { 
 			WithPlayer(ref velocity);	
