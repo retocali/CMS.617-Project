@@ -82,7 +82,13 @@ public class HookScript : MonoBehaviour, ToolsInterface
 			pY *= -1;
 		}
  		player.transform.position = transform.position;
-		player.transform.position += new Vector3(0, 1.2f, 0);
+		if (pY < 0) {
+			player.transform.position += new Vector3(0, -1.2f, 0);
+		}
+		else {
+			player.transform.position += new Vector3(0, 1.2f, 0);
+		}
+		
 		player.GetComponent<PlayerScript>().AddVelocity(new Vector3(pX, pY, 0));
 		hooked = false;
  	}
