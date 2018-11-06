@@ -45,6 +45,10 @@ public class PlayerScript : MonoBehaviour
 	private float stunDropModifier = 2.5f;
 	private Color defaultColor;
 
+    // Bounce deceleration delay
+    private float bounceDelayTime = 0;
+    private float maxBounceDelayTime = 5;
+
 	public GameObject crumbPrefab;
 	private float crumbSpace = 2.0f;
 	private int crumbNum = 50;
