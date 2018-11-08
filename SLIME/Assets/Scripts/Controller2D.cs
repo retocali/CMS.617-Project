@@ -178,6 +178,7 @@ public class Controller2D : MonoBehaviour
 						speed = VerticalCollide(ref velocity, hit, direction);
 					}
 				} else {
+
 					speed = VerticalCollide(ref velocity, hit, direction);
 				}
 			}
