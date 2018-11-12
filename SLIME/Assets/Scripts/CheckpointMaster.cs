@@ -30,6 +30,12 @@ public class CheckpointMaster : MonoBehaviour {
 
 	public int spawnUrgencyAt = 0;
 
+	public int destroyUrgencyAt = 0;
+
+	private int urgencyIndex = 0;
+
+	bool urgencyAlive = false;
+
 	//////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////
@@ -56,6 +62,7 @@ public class CheckpointMaster : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Debug.Assert(currentCheckpoint.Length >= currentUrgencySpawn.Length);
 		if (currentCheckpoint.Length > 0) {
 			cur = currentCheckpoint[0];
 			pos = cur.transform.position;
@@ -63,8 +70,9 @@ public class CheckpointMaster : MonoBehaviour {
 			Debug.LogWarning("Could not find any checkpoints");
 		}
 
-		if ( urgency != null && useSpawns) {
-			if (currentUrgencySpawn.Length > 0 && index >= spawnUrgencyAt) {
+		if ( urgency == null && useSpawns) {
+			if (currentUrgencySpawn.Length > 0 && index == spawnUrgencyAt) {
+				urgencyAlive = true;
 				urgencyCur = currentUrgencySpawn[0];
 				urgencyPos = urgencyCur.transform.position;
 				urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
@@ -84,7 +92,7 @@ public class CheckpointMaster : MonoBehaviour {
 	void Update () {
 		if (player.GetComponent<PlayerScript>().IsDead() == true) {
 			SpawnPlayer();
-			if (urgency != null && useSpawns && index >= spawnUrgencyAt) {
+			if (urgency != null && useSpawns && urgencyAlive) {
 				Destroy(urgency);
 				urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
 			}
@@ -94,8 +102,23 @@ public class CheckpointMaster : MonoBehaviour {
 			index = (index + 1) % currentCheckpoint.Length;
 			cur = currentCheckpoint[index];
 			pos = currentCheckpoint[index].transform.position;
+
+			if (index == urgencyIndex) {
+				urgencyAlive = true;
+			} 
 			
-			if ( urgency != null && useSpawns && index >= spawnUrgencyAt) {
+			if ( urgency != null && useSpawns && urgencyAlive) {
+				urgencyIndex = (index + 1) % currentUrgencySpawn.Length;
+				if(urgencyIndex == 0 && index < spawnUrgencyAt){
+					urgencyAlive = false;
+					Debug.Log("URGENCY GONE");
+
+				} 
+				else if (urgencyIndex == destroyUrgencyAt) {
+					urgencyAlive = false;
+					Debug.Log("URGENCY GONE");
+
+				}
 				urgencyCur = currentUrgencySpawn[index - spawnUrgencyAt];
 				urgencyPos = currentUrgencySpawn[index - spawnUrgencyAt].transform.position;
 			}
@@ -112,23 +135,36 @@ public class CheckpointMaster : MonoBehaviour {
 					}
 
 					checkpointActivated = true;
+
+					if (i == destroyUrgencyAt) {
+						urgencyAlive = false;
+						Debug.Log("URGENCY GONE");
+						Destroy(urgency);
+					}
+					if (useSpawns &&urgencyAlive) {
+						urgencyIndex++;
+						Debug.Log("URGENCY INDEX");
+						Debug.Log(urgencyIndex);
+					}
+					if (i == spawnUrgencyAt) {
+						urgencyAlive = true;
+					}
+
 				}
 				cur = currentCheckpoint[i];
 				pos = currentCheckpoint[i].transform.position;
 				index = i;
-				if (urgency != null && useSpawns && index >= spawnUrgencyAt) {
-					if (index - spawnUrgencyAt <= currentUrgencySpawn.Length - 1) {
-						urgencyCur = currentUrgencySpawn[index - spawnUrgencyAt];
-						urgencyPos = currentUrgencySpawn[index - spawnUrgencyAt].transform.position;
-					}
+
+				if (urgency != null && useSpawns && urgencyAlive) {
+					urgencyCur = currentUrgencySpawn[urgencyIndex];
+					urgencyPos = currentUrgencySpawn[urgencyIndex].transform.position;
+
 
 				}
-				else if (urgency == null && useSpawns && index >= spawnUrgencyAt) {
-					urgencyCur = currentUrgencySpawn[index - spawnUrgencyAt];
-					urgencyPos = currentUrgencySpawn[index - spawnUrgencyAt].transform.position;
-					if (index == spawnUrgencyAt) {
-						urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
-					}
+				else if (urgency == null && useSpawns && urgencyAlive) {
+					urgencyCur = currentUrgencySpawn[urgencyIndex];
+					urgencyPos = currentUrgencySpawn[urgencyIndex].transform.position;
+					urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
 					
 				}
 			} 
