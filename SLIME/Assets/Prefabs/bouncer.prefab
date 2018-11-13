@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114807529144697118}
   - component: {fileID: 114814488580967134}
   - component: {fileID: 212034328129936574}
+  - component: {fileID: 95237668224930012}
   m_Layer: 8
   m_Name: bouncer
   m_TagString: tools
@@ -68,6 +69,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.1874161, y: 0.43775082}
   m_EdgeRadius: 0
+--- !u!95 &95237668224930012
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1890034826162072}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e627c349e83424827925b8930ec7bdf1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114807529144697118
 MonoBehaviour:
   m_ObjectHideFlags: 1
