@@ -13,13 +13,14 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 
 	private Vector3 velocity;
 	
-	private float gravity = -20f;
-	private float minSpeedX = 0.25f;
-	private float maxSpeedX = 15f;
-	private float maxSpeedY = 500f;
-	private float acceleration = 15f;
-	private float deceleration = 0.95f;
-	private float minSpeedToZero = 0.05f;
+	private const float gravity = -20f;
+	private const float minSpeedX = 0.25f;
+	private const float maxSpeedX = 15f;
+	private const float maxSpeedY = 500f;
+	private const float acceleration = 15f;
+	private const float deceleration = 0.95f;
+	private const float minSpeedToZero = 0.05f;
+	private Vector3 initialLoc;
 	
 	private float shoot = 10;
 	private float gapTime = 0;
@@ -35,6 +36,8 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		velocity = Vector3.zero;
 		c2d = GetComponent<Controller2D>();
 		defaultColor = transform.GetChild(0).GetComponent<SpriteRenderer>().material.color;	
+		initialLoc = transform.position;
+		ReloadMaster.AddToMaster(this);
 	}
 	// Update is called once per frame
 	void Update () {
@@ -88,7 +91,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 			Release();
 			return;
 		}
-
+		ps.DestroyCrumbs(0);
 		ps.MultiplyVelocity(0);
 		ps.AddVelocity(ps.Velocity());
 		velocity.x += input.x*acceleration*Time.deltaTime;
@@ -123,8 +126,19 @@ public class BottleScript : MonoBehaviour, ToolsInterface
         if (Input.GetAxisRaw("Jump") == 0) {
 			return;
 		}
+		ps = p.GetComponent<PlayerScript>();
+		if (ps.IsDead()) {
+			ps = null;
+			return;
+		}
 		gapTime = timeToRelease;
 		player = p;
-		ps = p.GetComponent<PlayerScript>();
 	}
+	public void Respawn()
+	{
+		transform.GetChild(0).Rotate(-1*transform.GetChild(0).eulerAngles);
+		transform.position = initialLoc;
+   		velocity = Vector3.zero;
+	}
+
 }

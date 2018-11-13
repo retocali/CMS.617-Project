@@ -5,7 +5,7 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Player
+  m_Name: Dropper
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: vspeed
@@ -95,7 +95,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 356ae3970d3d8b2479d64cd2ede18c2d, type: 2}
+  m_Motion: {fileID: 7400000, guid: 187a15de95a9a418fa8d18ea8ed67eba, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -121,7 +121,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 03ec1ccc886b0e344821ca5a2e111084, type: 2}
+  m_Motion: {fileID: 7400000, guid: e7d19e2d4782e41bc9ec12b7b6b3a68d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -137,7 +137,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102637833188840616}
-    m_Position: {x: 360, y: 0, z: 0}
+    m_Position: {x: 372, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102181512452293850}
     m_Position: {x: 360, y: 204, z: 0}
@@ -146,8 +146,8 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 50, y: 20, z: 0}
-  m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 804, y: 120, z: 0}
+  m_AnyStatePosition: {x: 48, y: 24, z: 0}
+  m_EntryPosition: {x: 48, y: 120, z: 0}
+  m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1102637833188840616}

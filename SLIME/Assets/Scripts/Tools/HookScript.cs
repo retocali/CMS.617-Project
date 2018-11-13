@@ -94,9 +94,11 @@ public class HookScript : MonoBehaviour, ToolsInterface
  	}
 	public void Interact(GameObject p)
 	{
-		if (Input.GetAxisRaw("Jump") == 0 ) {
+		if (Input.GetAxisRaw("Jump") == 0 
+		|| p.GetComponent<PlayerScript>().IsDead()) {
 			return;
 		}
+
 		player = p;
 		hooked = true;
 		gapTime = timeToRelease;

@@ -9,9 +9,11 @@ public class CameraScript : MonoBehaviour {
 	private Camera cam;
 	private Vector3 v = Vector3.zero; 
 	
-	float gap = 0.2f;
-	float skip = 20.0f;
-	float time = 0.5f;
+	float min = 0.20f;
+	float max = 3f;
+	float skip = 25.0f;
+	float mod = 1;
+	float time = 0.75f;
 	
 	// Use this for initialization
 	void Start () 
@@ -35,12 +37,56 @@ public class CameraScript : MonoBehaviour {
 		float x = pos.x-0.5f;
 		float y = pos.y-0.5f;
 
-		if (Mathf.Abs(x) < gap) { x = 0; }
- 		if (Mathf.Abs(y) < gap) { y = 0; }
-		
+		if (Mathf.Abs(x) < min) { x = 0; }
+ 		if (Mathf.Abs(y) < min) { y = 0; }
+	
+		AdjustModifier(x, y);
+	
 		Vector3 delta = new Vector3(x, y, 0);
 		Vector3 destination = transform.position + skip*delta; 
-		transform.position = Vector3.SmoothDamp(transform.position, destination, ref v, time);	
-	
+		// ClampToPlayer(delta, ref destination);
+		transform.position = Vector3.SmoothDamp(transform.position, destination, ref v, time/mod);	
+		
+		
+		mod = 1;	
 	}
+	private void AdjustModifier(float x, float y)
+	{
+		mod += Mathf.Max(Mathf.Abs(x), Mathf.Abs(y));
+		mod *= mod*mod;
+		if (mod > max) {
+			mod = max;
+		}
+	}
+
+	// Only useful if time-based mod approach fails
+	// private void ClampToPlayer(Vector3 delta, ref Vector3 destination)
+	// {
+	// 	float maxDistance = 10f;
+	// 	Vector3 difference = destination-player.transform.position;
+	// 	if (delta.x > 0 ) {
+			
+	// 		destination = new Vector3(Mathf.Min(player.transform.position.x, 
+	// 											              destination.x), 
+	// 								  destination.y, 
+	// 								  destination.z);	
+	// 	} if (delta.x < 0) {
+	// 		destination = new Vector3(Mathf.Max(player.transform.position.x, 
+	// 											              destination.x), 
+	// 								  destination.y, 
+	// 								  destination.z);
+	// 	} 
+	// 	if (delta.y > 0) {
+	// 		destination = new Vector3(destination.x,
+	// 								  Mathf.Min(player.transform.position.y, 
+	// 								  						  destination.y), 
+	// 								  destination.z);
+	// 	} if (delta.y < 0) {
+	// 		destination = new Vector3(destination.x,
+	// 								  Mathf.Max(player.transform.position.y, 
+	// 														  destination.y), 
+	// 								  destination.z);
+	// 	}
+		
+	// }
 }
