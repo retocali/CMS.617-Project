@@ -67,6 +67,7 @@ public class SpawnerScript : EnemyClass
 			var s = (GameObject) Instantiate(spawnPrefab,
 											 this.transform.position,
 											 this.transform.rotation);
+			s.GetComponent<EnemyClass>().spawned = true;
 			s.GetComponent<EnemyClass>().AddVelocity(speed*displacement);
 		}
 	

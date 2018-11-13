@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4809132755861700}
   - component: {fileID: 114216201351747750}
   - component: {fileID: 114586537693446900}
+  - component: {fileID: 114065430483884928}
   m_Layer: 0
   m_Name: Game Master
   m_TagString: GameMaster
@@ -41,6 +42,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114065430483884928
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1028657235507658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ebb2d01840e4ebab4ce64d69cb78c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114216201351747750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -59,6 +71,8 @@ MonoBehaviour:
   player: {fileID: 0}
   urgency: {fileID: 0}
   useSpawns: 0
+  spawnUrgencyAt: 0
+  destroyUrgencyAt: 0
 --- !u!114 &114586537693446900
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -29,13 +29,26 @@ public class DropperScript : EnemyClass
 		ApplyGravity(ref velocity, Time.deltaTime);
 
 		if (c2d.collision.below) 
-		{ 
-			Destroy(gameObject, 0.25f);
+		{
+			if (spawned) {
+				Debug.Log("Bleh");
+				Destroy(gameObject, 0.25f);
+			} else {	 
+				StartCoroutine(RemoveSelf());	
+			}
 		}
 
 		base.Update();
 	}
 
+	private IEnumerator RemoveSelf()
+	{
+		dead = true;
+		falling = false;
+		yield return new WaitForSeconds(0.25f);
+		c2d.collision.below = false;
+		gameObject.SetActive(false);
+	}
 	private bool PlayerInRange()
 	{
 		if (!sensitive) 
