@@ -10,6 +10,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 	private GameObject player;
 	private PlayerScript ps;
 	private Controller2D c2d;
+	private ParticleSystem partSys;
 
 	private Vector3 velocity;
 	
@@ -35,6 +36,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		player = null;
 		velocity = Vector3.zero;
 		c2d = GetComponent<Controller2D>();
+		partSys = GetComponent<ParticleSystem>();
 		defaultColor = transform.GetChild(0).GetComponent<SpriteRenderer>().material.color;	
 		initialLoc = transform.position;
 		ReloadMaster.AddToMaster(this);
@@ -90,7 +92,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		{
 			Release();
 			return;
-		}
+		} 
 		ps.DestroyCrumbs(0.25f);
 		ps.MultiplyVelocity(0);
 		ps.AddVelocity(ps.Velocity());
@@ -103,6 +105,14 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		if (Mathf.Abs(velocity.x) < minSpeedX) {
 			velocity.x = 0;
 		}
+	}
+	public void Break()
+	{
+		Debug.Log("Break");
+		Release();
+		GetComponent<BoxCollider2D>().enabled = false;
+		partSys.Play();
+		transform.GetChild(0).gameObject.SetActive(false);
 	}
 
 	private void Release()
