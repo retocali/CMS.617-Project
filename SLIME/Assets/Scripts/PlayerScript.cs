@@ -110,7 +110,6 @@ public class PlayerScript : MonoBehaviour
 				return null;
 			}
 		}
-		Debug.Log("Resolved: Found player!"); 
 		return player;
 	}
 

@@ -14,12 +14,7 @@ public class ReloadMaster : MonoBehaviour {
 
 	// Use this for initialization of singleton class
 	void Awake() {
-		// if (instance == null) {
-			instance = this;
-		// } else {
-		// 	Debug.LogWarning("Multiple ReloadMasters in scene, reload master can only have one instance");
-		// 	Destroy(this);
-		// }
+		instance = this;
 	}
 
 	// Reloads all objects in the scene, if an object 
