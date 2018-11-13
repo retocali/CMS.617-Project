@@ -13,6 +13,8 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
 
     private GameObject player;
 
+    private Animator animator;
+
     
     public void Interact(GameObject player)
     {
@@ -28,8 +30,9 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
             {
                 Vector3 deltav = new Vector3(magnitude * Mathf.Cos(directionDeg * Mathf.PI / 180), magnitude * Mathf.Sin(directionDeg * Mathf.PI / 180));
                 ps.AddVelocity(deltav);
-                disableTime = 1;
+                disableTime = 0.1f;
             }
+            animator.SetTrigger("bounce");
         }
  
 
@@ -38,6 +41,8 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
     // Use this for initialization
     void Start () {
 		Debug.Log(transform.position);
+
+        animator = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
