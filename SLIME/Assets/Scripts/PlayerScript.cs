@@ -383,9 +383,17 @@ public class PlayerScript : MonoBehaviour
 		velocity.y = Mathf.Max(Mathf.Min(maxSpeedY, velocity.y), -maxSpeedY);
 	}
 
+    bool paused=false;
 	// Update is called once per frame
 	void Update () 
 	{
+        if(Input.GetButtonDown("Pause")){
+
+            paused=!paused;
+            if(paused){ Time.timeScale=0; } 
+            else{ Time.timeScale=1; }  
+			Debug.LogWarning("Pausing");
+        }
 		Vector3 input = Vector3.zero;
 		if (!dead && !inactive) 
 		{
