@@ -9,7 +9,7 @@ public class CameraScript : MonoBehaviour {
 	private Camera cam;
 	private Vector3 v = Vector3.zero; 
 	
-	float min = 0.20f;
+	float min = 0.15f;
 	float max = 3f;
 	float skip = 25.0f;
 	float mod = 1;
@@ -53,7 +53,7 @@ public class CameraScript : MonoBehaviour {
 	private void AdjustModifier(float x, float y)
 	{
 		mod += Mathf.Max(Mathf.Abs(x), Mathf.Abs(y));
-		mod *= mod*mod;
+		mod *= mod;
 		if (mod > max) {
 			mod = max;
 		}

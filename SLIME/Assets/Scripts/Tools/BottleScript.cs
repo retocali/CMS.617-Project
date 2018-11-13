@@ -86,12 +86,12 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 									0,
 									Input.GetAxisRaw("Jump"));
 
-		if (input.z == 1 && gapTime <= 0 && !c2d.collision.above)
+		if (input.z == 1 && gapTime <= 0 && !c2d.collision.above || ps.IsDead())
 		{
 			Release();
 			return;
 		}
-		ps.DestroyCrumbs(0);
+		ps.DestroyCrumbs(0.25f);
 		ps.MultiplyVelocity(0);
 		ps.AddVelocity(ps.Velocity());
 		velocity.x += input.x*acceleration*Time.deltaTime;

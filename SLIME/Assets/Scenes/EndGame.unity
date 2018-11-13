@@ -1591,6 +1591,66 @@ Prefab:
       propertyPath: m_Name
       value: Start  Button
       objectReference: {fileID: 0}
+    - target: {fileID: 102999831266665174, guid: 522330237243845bfbb82585f57a5ac1,
+        type: 2}
+      propertyPath: m_Text
+      value: HOME
+      objectReference: {fileID: 0}
+    - target: {fileID: 102999831266665174, guid: 522330237243845bfbb82585f57a5ac1,
+        type: 2}
+      propertyPath: m_FontStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 102999831266665174, guid: 522330237243845bfbb82585f57a5ac1,
+        type: 2}
+      propertyPath: m_FontSize
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 212473025337238172, guid: 522330237243845bfbb82585f57a5ac1,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f554edadf40bd4a78aaa8306f4ccfee9,
+        type: 3}
+    - target: {fileID: 212473025337238172, guid: 522330237243845bfbb82585f57a5ac1,
+        type: 2}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212473025337238172, guid: 522330237243845bfbb82585f57a5ac1,
+        type: 2}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212473025337238172, guid: 522330237243845bfbb82585f57a5ac1,
+        type: 2}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 102999831266665174, guid: 522330237243845bfbb82585f57a5ac1,
+        type: 2}
+      propertyPath: m_OffsetZ
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 102999831266665174, guid: 522330237243845bfbb82585f57a5ac1,
+        type: 2}
+      propertyPath: m_LineSpacing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 102999831266665174, guid: 522330237243845bfbb82585f57a5ac1,
+        type: 2}
+      propertyPath: m_Anchor
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4786804087787448, guid: 522330237243845bfbb82585f57a5ac1, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 102999831266665174, guid: 522330237243845bfbb82585f57a5ac1,
+        type: 2}
+      propertyPath: m_Color.rgba
+      value: 4280155904
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 522330237243845bfbb82585f57a5ac1, type: 2}
   m_IsPrefabAsset: 0
