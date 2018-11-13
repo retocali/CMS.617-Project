@@ -119,8 +119,8 @@ public class CheckpointMaster : MonoBehaviour {
 					Debug.Log("URGENCY GONE");
 
 				}
-				urgencyCur = currentUrgencySpawn[index - spawnUrgencyAt];
-				urgencyPos = currentUrgencySpawn[index - spawnUrgencyAt].transform.position;
+				urgencyCur = currentUrgencySpawn[urgencyIndex];
+				urgencyPos = currentUrgencySpawn[urgencyIndex].transform.position;
 			}
 		}
 	}

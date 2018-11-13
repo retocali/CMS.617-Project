@@ -433,7 +433,7 @@ Prefab:
     - target: {fileID: 114216201351747750, guid: 8f5b43c25559c514c9b64f375fab5745,
         type: 2}
       propertyPath: spawnUrgencyAt
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114216201351747750, guid: 8f5b43c25559c514c9b64f375fab5745,
         type: 2}
@@ -449,6 +449,11 @@ Prefab:
         type: 2}
       propertyPath: currentUrgencySpawn.Array.data[2]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114216201351747750, guid: 8f5b43c25559c514c9b64f375fab5745,
+        type: 2}
+      propertyPath: destroyUrgencyAt
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114065430483884928, guid: 8f5b43c25559c514c9b64f375fab5745, type: 2}
