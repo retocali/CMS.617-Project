@@ -142,6 +142,7 @@ public class CheckpointMaster : MonoBehaviour {
 	public void SpawnPlayer() {
 		gameObject.GetComponent<SplitterMasterScript>().resetSplitters();
 		player.GetComponent<PlayerScript>().SpawnPlayer(pos);
+		ReloadMaster.ReloadObjects();
 	}
 
 }

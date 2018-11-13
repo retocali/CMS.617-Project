@@ -6,11 +6,16 @@ using UnityEngine;
 public class EnemyClass : MonoBehaviour {
 
 	protected Controller2D c2d;
-	protected bool dead              = false;
-	protected bool functional        = true;
-	protected Vector3 velocity       = Vector3.zero;
-	protected Vector3 initialLoc     = Vector3.zero;
-	protected Vector3 addedVelocity  = Vector3.zero;
+    protected Animator animor;
+	
+	public    bool spawned     = false;
+	protected bool dead       = false;
+	protected bool functional = true;
+
+	protected Vector3 velocity      = Vector3.zero;
+	protected Vector3 initialLoc    = Vector3.zero;
+	protected Vector3 addedVelocity = Vector3.zero;
+
 	protected float gravity          = 0f;
 	protected float velocityModifier = 1f;
 
@@ -18,12 +23,18 @@ public class EnemyClass : MonoBehaviour {
 	{
 		c2d = GetComponent<Controller2D>();
 		initialLoc = transform.position;
+		animor = GetComponentInChildren<Animator>();
+		ReloadMaster.AddToMaster(this);
 	}
 	protected void Update() 
 	{
 		ApplyVelocityModifiers();
 		c2d.Move(velocity*Time.deltaTime);
 		
+		if (animor != null) {
+			animor.SetFloat("vspeed", velocity.y);
+		}
+
 		VerticalCollisionStop(ref velocity);
 		HorizontalCollisionStop(ref velocity);
 	}
