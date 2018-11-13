@@ -383,7 +383,8 @@ Prefab:
       propertyPath: destroyUrgencyAt
       value: 5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114065430483884928, guid: 8f5b43c25559c514c9b64f375fab5745, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 8f5b43c25559c514c9b64f375fab5745, type: 2}
   m_IsPrefabAsset: 0
 --- !u!4 &198521904 stripped
@@ -1759,11 +1760,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4022028944733094, guid: 1dfd33483a5ba4da6956907ed0522ea4, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 35
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 4022028944733094, guid: 1dfd33483a5ba4da6956907ed0522ea4, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -17
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4022028944733094, guid: 1dfd33483a5ba4da6956907ed0522ea4, type: 2}
       propertyPath: m_LocalPosition.z

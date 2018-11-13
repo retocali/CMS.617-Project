@@ -31,7 +31,7 @@ public class ReloadMaster : MonoBehaviour {
 			return;
 		}
 		foreach (EnemyClass e in instance.enemies) {
-			if (e != null) {
+			if (e != null && !e.spawned) {
 				e.Respawn();
 				e.gameObject.SetActive(true);
 			} 

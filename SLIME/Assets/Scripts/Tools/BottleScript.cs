@@ -91,7 +91,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 			Release();
 			return;
 		}
-
+		ps.DestroyCrumbs(0);
 		ps.MultiplyVelocity(0);
 		ps.AddVelocity(ps.Velocity());
 		velocity.x += input.x*acceleration*Time.deltaTime;
@@ -136,6 +136,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 	}
 	public void Respawn()
 	{
+		transform.GetChild(0).Rotate(-1*transform.GetChild(0).eulerAngles);
 		transform.position = initialLoc;
    		velocity = Vector3.zero;
 	}

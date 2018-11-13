@@ -30,22 +30,24 @@ public class DropperScript : EnemyClass
 
 		if (c2d.collision.below) 
 		{
-			StartCoroutine(RemoveSelf());	
+			if (spawned) {
+				Debug.Log("Bleh");
+				Destroy(gameObject, 0.25f);
+			} else {	 
+				StartCoroutine(RemoveSelf());	
+			}
 		}
 
 		base.Update();
 	}
+
 	private IEnumerator RemoveSelf()
 	{
 		dead = true;
+		falling = false;
 		yield return new WaitForSeconds(0.25f);
-		if (!dead) {
-			// Would return but can't
-		} else if (spawned) {
-			Destroy(gameObject);
-		} else {
-			gameObject.SetActive(false);
-		}
+		c2d.collision.below = false;
+		gameObject.SetActive(false);
 	}
 	private bool PlayerInRange()
 	{

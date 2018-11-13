@@ -9,8 +9,10 @@ public class CameraScript : MonoBehaviour {
 	private Camera cam;
 	private Vector3 v = Vector3.zero; 
 	
-	float gap = 0.2f;
-	float skip = 20.0f;
+	float min = 0.20f;
+	float max = 10f;
+	float skip = 10.0f;
+	float mod = 1;
 	float time = 0.5f;
 	
 	// Use this for initialization
@@ -35,12 +37,19 @@ public class CameraScript : MonoBehaviour {
 		float x = pos.x-0.5f;
 		float y = pos.y-0.5f;
 
-		if (Mathf.Abs(x) < gap) { x = 0; }
- 		if (Mathf.Abs(y) < gap) { y = 0; }
-		
-		Vector3 delta = new Vector3(x, y, 0);
-		Vector3 destination = transform.position + skip*delta; 
-		transform.position = Vector3.SmoothDamp(transform.position, destination, ref v, time);	
+		if (Mathf.Abs(x) < min) { x = 0; }
+ 		if (Mathf.Abs(y) < min) { y = 0; }
 	
+		mod += Mathf.Max(Mathf.Abs(x), Mathf.Abs(y));
+		mod *= mod;
+		mod *= mod;
+		if (mod > max) {
+			mod = max;
+		}
+	
+		Vector3 delta = new Vector3(x, y, 0);
+		Vector3 destination = transform.position + mod*skip*delta; 
+		transform.position = Vector3.SmoothDamp(transform.position, destination, ref v, time);	
+		mod = 1;	
 	}
 }
