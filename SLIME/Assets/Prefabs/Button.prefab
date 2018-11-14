@@ -151,6 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f8a98a2f9034a7691c529eefd63179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initial: {r: 1, g: 1, b: 1, a: 1}
+  hover: {r: 0.49411765, g: 0.99607843, b: 0.12941177, a: 1}
   start: 0
   sceneName: hub-world
   load: {fileID: 0}

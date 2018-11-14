@@ -1800,7 +1800,7 @@ TextMesh:
   m_Font: {fileID: 12800000, guid: 0654f9a4156914ad1880b5cd3b1e26cb, type: 3}
   m_Color:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4291677645
 --- !u!23 &468562229
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1872,10 +1872,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f8a98a2f9034a7691c529eefd63179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initial: {r: 0.8039216, g: 0.8039216, b: 0.8039216, a: 1}
+  hover: {r: 0.14509805, g: 0.9411765, b: 0.14509805, a: 1}
   start: 1
   sceneName: hub-world
   load: {fileID: 0}
-  time: 2
 --- !u!224 &468562233
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2696,7 +2697,7 @@ SpriteRenderer:
   m_SortingLayerID: 552658401
   m_SortingLayer: -1
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 4ce50e2138a0441fe906eaf7dbfdff94, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c24bd19937a0c47a784d74132e60282d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10492,7 +10493,7 @@ Tilemap:
   - first: {x: 2, y: -6, z: 0}
     second:
       m_TileIndex: 1
-      m_TileSpriteIndex: 1
+      m_TileSpriteIndex: 10
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -12580,7 +12581,7 @@ Tilemap:
   - first: {x: -10, y: -4, z: 0}
     second:
       m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -71849,10 +71850,10 @@ Tilemap:
   - m_RefCount: 15
     m_Data: {fileID: 11400000, guid: d76aea37a18fb4ec3a83fc5b09e27659, type: 2}
   m_TileSpriteArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 4c7ab8c64250b448384adb6efdb8f751, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: fde7eea2f6db6467dbf872b0d4e72078, type: 3}
   - m_RefCount: 4
     m_Data: {fileID: 21300000, guid: 2a855ff30ad954132bc57f815c1c0c11, type: 3}
   - m_RefCount: 4
@@ -71869,8 +71870,8 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: b6403671af6e245988da3765327ee6ba, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: 21300000, guid: 01c3e2d548a6347208068bb375fe1d07, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: fde7eea2f6db6467dbf872b0d4e72078, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 6e32ce1cec4334d3caf961b4978f0440, type: 3}
   - m_RefCount: 3
