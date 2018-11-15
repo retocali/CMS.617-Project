@@ -6,6 +6,7 @@ public class urgency : MonoBehaviour {
 
     public GameObject player;
     public ArrayList list;  
+    private SpriteRenderer sprend;
     ///This item will be at the player's position in time frames
     public float speed=10;
     public float time=100;
@@ -26,6 +27,7 @@ public class urgency : MonoBehaviour {
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody2D>();
+        sprend = GetComponent<SpriteRenderer>();
         startingPos=new Vector2(rb.position.x,rb.position.y);
         counter=samplingFreq;
     }
@@ -49,5 +51,17 @@ public class urgency : MonoBehaviour {
             counter=samplingFreq;
         }
         rb.position=Vector2.MoveTowards(rb.position,player.transform.position,speed);
+
+        Debug.Log(rb.velocity.x);
+
+        // Update sprite flippiness
+        if(rb.position.x  - player.transform.position.x > 0)
+        {
+            sprend.flipX = true;
+        }
+        else
+        {
+            sprend.flipX = false;
+        }
     }
 }
