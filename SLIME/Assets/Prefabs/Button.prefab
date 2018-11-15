@@ -74,7 +74,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10100, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0654f9a4156914ad1880b5cd3b1e26cb, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -136,7 +136,7 @@ TextMesh:
   m_FontSize: 300
   m_FontStyle: 1
   m_RichText: 1
-  m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Font: {fileID: 12800000, guid: 0654f9a4156914ad1880b5cd3b1e26cb, type: 3}
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
@@ -151,6 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f8a98a2f9034a7691c529eefd63179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initial: {r: 1, g: 1, b: 1, a: 1}
+  hover: {r: 0.49411765, g: 0.99607843, b: 0.12941177, a: 1}
   start: 0
   sceneName: hub-world
   load: {fileID: 0}

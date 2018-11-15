@@ -43,6 +43,15 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
 		Debug.Log(transform.position);
 
         animator = GetComponent<Animator>();
+        if (animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
+            if (animator == null)
+            {
+                Debug.LogWarning("Animator on " + gameObject.name + " does not exist");
+            }
+        } 
+        
 	}
 	
 	// Update is called once per frame

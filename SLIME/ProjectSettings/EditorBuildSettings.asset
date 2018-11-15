@@ -18,6 +18,18 @@ EditorBuildSettings:
     path: Assets/Scenes/l2.unity
     guid: 20ed8a5383a304ec8b5f1cb4283dc919
   - enabled: 1
+    path: Assets/Scenes/l3.unity
+    guid: 02887b64238504e07a3e4f2c429ea594
+  - enabled: 1
+    path: Assets/Scenes/l4.unity
+    guid: 43ee31a1703e3904192e4fd7d1c95627
+  - enabled: 1
+    path: Assets/Scenes/l5.unity
+    guid: c2d432972d43040359e05e78f0ced132
+  - enabled: 1
+    path: Assets/Scenes/lfinal.unity
+    guid: 1ebbf8566ced04486807d448caba8a4e
+  - enabled: 1
     path: Assets/Scenes/EndGame.unity
     guid: d9afd804e5d564f46b965c46000ab93a
   m_configObjects: {}

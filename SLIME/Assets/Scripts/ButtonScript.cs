@@ -5,16 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class ButtonScript : MonoBehaviour {
 
-	private Color initial = Color.white;
-	private Color hover = Color.red;
+	public Color initial = Color.white;
+	public Color hover = Color.red;
 	private Color target;
-	private float speed = 10;
+	private float speed = 5f;
 	
 	public bool start = true;
 	public string sceneName = "hub-world";
 	public GameObject load;
 	private bool loaded = false;
-	public float time = 2f;
+	private float time = 5f;
 	
 	private TextMesh text;
 	private bool pressed;

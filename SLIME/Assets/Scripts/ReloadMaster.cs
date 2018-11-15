@@ -33,6 +33,9 @@ public class ReloadMaster : MonoBehaviour {
 		}
 		foreach (BottleScript i in instance.items) {
 			i.Respawn();
+			i.gameObject.SetActive(true);
+			i.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+			i.gameObject.GetComponent<BoxCollider2D>().enabled = true;
 		}
 	}
 
