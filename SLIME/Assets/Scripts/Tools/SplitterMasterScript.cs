@@ -13,6 +13,7 @@ public class SplitterMasterScript : MonoBehaviour {
 
 	public void resetSplitters() {
 		for (int i = 0; i < splitters.Length; i++) {
+			Debug.Log("CLEANUP CREW");
 			splitters[i].GetComponent<SplitterScript>().resetSplitter();
 		}
 	}

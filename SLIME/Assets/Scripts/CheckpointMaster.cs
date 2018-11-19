@@ -96,6 +96,11 @@ public class CheckpointMaster : MonoBehaviour {
 				Destroy(urgency);
 				urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
 			}
+			var splitterScript = gameObject.GetComponent<SplitterMasterScript>();
+			
+			if (splitterScript) {
+				splitterScript.resetSplitters();
+			}
 		}
 		if (Input.GetKeyDown("1"))
 		{

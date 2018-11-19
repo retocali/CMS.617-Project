@@ -38,8 +38,11 @@ public class SplitterScript : MonoBehaviour, ToolsInterface {
 	
 	// Update is called once per frame
 	void Update () {
+		Debug.Log("CHECKERS");
+		Debug.Log(split);
 		if (player2 != null) {
 			if ( player2.GetComponent<PlayerScript>().IsDead()) {
+				Debug.Log("KILL PLAYER2");
 				resetSplitter();
 			}
 		}
@@ -52,6 +55,7 @@ public class SplitterScript : MonoBehaviour, ToolsInterface {
 				Hold();
 			}
 		}
+
 
 	}
 	public void Interact(GameObject p)
@@ -101,7 +105,11 @@ public class SplitterScript : MonoBehaviour, ToolsInterface {
 
 	public void resetSplitter() {
 		Destroy(player2);
+		Debug.Log("RESET");
 		split = false;
+		player.GetComponent<PlayerScript>().KillPlayer();
+		Debug.Log(split);
+		time = 0.1f;
 
 	}
 
