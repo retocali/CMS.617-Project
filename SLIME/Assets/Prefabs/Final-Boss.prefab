@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4791152876791312}
   - component: {fileID: 50400374195562620}
   - component: {fileID: 61348992604339638}
-  - component: {fileID: 114986296909787224}
   - component: {fileID: 95012435447424716}
   - component: {fileID: 212767518450855910}
+  - component: {fileID: 114860858780444960}
   m_Layer: 9
   m_Name: Final-Boss
   m_TagString: hazard
@@ -107,7 +107,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114986296909787224
+--- !u!114 &114860858780444960
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,15 +115,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1070658062899248}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ca7faff6e4fa4d6b8a77da825dc1cf2, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e0d66def6c86734f93159ae5c098d0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 1605409885909942, guid: 65e4f7ed4ed582548b8e04388e0a47ef,
+    type: 2}
+  bulletSpawn: {fileID: 0}
+  fireRate: 1
+  fireSpeed: 1
   player: {fileID: 0}
-  speed: 0.04
-  time: 100
-  constSpeed: 1
-  samplingFreq: 100
-  onReset: 0
 --- !u!212 &212767518450855910
 SpriteRenderer:
   m_ObjectHideFlags: 1
