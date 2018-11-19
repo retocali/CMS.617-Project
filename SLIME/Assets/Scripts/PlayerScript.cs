@@ -170,7 +170,7 @@ public class PlayerScript : MonoBehaviour
 		Returns whether the player is the main slime when split (meant to keep references
 		for checkpoint master)
 	*/
-	 	public void duplicateSlime() 
+	public void duplicateSlime() 
 	{
 		mainPlayer = false;
 	}
