@@ -22,6 +22,9 @@ public class CameraScript : MonoBehaviour {
 		if (player == null)
 		{
 			player = PlayerScript.FindPlayer();
+			transform.position = new Vector3(player.transform.position.x,
+											 player.transform.position.y,
+											 	    transform.position.z);
 		}
 	}
 	

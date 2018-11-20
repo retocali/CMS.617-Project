@@ -10,8 +10,6 @@ public class SplitterScript : MonoBehaviour, ToolsInterface {
  	private GameObject player;
 	private GameObject player2;
 	
-	public enum Direction {Top, Bottom, Right, Left};
-
 	public Direction outDirection1 = Direction.Bottom;
 	public Direction outDirection2 = Direction.Right;
 

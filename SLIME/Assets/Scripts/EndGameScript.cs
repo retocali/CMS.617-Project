@@ -16,18 +16,17 @@ public class EndGameScript : MonoBehaviour {
 		if (touched)
 		{
 			player.position = transform.position;
-			Debug.Log(time);
 			time -= Time.deltaTime;
 			if (time < 0)
 			{
-				SceneManager.LoadScene("EndGame");
+				Data.markLevelCompleted(SceneManager.GetActiveScene().name);
+				SceneManager.LoadSceneAsync("EndGame");
 			}
 		}
 	}
 	
 	void OnTriggerEnter2D(Collider2D collider) 
     {
-		Debug.Log(collider.gameObject.tag);
         if (collider.gameObject.tag == "Player") {
 			touched = true;
 			collider.gameObject.GetComponent<PlayerScript>().inactive = true;

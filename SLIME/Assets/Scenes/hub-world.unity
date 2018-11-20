@@ -632,6 +632,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneName: l5
   load: {fileID: 677050991}
+  outDirection: 3
   time: 2
 --- !u!212 &91839123
 SpriteRenderer:
@@ -1598,6 +1599,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneName: lfinal
   load: {fileID: 677050991}
+  outDirection: 0
   time: 2
 --- !u!212 &351880308
 SpriteRenderer:
@@ -2038,6 +2040,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneName: l4
   load: {fileID: 677050991}
+  outDirection: 2
   time: 2
 --- !u!212 &512125017
 SpriteRenderer:
@@ -2216,6 +2219,7 @@ GameObject:
   - component: {fileID: 974966619}
   - component: {fileID: 974966618}
   - component: {fileID: 974966622}
+  - component: {fileID: 974966623}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2391,6 +2395,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &974966623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 974966617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa77ee048ca944d618e55ab6856dd801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portals:
+  - {fileID: 1826782753}
+  - {fileID: 1530229975}
+  - {fileID: 1199494884}
+  - {fileID: 512125016}
+  - {fileID: 91839122}
+  - {fileID: 351880307}
+  player: {fileID: 2053825}
 --- !u!1 &1199494881
 GameObject:
   m_ObjectHideFlags: 0
@@ -2460,6 +2483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneName: l3
   load: {fileID: 677050991}
+  outDirection: 2
   time: 2
 --- !u!212 &1199494885
 SpriteRenderer:
@@ -2937,6 +2961,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneName: l2
   load: {fileID: 677050991}
+  outDirection: 3
   time: 2
 --- !u!212 &1530229976
 SpriteRenderer:
@@ -3607,6 +3632,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneName: l1
   load: {fileID: 677050991}
+  outDirection: 3
   time: 2
 --- !u!212 &1826782754
 SpriteRenderer:

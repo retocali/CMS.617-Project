@@ -11,5 +11,10 @@ public interface ToolsInterface {
 		by the player colliding with the tool
 		while holding on the jump (space) button
 	 */
+	
 	void Interact(GameObject player);
+	
+
 }
+
+public enum Direction {Top, Bottom, Right, Left};
