@@ -395,6 +395,13 @@ public class PlayerScript : MonoBehaviour
         Debug.LogWarning("Pausing");
     }
 
+	private void UnPause() {
+        paused = false;
+        pausedScreen.SetActive(false); 
+        Time.timeScale = 1;  
+    }
+
+
     private void Mute()
 	{
         muted = !muted;
@@ -403,6 +410,10 @@ public class PlayerScript : MonoBehaviour
 
 	private void pauseUI()
 	{
+		if (pausedScreen == null)
+		{
+			return;
+		}
 		if(Input.GetButtonDown("TogglePause")){
             TogglePause();
         }
@@ -410,11 +421,11 @@ public class PlayerScript : MonoBehaviour
             Mute();
         }
         if(Input.GetButtonDown("Reset")){
-			TogglePause();
+			UnPause();
             SceneManager.LoadSceneAsync(homeScreen);
         }
         if(Input.GetButtonDown("Restart")){
-			TogglePause();
+			UnPause();
         	SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
         }
 	}

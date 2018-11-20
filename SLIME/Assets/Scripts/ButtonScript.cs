@@ -28,6 +28,9 @@ public class ButtonScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetAxisRaw("Jump") != 0) {
+			OnMouseUpAsButton();
+		}
 		text.color = Color.Lerp(text.color, target, Time.deltaTime*speed);
 		if (loaded) {
 			time -= Time.deltaTime;
