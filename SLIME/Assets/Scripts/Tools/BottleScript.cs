@@ -13,8 +13,10 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 	private ParticleSystem partSys;
 
 	private Vector3 velocity;
-	
-	private const float gravity = -20f;
+    private Vector3 addedVelocity;
+
+
+    private const float gravity = -20f;
 	private const float minSpeedX = 0.25f;
 	private const float maxSpeedX = 15f;
 	private const float maxSpeedY = 500f;
@@ -46,6 +48,8 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		CollisionClamping(ref velocity);
 		
 		velocity.y += gravity * Time.deltaTime;
+        velocity += addedVelocity;
+        addedVelocity = Vector3.zero;
 
 		if (ps != null) { 
 			WithPlayer(ref velocity);	
@@ -150,5 +154,14 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		transform.position = initialLoc;
    		velocity = Vector3.zero;
 	}
+
+    /**
+    A method used for adding velocity to the bottle
+    negative numbers will decrease speed. Accumulates
+    */
+    public void AddVelocity(Vector3 v)
+    {
+        addedVelocity += v;
+    }
 
 }

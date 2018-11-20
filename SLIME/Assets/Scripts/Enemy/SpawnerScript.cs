@@ -13,7 +13,7 @@ public class SpawnerScript : EnemyClass
 	private float currentTime = 0;
 	private float speed = 15f;
 	private Transform player;
-	private MeshRenderer mesh;
+	private SpriteRenderer sprend;
 
 	public float XRange = 10;
 	public float YRange = 5;
@@ -24,7 +24,7 @@ public class SpawnerScript : EnemyClass
 		{
 			Warn("Prefab not set");
 		}
-		mesh = GetComponent<MeshRenderer>();
+		sprend = GetComponent<SpriteRenderer>();
 	}
 	// Update is called once per frame
 	new void Update () 
@@ -36,13 +36,13 @@ public class SpawnerScript : EnemyClass
 		if (sensitive && PlayerInRange())
 		{
 			currentTime += Time.deltaTime;
-			mesh.material.color = new Color(1-currentTime/time, 0, 0);
+			sprend.color = new Color(1-currentTime/time, 0, 0);
 		}
 		
 		if (currentTime >= time) 
 		{
 			currentTime = 0;
-			mesh.material.color = Color.black;
+			sprend.color = Color.black;
 			Spawn();
 		}
 	}

@@ -8,6 +8,8 @@ public class DropperScript : EnemyClass
 	private bool falling = false;
 	private Transform player;
 
+    private Animator animor;
+
 	private float XRange = 4f;
 	private float YRange = 0f;
 
@@ -16,6 +18,10 @@ public class DropperScript : EnemyClass
 	{
 		base.Start();
 		gravity = -20f;
+
+        animor = GetComponent<Animator>();
+        
+
 	}
 	
 	// Update is called once per frame
@@ -27,8 +33,9 @@ public class DropperScript : EnemyClass
 		}
 		falling = true;
 		ApplyGravity(ref velocity, Time.deltaTime);
+        animor.SetTrigger("drop");
 
-		if (c2d.collision.below) 
+        if (c2d.collision.below) 
 		{
 			if (spawned) {
 				Debug.Log("Bleh");

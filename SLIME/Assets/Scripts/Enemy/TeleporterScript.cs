@@ -10,12 +10,15 @@ public class TeleporterScript : EnemyClass
 	
 	private int i;
 	private float currentTime;
-	private float delayTime = 0.15f;
+	private float delayTime = 0.85f;
 	private float delay = 0;
 	private Transform portal;
 
+    private Animator animor;
+
 	// Use this for initialization
 	new void Start () {
+        animor = GetComponent<Animator>();
 		i = 0;
 		currentTime = 0;
 		if (locations.Length < 2 || times.Length < 2) {
@@ -49,6 +52,7 @@ public class TeleporterScript : EnemyClass
 			delay -= Time.deltaTime;
 			if (delay <= 0) {
 				portal.position = locations[(i+1) % locations.Length];
+                animor.SetTrigger("teleport");
 			}
 		}
 		if (currentTime >= times[i]) {
@@ -56,7 +60,8 @@ public class TeleporterScript : EnemyClass
 			i = (i+1) % locations.Length;
 			transform.position = locations[i];
 			delay = delayTime*times[i];
-		}
+            animor.SetTrigger("apear");
+        }
 		ApplyGravity(ref velocity, Time.deltaTime);
 		base.Update();
 	}

@@ -15,14 +15,31 @@ public class HopperScript : EnemyClass
 	private uint delayCounter = 0;
 	private uint turnAroundDelay = 100;
 
+    private Animator animor;
+    private SpriteRenderer sprend;
+
 	// Use this for initialization
 	new void Start () {
 		gravity = -40f;
+        animor = GetComponent<Animator>();
+        sprend = GetComponent<SpriteRenderer>();
 		base.Start();
 	}
 	
 	// Update is called once per frame
 	new void Update () {
+
+        animor.SetFloat("vspeed", velocity.y);
+
+        if(velocity.x < 0)
+        {
+            sprend.flipX = true;
+        }
+        else if(velocity.x > 0)
+        {
+            sprend.flipX = false;
+        }
+
 		if (delayCounter != 0) 
 		{
 			delayCounter--;
