@@ -11,7 +11,7 @@ public class shoot : MonoBehaviour {
 
 	public float fireRate;
 
-	public float fireSpeed;
+	public Vector2 fireSpeed;
 
 	// Use this for initialization
 	void Start () {
@@ -36,7 +36,7 @@ public class shoot : MonoBehaviour {
 			bulletSpawn.rotation);
 
 		// Add velocity to the bullet
-		bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(fireSpeed, 0);
+		bullet.GetComponent<Rigidbody2D>().velocity = fireSpeed;
 
 		Destroy(bullet, 1.5f);
 	}
