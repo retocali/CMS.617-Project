@@ -20,7 +20,7 @@ public class SplitterScript : MonoBehaviour, ToolsInterface {
 	private float width;
 	private float height;
 
-	private float waitTime = 2f;
+	private float waitTime = 1f;
 	private float time = 0f;
  	
 	private BoxCollider2D cc;
@@ -38,12 +38,10 @@ public class SplitterScript : MonoBehaviour, ToolsInterface {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log("CHECKERS");
-		Debug.Log(split);
 		if (player2 != null) {
 			if ( player2.GetComponent<PlayerScript>().IsDead()) {
-				Debug.Log("KILL PLAYER2");
 				resetSplitter();
+				player.GetComponent<PlayerScript>().KillPlayer();
 			}
 		}
 		if (split && time < waitTime) 
@@ -62,6 +60,7 @@ public class SplitterScript : MonoBehaviour, ToolsInterface {
 	{
 		if (!split) {
 			player = p;
+			
 			split = true;
 		}
 
@@ -104,11 +103,12 @@ public class SplitterScript : MonoBehaviour, ToolsInterface {
 	}
 
 	public void resetSplitter() {
+		if (player == null)
+		{
+			return;
+		}
 		Destroy(player2);
-		Debug.Log("RESET");
 		split = false;
-		player.GetComponent<PlayerScript>().KillPlayer();
-		Debug.Log(split);
 		time = 0.1f;
 
 	}
