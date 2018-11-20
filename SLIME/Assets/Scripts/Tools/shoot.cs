@@ -37,7 +37,7 @@ public class shoot : MonoBehaviour {
 
 		// Add velocity to the bullet
 		bullet.GetComponent<Rigidbody2D>().velocity = fireSpeed;
-
+	
 		Destroy(bullet, 1.5f);
 	}
 }
