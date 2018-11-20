@@ -104,6 +104,6 @@ public class HookScript : MonoBehaviour, ToolsInterface
 		gapTime = timeToRelease;
 		p.transform.position = gameObject.transform.position;
 		player.GetComponent<PlayerScript>().MultiplyVelocity(0);
-		
+		player.GetComponent<PlayerScript>().UnStun();
 	}
 }

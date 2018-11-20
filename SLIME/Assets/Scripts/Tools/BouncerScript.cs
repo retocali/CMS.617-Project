@@ -36,6 +36,7 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
             {
                 Vector3 deltav = new Vector3(magnitude * Mathf.Cos(directionDeg * Mathf.PI / 180), magnitude * Mathf.Sin(directionDeg * Mathf.PI / 180));
                 ps.AddVelocity(deltav);
+                ps.UnStun();
                 disableTime = 0.1f;
                 animator.SetTrigger("bounce");
             }
