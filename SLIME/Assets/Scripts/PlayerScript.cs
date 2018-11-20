@@ -37,6 +37,7 @@ public class PlayerScript : MonoBehaviour
 	private AudioSource audSrc;
 	private ParticleSystem partSys;
     private Animator animor;
+	public GameObject pausedScreen;
 
 	private bool dead = false;
 	public bool inactive = false;
@@ -386,33 +387,42 @@ public class PlayerScript : MonoBehaviour
 		velocity.y = Mathf.Max(Mathf.Min(maxSpeedY, velocity.y), -maxSpeedY);
 	}
 
-    private void Pause(){
-        paused=!paused;
-        if(paused){ Time.timeScale=0; } 
-        else{ Time.timeScale=1; }  
+    private void TogglePause() {
+        paused = !paused;
+        pausedScreen.SetActive(paused);
+		if (paused) { Time.timeScale=0; } 
+        else { Time.timeScale=1; }  
         Debug.LogWarning("Pausing");
     }
 
-    private void Mute(){
-        muted=!muted;
-        AudioListener.volume =  muted?0:1;
+    private void Mute()
+	{
+        muted = !muted;
+        AudioListener.volume =  muted ? 0 : 1;
     }
 
-	// Update is called once per frame
-	void Update () 
+	private void pauseUI()
 	{
-        if(Input.GetButtonDown("Pause")){
-            Pause();
+		if(Input.GetButtonDown("TogglePause")){
+            TogglePause();
         }
         if(Input.GetButtonDown("Mute")){
             Mute();
         }
         if(Input.GetButtonDown("Reset")){
+			TogglePause();
             SceneManager.LoadSceneAsync(homeScreen);
         }
         if(Input.GetButtonDown("Restart")){
-        	KillPlayer();
+			TogglePause();
+        	SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
         }
+	}
+	// Update is called once per frame
+	void Update () 
+	{
+		pauseUI();
+
 		Vector3 input = Vector3.zero;
 		if (!dead && !inactive) 
 		{
