@@ -56,7 +56,7 @@ public class SquisherScript : MonoBehaviour, ToolsInterface {
 
 	public void Release(){
 		Destroy(player2);
-		mainPlayer.transform.position += new Vector3(0, 1.2f, 0);
+		mainPlayer.transform.position += new Vector3(0, -1.2f, 0);
 		mainPlayer.GetComponent<PlayerScript>().AddVelocity(new Vector3(0, 12, 0));
 		splitter.GetComponent<SplitterScript>().resetSplitter();
 		resetSquisher();

@@ -28,9 +28,9 @@ public class CheckpointMaster : MonoBehaviour {
 
 	private Vector3 lastUrgencyPos;
 
-	public int spawnUrgencyAt = 0;
+	public int[] spawnUrgencyAt;
 
-	public int destroyUrgencyAt = 0;
+	public int[] destroyUrgencyAt;
 
 	private int urgencyIndex = 0;
 
@@ -71,7 +71,7 @@ public class CheckpointMaster : MonoBehaviour {
 		}
 
 		if ( urgency == null && useSpawns) {
-			if (currentUrgencySpawn.Length > 0 && index == spawnUrgencyAt) {
+			if (currentUrgencySpawn.Length > 0 && checkList(index, spawnUrgencyAt)) {
 				urgencyAlive = true;
 				urgencyCur = currentUrgencySpawn[0];
 				urgencyPos = urgencyCur.transform.position;
@@ -96,6 +96,11 @@ public class CheckpointMaster : MonoBehaviour {
 				Destroy(urgency);
 				urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
 			}
+			var splitterScript = gameObject.GetComponent<SplitterMasterScript>();
+			
+			if (splitterScript) {
+				splitterScript.resetSplitters();
+			}
 		}
 		if (Input.GetKeyDown("1"))
 		{
@@ -109,12 +114,7 @@ public class CheckpointMaster : MonoBehaviour {
 			
 			if ( urgency != null && useSpawns && urgencyAlive) {
 				urgencyIndex = (index + 1) % currentUrgencySpawn.Length;
-				if(urgencyIndex == 0 && index < spawnUrgencyAt){
-					urgencyAlive = false;
-					Debug.Log("URGENCY GONE");
-
-				} 
-				else if (urgencyIndex == destroyUrgencyAt) {
+				if (checkList(index, destroyUrgencyAt)) {
 					urgencyAlive = false;
 					Debug.Log("URGENCY GONE");
 
@@ -136,7 +136,7 @@ public class CheckpointMaster : MonoBehaviour {
 
 					checkpointActivated = true;
 
-					if (i == destroyUrgencyAt) {
+					if (checkList(i, destroyUrgencyAt)) {
 						urgencyAlive = false;
 						Debug.Log("URGENCY GONE");
 						Destroy(urgency);
@@ -146,7 +146,7 @@ public class CheckpointMaster : MonoBehaviour {
 						Debug.Log("URGENCY INDEX");
 						Debug.Log(urgencyIndex);
 					}
-					if (i == spawnUrgencyAt) {
+					if (checkList(i, spawnUrgencyAt)) {
 						urgencyAlive = true;
 					}
 
@@ -179,6 +179,15 @@ public class CheckpointMaster : MonoBehaviour {
 		gameObject.GetComponent<SplitterMasterScript>().resetSplitters();
 		player.GetComponent<PlayerScript>().SpawnPlayer(pos);
 		ReloadMaster.ReloadObjects();
+	}
+
+	private bool checkList(int i, int[] list) {
+		for (int x = 0; x < list.Length; x ++) {
+			if (list[x] == i) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

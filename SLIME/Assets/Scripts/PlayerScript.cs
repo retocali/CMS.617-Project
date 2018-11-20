@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Controller2D))]
 public class PlayerScript : MonoBehaviour 
@@ -62,6 +63,9 @@ public class PlayerScript : MonoBehaviour
 	public AudioClip wallJumpSound;
 	private int playing = 3;
 
+    private bool paused=false;
+    private bool muted=false;
+    private string homeScreen="hub-world";
 	// Use this for initialization
 	void Start () 
 	{
@@ -170,7 +174,7 @@ public class PlayerScript : MonoBehaviour
 		Returns whether the player is the main slime when split (meant to keep references
 		for checkpoint master)
 	*/
-	 	public void duplicateSlime() 
+	public void duplicateSlime() 
 	{
 		mainPlayer = false;
 	}
@@ -382,9 +386,33 @@ public class PlayerScript : MonoBehaviour
 		velocity.y = Mathf.Max(Mathf.Min(maxSpeedY, velocity.y), -maxSpeedY);
 	}
 
+    private void Pause(){
+        paused=!paused;
+        if(paused){ Time.timeScale=0; } 
+        else{ Time.timeScale=1; }  
+        Debug.LogWarning("Pausing");
+    }
+
+    private void Mute(){
+        muted=!muted;
+        AudioListener.volume =  muted?0:1;
+    }
+
 	// Update is called once per frame
 	void Update () 
 	{
+        if(Input.GetButtonDown("Pause")){
+            Pause();
+        }
+        if(Input.GetButtonDown("Mute")){
+            Mute();
+        }
+        if(Input.GetButtonDown("Reset")){
+            SceneManager.LoadSceneAsync(homeScreen);
+        }
+        if(Input.GetButtonDown("Restart")){
+        	KillPlayer();
+        }
 		Vector3 input = Vector3.zero;
 		if (!dead && !inactive) 
 		{
