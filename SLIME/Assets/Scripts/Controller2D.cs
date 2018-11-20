@@ -15,11 +15,13 @@ public class Controller2D : MonoBehaviour
 	private BoxCollider2D cc;
 	private PlayerScript ps;
 	private EnemyClass ec;
+    private BottleScript bs;
 	// Use this for initialization
 	void Start () 
 	{
 		cc = GetComponent<BoxCollider2D>();
 		ps = GetComponent<PlayerScript>();
+        bs = GetComponent<BottleScript>();
 		ec = GetComponent<EnemyClass>();
 		collision.reset();
 		bounds.initRay(cc);
@@ -138,7 +140,7 @@ public class Controller2D : MonoBehaviour
 	 */
 	private void VerticalCollisions(ref Vector3 velocity)
 	{
-		if (velocity.y == 0) { return; }
+        if (velocity.y == 0) { return; }
 		
 		float direction = Mathf.Sign(velocity.y);
 		float speed = Mathf.Abs(velocity.y);
@@ -172,7 +174,15 @@ public class Controller2D : MonoBehaviour
 							speed = VerticalCollide(ref velocity, hit, direction);
 							break;
 					}
-				} else if (ec != null) {
+				} else if (bs != null) {
+                    if (hit.transform.tag == "tools")
+                    {
+                        Debug.Log("bottle tool collide");
+                        ToolsInterface t = hit.collider.gameObject.GetComponent<ToolsInterface>();
+                        t.Interact(gameObject);
+                    }
+                    speed = VerticalCollide(ref velocity, hit, direction);
+                } else if (ec != null) {
 					if (hit.transform.tag != "Player")
 					{
 						speed = VerticalCollide(ref velocity, hit, direction);
@@ -234,7 +244,16 @@ public class Controller2D : MonoBehaviour
 							speed = HorizontalCollide(ref velocity, hit, direction);
 							break;
 					}				
-				} else if (ec != null) {
+				} else if(bs != null) {
+
+                    if (hit.transform.tag == "tools")
+                    {
+                        Debug.Log("bottle tool collide");
+                        ToolsInterface t = hit.collider.gameObject.GetComponent<ToolsInterface>();
+                        t.Interact(gameObject);
+                    }
+                    speed = HorizontalCollide(ref velocity, hit, direction);
+                } else if (ec != null) {
 					if (hit.transform.tag != "Player")
 					{
 						speed = HorizontalCollide(ref velocity, hit, direction);

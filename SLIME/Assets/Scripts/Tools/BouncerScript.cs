@@ -18,6 +18,7 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
     
     public void Interact(GameObject player)
     {
+
         /**
          * Adds the bouncers velocity to the player on contact
          */
@@ -25,14 +26,31 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
         if (disableTime <= 0)
         {
             Debug.Log("Bounce!");
+
+            
             PlayerScript ps = player.GetComponent<PlayerScript>();
+            BottleScript bs = player.GetComponent<BottleScript>();
+
+            // Bounce player
             if (ps != null)
             {
                 Vector3 deltav = new Vector3(magnitude * Mathf.Cos(directionDeg * Mathf.PI / 180), magnitude * Mathf.Sin(directionDeg * Mathf.PI / 180));
                 ps.AddVelocity(deltav);
                 disableTime = 0.1f;
+                animator.SetTrigger("bounce");
             }
-            animator.SetTrigger("bounce");
+
+            // Bounce bottle
+            if(bs != null)
+            {
+                Vector3 deltav = new Vector3(magnitude * Mathf.Cos(directionDeg * Mathf.PI / 180), magnitude * Mathf.Sin(directionDeg * Mathf.PI / 180));
+                bs.AddVelocity(deltav);
+                disableTime = 0.1f;
+                animator.SetTrigger("bounce");
+            }
+
+
+            
         }
  
 
