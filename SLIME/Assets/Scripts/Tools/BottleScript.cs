@@ -141,6 +141,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 			return;
 		}
 		ps = p.GetComponent<PlayerScript>();
+		ps.UnStun();
 		if (ps.IsDead()) {
 			ps = null;
 			return;

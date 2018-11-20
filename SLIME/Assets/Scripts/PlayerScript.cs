@@ -43,8 +43,8 @@ public class PlayerScript : MonoBehaviour
 	public bool inactive = false;
 	private bool stunned = false;
 	private float stunCounter = 0;
-	private float stunCountModifier = 0.1f;
-	private float stunDropModifier = 2.5f;
+	private float stunCountModifier = 0.15f;
+	private float stunDropModifier = 3.5f;
 	private Color defaultColor;
 
     // Bounce deceleration delay
@@ -196,13 +196,20 @@ public class PlayerScript : MonoBehaviour
 	 */
 	public void StunPlayer(float count) 
 	{
-		sprRend.material.color = Color.blue;
+		sprRend.material.color = new Color(0.5f, 0.75f, 0.5f);
 		velocity = Vector3.zero;
 		prevVelocity = Vector3.zero;
 		stunned = true;
 		trailing = false;
 		DestroyCrumbs(0);
 		stunCounter = count;
+	}
+	public void UnStun() 
+	{
+		trailing = true;
+		stunCounter = 0; 
+		stunned = false;
+		sprRend.material.color = defaultColor;
 	}
 
 	/**
@@ -251,17 +258,14 @@ public class PlayerScript : MonoBehaviour
 		Complement to above, is used to eventually
 		"unstun" the character or allow them to move again.
 	 */
-	private void UnStun() 
+	private void CheckUnStun() 
 	{
 		stunCounter -= Time.deltaTime;
 		velocity = Vector3.zero;
 		prevVelocity = Vector3.zero;
 		if (stunCounter <= 0)
 		{ 
-			trailing = true;
-			stunCounter = 0; 
-			stunned = false;
-			sprRend.material.color = defaultColor;
+			UnStun();
 		}
 	}
 
@@ -441,7 +445,7 @@ public class PlayerScript : MonoBehaviour
 								Input.GetAxisRaw("Vertical"),
 								Input.GetAxisRaw("Jump"));
 
-			if (stunned) { UnStun(); }
+			if (stunned) { CheckUnStun(); }
 			else 
 			{
 				Bounce(ref velocity, input);
