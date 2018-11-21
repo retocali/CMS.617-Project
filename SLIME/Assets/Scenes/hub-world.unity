@@ -4252,7 +4252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initial: {r: 0.8039216, g: 0.8039216, b: 0.8039216, a: 1}
-  hover: {r: 0.14509805, g: 0.9411765, b: 0.14509805, a: 1}
+  hover: {r: 0.078431375, g: 0.078431375, b: 0.078431375, a: 1}
   start: 1
   sceneName: hub-world
   load: {fileID: 0}
@@ -4342,7 +4342,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f554edadf40bd4a78aaa8306f4ccfee9, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
@@ -6790,7 +6790,7 @@ TextMesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1753453345}
-  m_Text: S.L.I.M.E.
+  m_Text: 'S.L.I.M.E '
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -6803,7 +6803,7 @@ TextMesh:
   m_Font: {fileID: 12800000, guid: 0654f9a4156914ad1880b5cd3b1e26cb, type: 3}
   m_Color:
     serializedVersion: 2
-    rgba: 4280676389
+    rgba: 4286709633
 --- !u!23 &1753453349
 MeshRenderer:
   m_ObjectHideFlags: 0

@@ -8,7 +8,7 @@ public class ButtonScript : MonoBehaviour {
 	public Color initial = Color.white;
 	public Color hover = Color.red;
 	private Color target;
-	private float speed = 5f;
+	private float speed = 15f;
 	
 	public bool start = true;
 	public string sceneName = "hub-world";
@@ -44,10 +44,10 @@ public class ButtonScript : MonoBehaviour {
 		for (float i = 0; i <= 1; i += Time.deltaTime/2f)
 		{
 			// set color with i as alpha
-			bg1.material.color = new Color(0, 0, 0, i);
+			bg1.material.color = new Color(1, 1, 1, i);
 			bg2.material.color = new Color(0, 0, 0, i);
 			text.color = new Color(1, 1, 1, i);
-			title.color = new Color(0.145f, 0.9411f, 0.145f, i);
+			title.color = new Color(0.508f, 1f, 0.508f, i);
 			yield return null;
 		}
 	}
