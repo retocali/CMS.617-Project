@@ -40,8 +40,8 @@ public class ButtonScript : MonoBehaviour {
 	
 	IEnumerator FadeIn() 
 	{
-		
-		for (float i = 0; i <= 1; i += Time.deltaTime/2f)
+
+		for (float i = 0; i <= 1; i += Time.deltaTime)
 		{
 			// set color with i as alpha
 			bg1.material.color = new Color(1, 1, 1, i);
@@ -50,6 +50,7 @@ public class ButtonScript : MonoBehaviour {
 			title.color = new Color(0.508f, 1f, 0.508f, i);
 			yield return null;
 		}
+
 	}
 
 	// Update is called once per frame

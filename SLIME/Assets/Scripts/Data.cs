@@ -8,7 +8,7 @@ public class Data {
 	private static List<string> levels_completed = new List<string>();
 	private static string lastCompletedScene = "";
 	public static string lastAttemptedScene = "";
-	public static bool started = false;
+	public static bool started = true;
 
 	public static int getLevelsCompleted()
 	{

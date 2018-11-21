@@ -169,7 +169,7 @@ public class CheckpointMaster : MonoBehaviour {
 				}
 			} 
 			else {
-				currentCheckpoint[i].GetComponent<MeshRenderer>().material.color =
+				currentCheckpoint[i].GetComponent<SpriteRenderer>().color =
 					currentCheckpoint[i].GetComponent<spawnPlayer>().defaultColor;	
 			}
 		}

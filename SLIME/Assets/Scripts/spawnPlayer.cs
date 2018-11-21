@@ -14,8 +14,7 @@ public class spawnPlayer : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		defaultColor = GetComponent<MeshRenderer>().material.color;
-		activeColor = new Color(128,128,128,128);
+		GetComponent<SpriteRenderer>().color = defaultColor;
 		if (checkMaster == null) {
 			checkMaster = GameObject.FindGameObjectsWithTag("GameMaster")[0].GetComponent<CheckpointMaster>();
 		}
@@ -61,7 +60,7 @@ public class spawnPlayer : MonoBehaviour {
 	private void ActivatePoint(Collider2D collider)
 	{	
 		if(collider.tag == "Player") {
-			GetComponent<MeshRenderer>().material.color = activeColor;
+			GetComponent<SpriteRenderer>().color = activeColor;
         	checkMaster.ChangePoints(this.gameObject);
 		}
 	}

@@ -9,6 +9,7 @@ public class HubWorldMaster : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Data.started = false;
 		if (Data.lastAttemptedScene != "") {
 			foreach (PortalScript p in portals) {
 				if (p.sceneName == Data.lastAttemptedScene) {
