@@ -401,7 +401,7 @@ public class PlayerScript : MonoBehaviour
 
 	private void UnPause() {
         paused = false;
-        pausedScreen.SetActive(false); 
+        // pausedScreen.SetActive(false); 
         Time.timeScale = 1;  
     }
 
@@ -414,7 +414,7 @@ public class PlayerScript : MonoBehaviour
 
 	private void pauseUI()
 	{
-		if (pausedScreen == null)
+		if (pausedScreen == null || !Data.started)
 		{
 			return;
 		}

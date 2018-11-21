@@ -27,6 +27,7 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 		
 		if (time <= 0)
 		{
+			Data.lastAttemptedScene = sceneName;
 			SceneManager.LoadSceneAsync(sceneName);
 			time = 2f;
 		} 
@@ -49,17 +50,17 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 	public Vector3 Exit()
 	{
 		Vector3 origin = transform.position;
-		Vector2 distance = GetComponent<BoxCollider2D>().size;
+		float distance = GetComponent<CircleCollider2D>().radius;
 		switch (outDirection)
 		{
 			case Direction.Top:
-				return origin + new Vector3(0, distance.y, 0);
+				return origin + new Vector3(0, distance, 0);
 			case Direction.Bottom:
-				return origin + new Vector3(0, -distance.y, 0);
+				return origin + new Vector3(0, -distance, 0);
 			case Direction.Left:
-				return origin + new Vector3(-distance.x, 0, 0);
+				return origin + new Vector3(-distance, 0, 0);
 			case Direction.Right:
-				return origin + new Vector3(distance.x, 0, 0);
+				return origin + new Vector3(distance, 0, 0);
 			default:
 				return origin;
 		}

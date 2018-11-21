@@ -9,9 +9,9 @@ public class HubWorldMaster : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		if (Data.lastCompleted() != "") {
+		if (Data.lastAttemptedScene != "") {
 			foreach (PortalScript p in portals) {
-				if (p.sceneName == Data.lastCompleted()) {
+				if (p.sceneName == Data.lastAttemptedScene) {
 					player.transform.position = p.Exit();
 					return;
 				}
