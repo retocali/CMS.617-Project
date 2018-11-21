@@ -17,6 +17,10 @@ public class ButtonScript : MonoBehaviour {
 	private float time = 5f;
 	
 	private TextMesh text;
+	private TextMesh title;
+	private SpriteRenderer bg1;
+	private SpriteRenderer bg2;
+
 	private bool pressed;
 
 	// Use this for initialization
@@ -24,8 +28,30 @@ public class ButtonScript : MonoBehaviour {
 		text = GetComponent<TextMesh>();
 		pressed = false;
 		target = initial;
+	
+		if (start)
+		{
+			title = transform.GetChild(0).GetComponent<TextMesh>();
+			bg1 = transform.GetChild(1).GetComponent<SpriteRenderer>();
+			bg2 = transform.GetChild(2).GetComponent<SpriteRenderer>();
+			StartCoroutine(FadeIn());
+		}
 	}
 	
+	IEnumerator FadeIn() 
+	{
+		
+		for (float i = 0; i <= 1; i += Time.deltaTime/2f)
+		{
+			// set color with i as alpha
+			bg1.material.color = new Color(0, 0, 0, i);
+			bg2.material.color = new Color(0, 0, 0, i);
+			text.color = new Color(1, 1, 1, i);
+			title.color = new Color(0.145f, 0.9411f, 0.145f, i);
+			yield return null;
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetAxisRaw("Jump") != 0) {
@@ -50,6 +76,7 @@ public class ButtonScript : MonoBehaviour {
 	private void OnMouseUpAsButton() {
 		pressed = true;
 		if (start) {
+			Data.started = true;
 			Destroy(gameObject);
 		} else {
 			load.SetActive(true);

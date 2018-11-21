@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class Data {
 
-	private static int num_levels_completed = 0;
 	private static List<string> levels_completed = new List<string>();
 	private static string lastCompletedScene = "";
+	public static bool started = false;
 
 	public static int getLevelsCompleted()
 	{
-		return num_levels_completed;
+		return levels_completed.Count;
 	}
 	
 	public static bool markLevelCompleted(string levelname)

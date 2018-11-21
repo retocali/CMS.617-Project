@@ -19,21 +19,19 @@ public class CameraScript : MonoBehaviour {
 	void Start () 
 	{
 		cam = GetComponent<Camera>();
-		if (player == null)
+	}
+	// Update is called once per frame
+	void LateUpdate () 
+	{
+		if (!Data.started) {
+			return;
+		}
+		if (player == null) 
 		{
 			player = PlayerScript.FindPlayer();
 			transform.position = new Vector3(player.transform.position.x,
 											 player.transform.position.y,
-											 	    transform.position.z);
-		}
-	}
-	
-	// Update is called once per frame
-	void LateUpdate () 
-	{
-		if (player == null) 
-		{
-			player = PlayerScript.FindPlayer();
+													transform.position.z);
 		} 
 		
 		Vector2 pos = cam.WorldToViewportPoint(player.transform.position);

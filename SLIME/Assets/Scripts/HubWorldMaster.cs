@@ -9,13 +9,10 @@ public class HubWorldMaster : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Debug.Log(Data.lastCompleted());
 		if (Data.lastCompleted() != "") {
 			foreach (PortalScript p in portals) {
-				Debug.Log(p.sceneName);
 				if (p.sceneName == Data.lastCompleted()) {
 					player.transform.position = p.Exit();
-					Debug.Log("Teleporting");
 					return;
 				}
 			}
