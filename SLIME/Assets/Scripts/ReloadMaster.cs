@@ -27,13 +27,13 @@ public class ReloadMaster : MonoBehaviour {
 		}
 		foreach (EnemyClass e in instance.enemies) {
 			if (e != null && !e.spawned) {
-				e.Respawn();
 				e.gameObject.SetActive(true);
+				e.Respawn();
 			} 
 		}
 		foreach (BottleScript i in instance.items) {
-			i.Respawn();
 			i.gameObject.SetActive(true);
+			i.Respawn();
 			i.gameObject.transform.GetChild(0).gameObject.SetActive(true);
 			i.gameObject.GetComponent<BoxCollider2D>().enabled = true;
 		}
@@ -44,7 +44,8 @@ public class ReloadMaster : MonoBehaviour {
 		if (instance == null) {
 			Debug.LogWarning(e.name + " was not logged");
 			return false;
-		}
+		} 
+		Debug.Log("Logged " + e.name);
 		instance.enemies.Add(e);
 		return true;
 	}

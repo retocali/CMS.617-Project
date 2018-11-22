@@ -24,6 +24,13 @@ public class FlierScript : EnemyClass {
 		base.Start();
 	}
 	
+	public override void Respawn()
+	{
+		i = 0;
+		currentTime = 0;
+		base.Respawn();
+	}
+
 	// Update is called once per frame
 	new void Update () {
 		if (!functional) { Warn(transform.name+" not functional"); return; }

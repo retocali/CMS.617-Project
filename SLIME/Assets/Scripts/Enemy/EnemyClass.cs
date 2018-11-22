@@ -39,14 +39,14 @@ public class EnemyClass : MonoBehaviour {
 		HorizontalCollisionStop(ref velocity);
 	}
 
-	public void Respawn()
+	public virtual void Respawn()
 	{
 		dead = false;
 		transform.position = initialLoc;
    		velocity = Vector3.zero;
 	}
 
-	public void KillEnemy()
+	public virtual void KillEnemy()
 	{
 		dead = true;
 	}

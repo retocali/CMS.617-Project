@@ -25,7 +25,17 @@ public class SpawnerScript : EnemyClass
 			Warn("Prefab not set");
 		}
 		sprend = GetComponent<SpriteRenderer>();
+		initialLoc = transform.position;
+		ReloadMaster.AddToMaster(this);
 	}
+	
+	public override void Respawn()
+	{
+		currentTime = 0;
+		sprend.color = Color.white;
+		base.Respawn();
+	}
+
 	// Update is called once per frame
 	new void Update () 
 	{
@@ -36,17 +46,22 @@ public class SpawnerScript : EnemyClass
 		if (sensitive && PlayerInRange())
 		{
 			currentTime += Time.deltaTime;
-			sprend.color = new Color(1-currentTime/time, 0, 0);
+			if (currentTime/time < 1) {
+				sprend.color = new Color(1-currentTime/time, 0, 0);
+			} 
+			else {
+				sprend.color = Color.black;
+			}
+
+
 		}
 		
 		if (currentTime >= time) 
 		{
 			currentTime = 0;
-			sprend.color = Color.black;
 			Spawn();
 		}
 	}
-
 	private bool PlayerInRange()
 	{
 		if (!sensitive) { return true; }

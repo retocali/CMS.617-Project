@@ -29,6 +29,14 @@ public class WaverScript : EnemyClass
 		base.Start();
 	}
 	
+	public override void Respawn()
+	{
+		i = 0;
+		degrees = parameters[0].startDegrees;
+		base.Respawn();
+	}
+
+
 	// Update is called once per frame
 	void FixedUpdate () 
 	{

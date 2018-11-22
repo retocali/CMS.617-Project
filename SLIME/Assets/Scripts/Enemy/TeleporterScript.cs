@@ -41,6 +41,13 @@ public class TeleporterScript : EnemyClass
 		gravity = -20f;
 		base.Start();
 	}
+	public override void Respawn()
+	{
+		i = 0;
+		currentTime = 0;
+		delay = delayTime*times[1];
+		base.Respawn();
+	}
 
 	// Update is called once per frame
 	new void Update () {

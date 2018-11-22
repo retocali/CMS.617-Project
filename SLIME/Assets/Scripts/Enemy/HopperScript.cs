@@ -10,6 +10,7 @@ public class HopperScript : EnemyClass
 	// after cycles frames the direction switches
 	public uint cycles = 100;
 	public uint cycleOffset = 50;
+	private uint currentCycle = 0;
 	
 	// number of frames to wait after completing a cycle to switching direction
 	private uint delayCounter = 0;
@@ -20,12 +21,20 @@ public class HopperScript : EnemyClass
 
 	// Use this for initialization
 	new void Start () {
-		gravity = -40f;
+		gravity = -30f;
+		currentCycle = cycleOffset;
         animor = GetComponent<Animator>();
         sprend = GetComponent<SpriteRenderer>();
 		base.Start();
 	}
 	
+	public override void Respawn()
+	{
+		delayCounter = 0;
+		currentCycle = cycleOffset;
+		base.Respawn();
+	}
+
 	// Update is called once per frame
 	new void Update () {
 
@@ -49,8 +58,8 @@ public class HopperScript : EnemyClass
 			return;
 		}
 
-		cycleOffset++;
-		if (cycleOffset % cycles == 0)
+		currentCycle++;
+		if (currentCycle % cycles == 0)
 		{
 			xSpeed = -xSpeed;
 			
