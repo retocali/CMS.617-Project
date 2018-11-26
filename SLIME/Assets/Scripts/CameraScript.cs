@@ -24,12 +24,9 @@ public class CameraScript : MonoBehaviour {
 	void LateUpdate () 
 	{
 		if (!Data.started) {
-			if (player == null) 
-			{
-				player = PlayerScript.FindPlayer();
-			}
 			return;
 		}
+
 		if (player == null) 
 		{
 			player = PlayerScript.FindPlayer();

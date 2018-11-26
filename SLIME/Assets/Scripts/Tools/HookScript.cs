@@ -94,10 +94,14 @@ public class HookScript : MonoBehaviour, ToolsInterface
  	}
 	public void Interact(GameObject p)
 	{
-		if (Input.GetAxisRaw("Jump") == 0 
-		|| p.GetComponent<PlayerScript>().IsDead()) {
+		// if (Input.GetAxisRaw("Jump") == 0 
+		// || p.GetComponent<PlayerScript>().IsDead()) {
+		// 	return;
+		// }
+		if (p.GetComponent<PlayerScript>().IsDead()) {
 			return;
 		}
+		
 
 		player = p;
 		hooked = true;

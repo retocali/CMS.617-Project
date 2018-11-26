@@ -50,7 +50,7 @@ public class urgency : MonoBehaviour {
             speed=Vector2.Distance(rb.position,player.transform.position)/time;
             counter=samplingFreq;
         }
-        rb.position=Vector2.MoveTowards(rb.position,player.transform.position,speed);
+        rb.position = Vector2.MoveTowards(rb.position,player.transform.position,speed);
 
         Debug.Log(rb.velocity.x);
 
