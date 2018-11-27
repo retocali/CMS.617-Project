@@ -124,7 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collisionMask:
     serializedVersion: 2
-    m_Bits: 567
+    m_Bits: 2615
   DebugFlag: 1
 --- !u!198 &198752997599773284
 ParticleSystem:
