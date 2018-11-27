@@ -15,6 +15,9 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
 
     private Animator animator;
 
+    private Vector3 deltav;
+
+    private Vector3 bounce_offset;
     
     public void Interact(GameObject player)
     {
@@ -34,7 +37,7 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
             // Bounce player
             if (ps != null)
             {
-                Vector3 deltav = new Vector3(magnitude * Mathf.Cos(directionDeg * Mathf.PI / 180), magnitude * Mathf.Sin(directionDeg * Mathf.PI / 180));
+                ps.transform.position = bounce_offset;
                 ps.AddVelocity(deltav);
                 ps.UnStun();
                 disableTime = 0.1f;
@@ -44,7 +47,7 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
             // Bounce bottle
             if(bs != null)
             {
-                Vector3 deltav = new Vector3(magnitude * Mathf.Cos(directionDeg * Mathf.PI / 180), magnitude * Mathf.Sin(directionDeg * Mathf.PI / 180));
+                bs.transform.position = bounce_offset;
                 bs.AddVelocity(deltav);
                 disableTime = 0.1f;
                 animator.SetTrigger("bounce");
@@ -60,6 +63,10 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
     // Use this for initialization
     void Start () {
 		Debug.Log(transform.position);
+
+        
+        deltav = new Vector3(magnitude * Mathf.Cos(directionDeg * Mathf.PI / 180), magnitude * Mathf.Sin(directionDeg * Mathf.PI / 180));
+        bounce_offset = transform.position + deltav.normalized;
 
         animator = GetComponent<Animator>();
         if (animator == null)
