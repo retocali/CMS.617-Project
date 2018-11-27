@@ -11,30 +11,40 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 	private GameObject player;
 	private PlayerScript ps;
 	private Vector3 v = Vector3.zero; 
+	private float r = 0;
 
 	public Direction outDirection = Direction.Left;
 
 	private bool loaded = false;
 	
-	public float time = 2f;
-	public float animateTime = 1f;
-	
+	private const float time = 10f;
+	private const int rev = 4;
+	private float t = 0;
+	private float animateTime = 5f;
+	private float initAngle = 0f;	
+	private void Start() 
+	{
+		t = time;
+		r =	GetComponent<CircleCollider2D>().radius*transform.localScale.x;
+	}
+
 	private void Update() {
 		transform.Rotate(new Vector3(0,0,-1));
-		WithPlayer();
 		if (!loaded) { return; }
-		time -= Time.deltaTime;
+		WithPlayer();
+		t -= Time.deltaTime;
 		
-		if (time <= 0)
+		if (t <= 0)
 		{
 			Data.lastAttemptedScene = sceneName;
 			SceneManager.LoadSceneAsync(sceneName);
-			time = 2f;
+			t = time;
 		} 
-		else if (time <= animateTime)
+		else if (t <= animateTime+0.25)
 		{
 			load.SetActive(true);
 		}
+		
 	}
 
 	private void WithPlayer()
@@ -43,8 +53,14 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 
 		ps.DestroyCrumbs(0.25f);
 		ps.MultiplyVelocity(0);
-		player.transform.position = Vector3.SmoothDamp(player.transform.position, 
-										 transform.position, ref v, animateTime/2);
+		
+		float t_norm = (t-animateTime)/(time-animateTime);
+		float angle = (2*Mathf.PI*t_norm*rev)+initAngle;
+
+		Vector3 new_position = transform.position + (new Vector3(Mathf.Cos(angle), 
+																 Mathf.Sin(angle),
+																 0)*r*t_norm*t_norm);
+		player.transform.position = new_position;
 	}
 
 	public Vector3 Exit()
@@ -64,11 +80,12 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 			default:
 				return origin;
 		}
+
 	}
 
 	public void Interact(GameObject p)
 	{
-        if (loaded || Input.GetAxisRaw("Jump") == 0) { return; }
+        if (loaded) { return; }
 		ps = p.GetComponent<PlayerScript>();
 		ps.UnStun();
 		if (ps.IsDead()) {
@@ -76,6 +93,8 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 			return;
 		}
 		player = p;
+		Vector3 delta = player.transform.position-transform.position;
+		initAngle = Mathf.Atan2(delta.y, delta.x);
 		loaded = true;
 
 	}
