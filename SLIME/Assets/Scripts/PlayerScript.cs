@@ -286,7 +286,7 @@ public class PlayerScript : MonoBehaviour
 			float maxDrop = -jumpVelocity*stunDropModifier;
 			if (prevVelocity.y < maxDrop) 
 			{
-				StunPlayer(Mathf.Abs(prevVelocity.y-maxDrop)*stunCountModifier);
+				// StunPlayer(Mathf.Abs(prevVelocity.y-maxDrop)*stunCountModifier);
 			}
 			else if (input.y ==  1) { velocity.y *= extendJumpModifier; }
 			else if (input.y == -1) { velocity.y *= increaseGravityModifier; }
