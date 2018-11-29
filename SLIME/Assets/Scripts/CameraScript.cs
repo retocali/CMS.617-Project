@@ -16,6 +16,7 @@ public class CameraScript : MonoBehaviour {
 	float time = 0.75f;
 	
 	private bool focus = false;
+	private bool timedFocus = false;
 	private float focusTime = 0;
 	private Vector3 focusLoc;
 	// Use this for initialization
@@ -40,16 +41,24 @@ public class CameraScript : MonoBehaviour {
 		
 		if (focus)
 		{
+			transform.position = focusLoc;
+			return;
+		}
+
+		if (timedFocus)
+		{
 			focusTime -= Time.deltaTime;
 			if (focusTime < 0)
 			{
-				focus = false;
+				timedFocus = false;
 			}
 			else 
 			{
 				transform.position = focusLoc;
+				return;
 			}
 		}
+		
 
 		Vector2 pos = cam.WorldToViewportPoint(player.transform.position);
 		float x = pos.x-0.5f;
@@ -77,10 +86,24 @@ public class CameraScript : MonoBehaviour {
 		}
 	}
 
-	public void CameraFocus(Vector2 loc, float time)
+	public void CameraFocusTimed(Vector2 loc, float time)
 	{
 		focusLoc = new Vector3(loc.x, loc.y, transform.position.z);
 		focusTime = time;
+		timedFocus = true;
+	}
+
+	public void CameraFocusOn(Vector2 loc)
+	{
+		focusLoc = new Vector3(loc.x, loc.y, transform.position.z);
 		focus = true;
+	}
+	
+	public void CameraFocusOff()
+	{
+		focusTime = 0;
+		focus = false;
+		timedFocus = false;
+		
 	}
 }
