@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PortalScript : MonoBehaviour, ToolsInterface 
@@ -41,6 +42,7 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 		} 
 		else if (t <= animateTime+0.25)
 		{
+			load.GetComponentInChildren<Text>().text = "Loading " + sceneName.ToUpper() + "..";
 			load.SetActive(true);
 		}
 		

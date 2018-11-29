@@ -50,9 +50,7 @@ public class urgency : MonoBehaviour {
             speed=Vector2.Distance(rb.position,player.transform.position)/time;
             counter=samplingFreq;
         }
-        rb.position = Vector2.MoveTowards(rb.position,player.transform.position,speed);
-
-        Debug.Log(rb.velocity.x);
+        rb.velocity = (player.transform.position - transform.position).normalized * speed;
 
         // Update sprite flippiness
         if(rb.position.x  - player.transform.position.x > 0)

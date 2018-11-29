@@ -26,7 +26,7 @@ public class PauseMaster : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-        int index = 0;
+        index = 0;
         AudioListener.volume =  Data.muted ? 0 : 1;
         MuteButton.GetComponentInChildren<Text>().text = Data.muted ? muteOn : muteOff;
 	}
