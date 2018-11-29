@@ -15,8 +15,7 @@ public class HopperScript : EnemyClass
 	// number of frames to wait after completing a cycle to switching direction
 	private uint delayCounter = 0;
 	private uint turnAroundDelay = 100;
-
-    private Animator animor;
+	
     private SpriteRenderer sprend;
 
 	// Use this for initialization

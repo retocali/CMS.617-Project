@@ -175,7 +175,6 @@ public class Controller2D : MonoBehaviour
 							break;
 					}
 				} else if (bs != null) {
-					Debug.Log("bottle: " + hit.transform.tag);
                     if (hit.transform.tag == "superbounce")
                     {
                         ToolsInterface t = hit.collider.gameObject.GetComponent<ToolsInterface>();

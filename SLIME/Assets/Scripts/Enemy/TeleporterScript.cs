@@ -14,8 +14,6 @@ public class TeleporterScript : EnemyClass
 	private float delay = 0;
 	private Transform portal;
 
-    private Animator animor;
-
 	// Use this for initialization
 	new void Start () {
         animor = GetComponent<Animator>();

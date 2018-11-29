@@ -10,7 +10,6 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 	
 	private GameObject player;
 	private PlayerScript ps;
-	private Vector3 v = Vector3.zero; 
 	private float r = 0;
 
 	public Direction outDirection = Direction.Left;
