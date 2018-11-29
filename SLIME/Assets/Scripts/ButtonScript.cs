@@ -21,12 +21,9 @@ public class ButtonScript : MonoBehaviour {
 	private SpriteRenderer bg1;
 	private SpriteRenderer bg2;
 
-	private bool pressed;
-
 	// Use this for initialization
 	void Start () {
 		text = GetComponent<TextMesh>();
-		pressed = false;
 		target = initial;
 	
 		if (start)
@@ -75,7 +72,6 @@ public class ButtonScript : MonoBehaviour {
 		target = initial;
 	}
 	private void OnMouseUpAsButton() {
-		pressed = true;
 		if (start) {
 			Data.started = true;
 			Destroy(gameObject);

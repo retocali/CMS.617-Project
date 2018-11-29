@@ -9,6 +9,7 @@ public class Data {
 	private static string lastCompletedScene = "";
 	public static string lastAttemptedScene = "";
 	public static bool started = Application.isEditor; 
+	public static bool muted = false;
 	public static int getLevelsCompleted()
 	{
 		return levels_completed.Count;

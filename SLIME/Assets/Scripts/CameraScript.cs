@@ -15,6 +15,10 @@ public class CameraScript : MonoBehaviour {
 	float mod = 1;
 	float time = 0.75f;
 	
+	private bool focus = false;
+	private bool timedFocus = false;
+	private float focusTime = 0;
+	private Vector3 focusLoc;
 	// Use this for initialization
 	void Start () 
 	{
@@ -35,6 +39,27 @@ public class CameraScript : MonoBehaviour {
 													transform.position.z);
 		} 
 		
+		if (focus)
+		{
+			transform.position = focusLoc;
+			return;
+		}
+
+		if (timedFocus)
+		{
+			focusTime -= Time.deltaTime;
+			if (focusTime < 0)
+			{
+				timedFocus = false;
+			}
+			else 
+			{
+				transform.position = focusLoc;
+				return;
+			}
+		}
+		
+
 		Vector2 pos = cam.WorldToViewportPoint(player.transform.position);
 		float x = pos.x-0.5f;
 		float y = pos.y-0.5f;
@@ -61,34 +86,24 @@ public class CameraScript : MonoBehaviour {
 		}
 	}
 
-	// Only useful if time-based mod approach fails
-	// private void ClampToPlayer(Vector3 delta, ref Vector3 destination)
-	// {
-	// 	float maxDistance = 10f;
-	// 	Vector3 difference = destination-player.transform.position;
-	// 	if (delta.x > 0 ) {
-			
-	// 		destination = new Vector3(Mathf.Min(player.transform.position.x, 
-	// 											              destination.x), 
-	// 								  destination.y, 
-	// 								  destination.z);	
-	// 	} if (delta.x < 0) {
-	// 		destination = new Vector3(Mathf.Max(player.transform.position.x, 
-	// 											              destination.x), 
-	// 								  destination.y, 
-	// 								  destination.z);
-	// 	} 
-	// 	if (delta.y > 0) {
-	// 		destination = new Vector3(destination.x,
-	// 								  Mathf.Min(player.transform.position.y, 
-	// 								  						  destination.y), 
-	// 								  destination.z);
-	// 	} if (delta.y < 0) {
-	// 		destination = new Vector3(destination.x,
-	// 								  Mathf.Max(player.transform.position.y, 
-	// 														  destination.y), 
-	// 								  destination.z);
-	// 	}
+	public void CameraFocusTimed(Vector2 loc, float time)
+	{
+		focusLoc = new Vector3(loc.x, loc.y, transform.position.z);
+		focusTime = time;
+		timedFocus = true;
+	}
+
+	public void CameraFocusOn(Vector2 loc)
+	{
+		focusLoc = new Vector3(loc.x, loc.y, transform.position.z);
+		focus = true;
+	}
+	
+	public void CameraFocusOff()
+	{
+		focusTime = 0;
+		focus = false;
+		timedFocus = false;
 		
-	// }
+	}
 }

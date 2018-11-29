@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlatformScript : MonoBehaviour {
 
 	private Rigidbody2D rb;
-	private Vector3 normalScale;
 	
 	public float xAcceleration = 0;
 	public float yAcceleration = 0;
@@ -22,7 +21,6 @@ public class PlatformScript : MonoBehaviour {
 		
 		rb = GetComponent<Rigidbody2D>();
 		resetVelocity();
-		normalScale = transform.localScale;
 	}
 	
 	// Update is called once per frame

@@ -43,13 +43,8 @@ public class PlayerScript : MonoBehaviour
 	public bool inactive = false;
 	private bool stunned = false;
 	private float stunCounter = 0;
-	private float stunCountModifier = 0.15f;
 	private float stunDropModifier = 3.5f;
 	private Color defaultColor;
-
-    // Bounce deceleration delay
-    private float bounceDelayTime = 0;
-    private float maxBounceDelayTime = 5;
 
 	public GameObject crumbPrefab;
 	private float crumbSpace = 2.0f;
@@ -64,9 +59,6 @@ public class PlayerScript : MonoBehaviour
 	public AudioClip wallJumpSound;
 	private int playing = 3;
 
-    private bool paused=false;
-    private bool muted=false;
-    private string homeScreen="hub-world";
 	// Use this for initialization
 	void Start () 
 	{
@@ -286,7 +278,7 @@ public class PlayerScript : MonoBehaviour
 			float maxDrop = -jumpVelocity*stunDropModifier;
 			if (prevVelocity.y < maxDrop) 
 			{
-				StunPlayer(Mathf.Abs(prevVelocity.y-maxDrop)*stunCountModifier);
+				// StunPlayer(Mathf.Abs(prevVelocity.y-maxDrop)*stunCountModifier);
 			}
 			else if (input.y ==  1) { velocity.y *= extendJumpModifier; }
 			else if (input.y == -1) { velocity.y *= increaseGravityModifier; }
@@ -391,53 +383,9 @@ public class PlayerScript : MonoBehaviour
 		velocity.y = Mathf.Max(Mathf.Min(maxSpeedY, velocity.y), -maxSpeedY);
 	}
 
-    private void TogglePause() {
-        paused = !paused;
-        pausedScreen.SetActive(paused);
-		if (paused) { Time.timeScale=0; } 
-        else { Time.timeScale=1; }  
-        Debug.LogWarning("Pausing");
-    }
-
-	private void UnPause() {
-        paused = false;
-        // pausedScreen.SetActive(false); 
-        Time.timeScale = 1;  
-    }
-
-
-    private void Mute()
-	{
-        muted = !muted;
-        AudioListener.volume =  muted ? 0 : 1;
-    }
-
-	private void pauseUI()
-	{
-		if (pausedScreen == null || !Data.started)
-		{
-			return;
-		}
-		if(Input.GetButtonDown("TogglePause")){
-            TogglePause();
-        }
-        if(Input.GetButtonDown("Mute")){
-            Mute();
-        }
-        if(Input.GetButtonDown("Reset")){
-			UnPause();
-            SceneManager.LoadSceneAsync(homeScreen);
-        }
-        if(Input.GetButtonDown("Restart")){
-			UnPause();
-        	SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
-        }
-	}
 	// Update is called once per frame
 	void Update () 
 	{
-		pauseUI();
-
 		Vector3 input = Vector3.zero;
 		if (!dead && !inactive) 
 		{

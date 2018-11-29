@@ -8,8 +8,6 @@ public class DropperScript : EnemyClass
 	private bool falling = false;
 	private Transform player;
 
-    private Animator animor;
-
 	private float XRange = 4f;
 	private float YRange = 0f;
 	private float time = 1f;
@@ -21,8 +19,6 @@ public class DropperScript : EnemyClass
 		gravity = -20f;
 		if (spawned) {time = 0;}
         animor = GetComponent<Animator>();
-        
-
 	}
 	
 	// Update is called once per frame

@@ -227,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collisionMask:
     serializedVersion: 2
-    m_Bits: 823
+    m_Bits: 2871
   DebugFlag: 1
 --- !u!114 &114730365212934454
 MonoBehaviour:
@@ -244,6 +244,7 @@ MonoBehaviour:
   jumpHeight: 2.2
   acceleration: 20
   mainPlayer: 1
+  pausedScreen: {fileID: 0}
   inactive: 0
   crumbPrefab: {fileID: 1612155585748918, guid: a7da833a63b4e437f90728032a65fc2d,
     type: 2}

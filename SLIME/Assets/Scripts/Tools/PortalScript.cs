@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PortalScript : MonoBehaviour, ToolsInterface 
@@ -10,7 +11,6 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 	
 	private GameObject player;
 	private PlayerScript ps;
-	private Vector3 v = Vector3.zero; 
 	private float r = 0;
 
 	public Direction outDirection = Direction.Left;
@@ -42,6 +42,7 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 		} 
 		else if (t <= animateTime+0.25)
 		{
+			load.GetComponentInChildren<Text>().text = "Loading Level: " + sceneName.Substring(1) + "..";
 			load.SetActive(true);
 		}
 		
