@@ -107,17 +107,19 @@ public class CheckpointMaster : MonoBehaviour {
 			index = (index + 1) % currentCheckpoint.Length;
 			cur = currentCheckpoint[index];
 			pos = currentCheckpoint[index].transform.position;
-
-			if (index == urgencyIndex) {
-				urgencyAlive = true;
-			} 
 			
-			if ( urgency != null && useSpawns && urgencyAlive) {
-				urgencyIndex = (index + 1) % currentUrgencySpawn.Length;
-				if (checkList(index, destroyUrgencyAt)) {
+			if ( urgency != null && useSpawns) {				
+				if (checkList(index, spawnUrgencyAt)) {
+					urgencyIndex += (urgencyIndex + 1) % currentUrgencySpawn.Length;
+					urgencyAlive = true;
+				}
+				else if (checkList(index, destroyUrgencyAt)) {
 					urgencyAlive = false;
 					Debug.Log("URGENCY GONE");
 
+				}
+				else if( urgencyAlive) {
+					urgencyIndex += (urgencyIndex + 1) % currentUrgencySpawn.Length;
 				}
 				urgencyCur = currentUrgencySpawn[urgencyIndex];
 				urgencyPos = currentUrgencySpawn[urgencyIndex].transform.position;
@@ -147,6 +149,7 @@ public class CheckpointMaster : MonoBehaviour {
 						Debug.Log(urgencyIndex);
 					}
 					if (checkList(i, spawnUrgencyAt)) {
+						urgencyIndex++;
 						urgencyAlive = true;
 					}
 
