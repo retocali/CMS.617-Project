@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114216201351747750}
   - component: {fileID: 114586537693446900}
   - component: {fileID: 114065430483884928}
+  - component: {fileID: 114340281471744550}
   m_Layer: 0
   m_Name: Game Master
   m_TagString: GameMaster
@@ -71,8 +72,21 @@ MonoBehaviour:
   player: {fileID: 0}
   urgency: {fileID: 0}
   useSpawns: 0
-  spawnUrgencyAt: 0
-  destroyUrgencyAt: 0
+  spawnUrgencyAt: 
+  destroyUrgencyAt: 
+  urgencySpeed: 2
+--- !u!114 &114340281471744550
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1028657235507658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf1152c8902c0645977c981c2f4b6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wind: {fileID: 1973976399555406, guid: d82fce87c85b0114d95ea36707045ab5, type: 2}
 --- !u!114 &114586537693446900
 MonoBehaviour:
   m_ObjectHideFlags: 1

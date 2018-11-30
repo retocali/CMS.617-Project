@@ -10,6 +10,8 @@ public class ReloadMaster : MonoBehaviour {
 	// but since it's just bottles for our spec 
 	private List<BottleScript> items = new List<BottleScript>();
 
+	public GameObject finalBossMan;
+
 	private static ReloadMaster instance;
 
 	// Use this for initialization of singleton class
@@ -36,7 +38,17 @@ public class ReloadMaster : MonoBehaviour {
 			i.Respawn();
 			i.gameObject.transform.GetChild(0).gameObject.SetActive(true);
 			i.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+			i.gameObject.GetComponent<Controller2D>().enabled = true;
+			i.gameObject.GetComponent<BottleScript>().enabled = true;
+			i.gameObject.GetComponent<BottleScript>().broke = false; // I fixed it
 		}
+		instance.ReloadFinalBoss();
+	}
+
+	private void ReloadFinalBoss()
+	{
+		if (finalBossMan != null)
+			finalBossMan.GetComponent<FinalBossScript>().Reload();
 	}
 
 	public static bool AddToMaster(EnemyClass e) 

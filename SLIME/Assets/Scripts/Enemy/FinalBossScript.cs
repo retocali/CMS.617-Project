@@ -14,6 +14,8 @@ public GameObject bulletPrefab;
 	public float fireSpeed;
 	public GameObject player;
 
+	private int health = 3;
+
 	// Use this for initialization
 	void Start () {
 		lastShot = -fireRate;
@@ -25,6 +27,9 @@ public GameObject bulletPrefab;
 		if (Time.time > lastShot + (fireRate )){
 			lastShot = Time.time;
 			Fire();
+		}
+		if(health == 0){
+			Die();
 		}
 	}
 	
@@ -44,6 +49,20 @@ public GameObject bulletPrefab;
 			// bullet.GetComponent<FireBallScript>().SetPlayerPos(player);
 			// bullet.GetComponent<FireBallScript>().SetSpeed(fireSpeed);
 
-			Destroy(bullet, 5f);
+			Destroy(bullet, 10f);
+	}
+
+	public void Reload()
+	{
+		health = 3;
+	}
+	public void Hurt(BottleScript bs)
+	{
+		Debug.Log("OUCH");
+		bs.Break();
+		health--;
+	}
+	private void Die(){
+		Destroy(gameObject);
 	}
 }

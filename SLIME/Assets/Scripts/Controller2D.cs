@@ -163,6 +163,7 @@ public class Controller2D : MonoBehaviour
 				if (ps != null) {
 					switch(hit.transform.tag)
 					{
+						case "FinalBoss":
 						case "hazard":
 							ps.KillPlayer();
 							break;
@@ -180,6 +181,9 @@ public class Controller2D : MonoBehaviour
                         ToolsInterface t = hit.collider.gameObject.GetComponent<ToolsInterface>();
                         t.Interact(gameObject);
                     }
+					if (hit.transform.tag == "FinalBoss") {
+						hit.transform.gameObject.GetComponent<FinalBossScript>().Hurt(bs);
+					}
                     speed = VerticalCollide(ref velocity, hit, direction);
                 } else if (ec != null) {
 					if (hit.transform.tag != "Player")
@@ -232,6 +236,7 @@ public class Controller2D : MonoBehaviour
 				if (ps != null) {
 					switch(hit.transform.tag)
 					{
+						case "FinalBoss":
 						case "hazard":
 							ps.KillPlayer();
 							break;
@@ -251,6 +256,9 @@ public class Controller2D : MonoBehaviour
                         ToolsInterface t = hit.collider.gameObject.GetComponent<ToolsInterface>();
                         t.Interact(gameObject);
                     }
+					if (hit.transform.tag == "FinalBoss") {
+						hit.transform.gameObject.GetComponent<FinalBossScript>().Hurt(bs);
+					}
                     speed = HorizontalCollide(ref velocity, hit, direction);
                 } else if (ec != null) {
 					if (hit.transform.tag != "Player")

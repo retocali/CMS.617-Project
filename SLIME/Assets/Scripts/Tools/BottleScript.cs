@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Controller2D))]
 public class BottleScript : MonoBehaviour, ToolsInterface 
 {
-	public bool weaponized = false;
+	public bool broke = false;
 
 	private GameObject player;
 	private PlayerScript ps;
@@ -112,15 +112,26 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 	}
 	public void Break()
 	{
+		if (broke)
+		{
+			// Dont fix it
+			return;
+		}
+		broke = true;
 		Debug.Log("Break");
 		Release();
 		GetComponent<BoxCollider2D>().enabled = false;
+		GetComponent<Controller2D>().enabled = false;
 		partSys.Play();
 		transform.GetChild(0).gameObject.SetActive(false);
+		GetComponent<BottleScript>().enabled = false;
 	}
 
 	private void Release()
 	{	
+		if(ps == null) {
+			return;
+		}
 		float clearance = player.transform.lossyScale.y;
 		if (c2d.VerticalRaycast(clearance).collider != null) 
 		{
