@@ -36,6 +36,9 @@ public class CheckpointMaster : MonoBehaviour {
 
 	bool urgencyAlive = false;
 
+	public int urgencySpeed = 2;
+
+
 	//////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////
@@ -76,6 +79,7 @@ public class CheckpointMaster : MonoBehaviour {
 				urgencyCur = currentUrgencySpawn[0];
 				urgencyPos = urgencyCur.transform.position;
 				urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
+				urgency.GetComponent<urgency>().changeSpeed(urgencySpeed);
 			} else {
 				Debug.LogWarning("Could not find sense of urgency");
 			}
@@ -95,6 +99,7 @@ public class CheckpointMaster : MonoBehaviour {
 			if (urgency != null && useSpawns && urgencyAlive) {
 				Destroy(urgency);
 				urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
+				urgency.GetComponent<urgency>().changeSpeed(urgencySpeed);
 			}
 			var splitterScript = gameObject.GetComponent<SplitterMasterScript>();
 			
@@ -168,6 +173,7 @@ public class CheckpointMaster : MonoBehaviour {
 					urgencyCur = currentUrgencySpawn[urgencyIndex];
 					urgencyPos = currentUrgencySpawn[urgencyIndex].transform.position;
 					urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
+					urgency.GetComponent<urgency>().changeSpeed(urgencySpeed);
 					
 				}
 			} 

@@ -62,4 +62,8 @@ public class urgency : MonoBehaviour {
             sprend.flipX = false;
         }
     }
+
+    public void changeSpeed(int s){
+        speed = s;
+    }
 }
