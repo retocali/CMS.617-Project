@@ -9,8 +9,8 @@ public class SquisherScript : MonoBehaviour, ToolsInterface {
 
 	int numSlimes = 0;
 
-	 private float y; 
- 	 private float x;
+	private float y; 
+ 	private float x;
 	private GameObject[] players;
 
 
@@ -18,6 +18,7 @@ public class SquisherScript : MonoBehaviour, ToolsInterface {
 	private GameObject player2 = null;
 	public int release = 54;
 	private int timeToRelease;
+
  	// Use this for initialization
 	void Start () {
 		y = gameObject.transform.position.y;
@@ -73,6 +74,8 @@ public class SquisherScript : MonoBehaviour, ToolsInterface {
 			else {
 				mainPlayer = p;
 				players[1] = p;
+				
+				StartCoroutine(switchPlayers());
 			}
 			p.transform.position = new Vector3(x, y, 0);
 			p.GetComponent<PlayerScript>().MultiplyVelocity(0);
@@ -83,7 +86,11 @@ public class SquisherScript : MonoBehaviour, ToolsInterface {
 
 
 	}
-
+	IEnumerator switchPlayers()
+	{
+		yield return new WaitForSeconds(0.5f);
+		Camera.main.gameObject.GetComponent<CameraScript>().SwitchPlayers(splitter.GetComponent<SplitterScript>().player2);
+	}
 	private void resetSquisher() {
 		player2 = null;
 		mainPlayer = null;

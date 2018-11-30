@@ -106,4 +106,12 @@ public class CameraScript : MonoBehaviour {
 		timedFocus = false;
 		
 	}
+
+	public void SwitchPlayers(GameObject p)
+	{
+		if (p.GetComponent<PlayerScript>() == null) {
+			return;
+		}
+		player = p;
+	}
 }

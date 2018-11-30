@@ -6,9 +6,9 @@ using System;
 public class SplitterScript : MonoBehaviour, ToolsInterface {
 
 	private bool split = false;
-
- 	private GameObject player;
-	private GameObject player2;
+	
+ 	public GameObject player;
+	public GameObject player2;
 	
 	public Direction outDirection1 = Direction.Bottom;
 	public Direction outDirection2 = Direction.Right;
