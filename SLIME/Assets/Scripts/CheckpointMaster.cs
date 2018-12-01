@@ -97,7 +97,7 @@ public class CheckpointMaster : MonoBehaviour {
 		if (player.GetComponent<PlayerScript>().IsDead() == true) {
 			SpawnPlayer();
 			if (urgency != null && useSpawns && urgencyAlive) {
-				Destroy(urgency);
+				killUrgency(urgency);
 				spawnUrgency();
 			}
 			var splitterScript = gameObject.GetComponent<SplitterMasterScript>();
@@ -123,6 +123,7 @@ public class CheckpointMaster : MonoBehaviour {
 					urgencyAlive = false;
 					urgencyIndex = (urgencyIndex + 1) % currentUrgencySpawn.Length;
 					Debug.Log("URGENCY GONE");
+					killUrgency(urgency);
 
 				}
 				else if( urgencyAlive) {
@@ -149,7 +150,7 @@ public class CheckpointMaster : MonoBehaviour {
 						urgencyIndex++;
 						urgencyAlive = false;
 						Debug.Log("URGENCY GONE");
-						Destroy(urgency);
+						killUrgency(urgency);
 					}
 					if (useSpawns &&urgencyAlive) {
 						urgencyIndex++;
@@ -205,6 +206,11 @@ public class CheckpointMaster : MonoBehaviour {
 	private void spawnUrgency(){
 		urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
 		urgency.GetComponent<urgency>().changeSpeed(urgencySpeed);
+	}
+
+	private void killUrgency(GameObject u) {
+		Destroy(u);
+
 	}
 
 }
