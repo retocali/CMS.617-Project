@@ -123,7 +123,7 @@ MonoBehaviour:
   time: 100
   constSpeed: 1
   samplingFreq: 100
-  onReset: 1
+  onReset: 0
 --- !u!212 &212064900818380810
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -78,8 +78,8 @@ public class CheckpointMaster : MonoBehaviour {
 				urgencyAlive = true;
 				urgencyCur = currentUrgencySpawn[0];
 				urgencyPos = urgencyCur.transform.position;
-				urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
-				urgency.GetComponent<urgency>().changeSpeed(urgencySpeed);
+				spawnUrgency();
+				
 			} else {
 				Debug.LogWarning("Could not find sense of urgency");
 			}
@@ -98,8 +98,7 @@ public class CheckpointMaster : MonoBehaviour {
 			SpawnPlayer();
 			if (urgency != null && useSpawns && urgencyAlive) {
 				Destroy(urgency);
-				urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
-				urgency.GetComponent<urgency>().changeSpeed(urgencySpeed);
+				spawnUrgency();
 			}
 			var splitterScript = gameObject.GetComponent<SplitterMasterScript>();
 			
@@ -115,11 +114,14 @@ public class CheckpointMaster : MonoBehaviour {
 			
 			if ( urgency != null && useSpawns) {				
 				if (checkList(index, spawnUrgencyAt)) {
-					urgencyIndex = (urgencyIndex + 1) % currentUrgencySpawn.Length;
+					urgencyCur = currentUrgencySpawn[urgencyIndex];
+					urgencyPos = currentUrgencySpawn[urgencyIndex].transform.position;
+					spawnUrgency();
 					urgencyAlive = true;
 				}
 				else if (checkList(index, destroyUrgencyAt)) {
 					urgencyAlive = false;
+					urgencyIndex = (urgencyIndex + 1) % currentUrgencySpawn.Length;
 					Debug.Log("URGENCY GONE");
 
 				}
@@ -174,8 +176,7 @@ public class CheckpointMaster : MonoBehaviour {
 				else if (urgency == null && useSpawns && urgencyAlive) {
 					urgencyCur = currentUrgencySpawn[urgencyIndex];
 					urgencyPos = currentUrgencySpawn[urgencyIndex].transform.position;
-					urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
-					urgency.GetComponent<urgency>().changeSpeed(urgencySpeed);
+					spawnUrgency();
 					
 				}
 			} 
@@ -199,6 +200,11 @@ public class CheckpointMaster : MonoBehaviour {
 			}
 		}
 		return false;
+	}
+
+	private void spawnUrgency(){
+		urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
+		urgency.GetComponent<urgency>().changeSpeed(urgencySpeed);
 	}
 
 }
