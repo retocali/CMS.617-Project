@@ -59,6 +59,12 @@ public class CheckpointMaster : MonoBehaviour {
 		return checkpointActivated;
 	}
 
+	// Returns the index of the current checkpoint (zero index)
+	public int getCurrentCheckpointIndex(){
+
+		return index;
+	}
+
 	////////////////////////////////////////////////
 	// Private Methods
 	///////////////////////////////////////////////
