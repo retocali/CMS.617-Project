@@ -204,11 +204,13 @@ public class CheckpointMaster : MonoBehaviour {
 	}
 
 	private void spawnUrgency(){
+		MusicMaster.SpawnUrgency();
 		urgency = urgencyCur.GetComponent<EnemySpawnScript>().Spawn();
 		urgency.GetComponent<urgency>().changeSpeed(urgencySpeed);
 	}
 
 	private void killUrgency(GameObject u) {
+		MusicMaster.DespawnUrgency();
 		Destroy(u);
 
 	}

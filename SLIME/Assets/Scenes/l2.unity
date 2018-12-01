@@ -436,6 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5ebb2d01840e4ebab4ce64d69cb78c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finalBossMan: {fileID: 0}
 --- !u!1 &245684950
 GameObject:
   m_ObjectHideFlags: 0
@@ -1372,6 +1373,7 @@ GameObject:
   - component: {fileID: 931260318}
   - component: {fileID: 931260321}
   - component: {fileID: 931260322}
+  - component: {fileID: 931260323}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1547,6 +1549,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &931260323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 931260317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 332e837f36f90472e8a0d1b1a03dff55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  urgency: {fileID: 8300000, guid: 7c758013bb6694dcab69d2dc76c409d5, type: 3}
 --- !u!1001 &940343609
 Prefab:
   m_ObjectHideFlags: 0

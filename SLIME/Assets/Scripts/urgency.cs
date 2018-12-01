@@ -38,12 +38,9 @@ public class urgency : MonoBehaviour {
         {
             player = PlayerScript.FindPlayer();
             if(onReset==ResetType.BACK_TO_ORIGIN){
-                Debug.LogWarning(rb.position);
                 rb.position=new Vector2(startingPos.x,startingPos.y);
-                Debug.LogWarning(rb.position);
             }
 
-            Debug.LogWarning("Reseting position");
             return;
         }
         if(!constSpeed && counter--==0) {

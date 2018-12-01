@@ -5,12 +5,12 @@ using UnityEngine;
 public class WindScript : MonoBehaviour {
 
 	public GameObject wind;
-	public float minSize = 0.75f;
-	public float maxSize = 1.50f;
+	public float minSize = 0.5f;
+	public float maxSize = 1.1f;
 	
 
 	private float timeLeft = 0;
-	public const float gap = 2f;
+	public float gap = 2f;
 	public const int colorChanges = 100;
 	private Color startColor;
 	private Color endColor;

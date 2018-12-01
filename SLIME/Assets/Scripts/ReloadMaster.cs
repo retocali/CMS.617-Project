@@ -57,7 +57,6 @@ public class ReloadMaster : MonoBehaviour {
 			Debug.LogWarning(e.name + " was not logged");
 			return false;
 		} 
-		Debug.Log("Logged " + e.name);
 		instance.enemies.Add(e);
 		return true;
 	}
