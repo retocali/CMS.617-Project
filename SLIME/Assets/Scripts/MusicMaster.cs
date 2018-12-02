@@ -6,6 +6,8 @@ public class MusicMaster : MonoBehaviour {
 
 	public AudioClip urgency;
 	public AudioClip original;
+	public AudioClip roar;
+	public float gapTime = 0.5f;
 	
 	private static AudioSource audsrc;
 	private static MusicMaster instance;
@@ -20,15 +22,26 @@ public class MusicMaster : MonoBehaviour {
 	
 	public static void SpawnUrgency()
 	{
-		Debug.Log("Urgency Music Starting");
-		audsrc.clip = instance.urgency;
-		audsrc.Play();
+		instance.PlayMusicWrapper(instance.urgency);
 	}
 
 	public static void DespawnUrgency()
 	{
-		Debug.Log("Original Music Starting");
-		audsrc.clip = instance.original;
+		instance.PlayMusicWrapper(instance.original);
+	}
+	private void PlayMusicWrapper(AudioClip clip)
+	{
+		StartCoroutine(musicTransition(clip));
+	}
+
+	private IEnumerator musicTransition(AudioClip clip)
+	{
+		audsrc.Stop();
+		yield return new WaitForSeconds(gapTime);
+		audsrc.clip = roar;
+		audsrc.Play();
+        yield return new WaitForSeconds(roar.length+gapTime);
+		audsrc.clip = clip;
 		audsrc.Play();
 	}
 }

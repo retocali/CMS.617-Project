@@ -1561,6 +1561,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   urgency: {fileID: 8300000, guid: 7c758013bb6694dcab69d2dc76c409d5, type: 3}
+  original: {fileID: 0}
+  roar: {fileID: 8300000, guid: e9cba2346f1bc40faad0b3229544df2f, type: 3}
+  gapTime: 0.5
 --- !u!1001 &940343609
 Prefab:
   m_ObjectHideFlags: 0

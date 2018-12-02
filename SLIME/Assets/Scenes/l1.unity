@@ -156247,7 +156247,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5ceca8454ea014f10870e4fdf17ac146, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -156343,6 +156343,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   urgency: {fileID: 8300000, guid: 7c758013bb6694dcab69d2dc76c409d5, type: 3}
+  original: {fileID: 0}
+  roar: {fileID: 8300000, guid: e9cba2346f1bc40faad0b3229544df2f, type: 3}
+  gapTime: 0.25
 --- !u!1001 &955111716
 Prefab:
   m_ObjectHideFlags: 0
