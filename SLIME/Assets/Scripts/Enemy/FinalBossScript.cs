@@ -16,15 +16,21 @@ public GameObject bulletPrefab;
 
 	private int health = 3;
 
+	private Animator animator;
+
+	private CheckpointMaster checkpointMaster;
+
 	// Use this for initialization
 	void Start () {
 		lastShot = -fireRate;
+		animator = GetComponent<Animator>();
+		checkpointMaster = GameObject.FindGameObjectWithTag("GameMaster").GetComponent<CheckpointMaster>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (Time.time > lastShot + (fireRate )){
+		if (Time.time > lastShot + (fireRate) + Random.value * fireRate && checkpointMaster.getCurrentCheckpointIndex() > 0){
 			lastShot = Time.time;
 			Fire();
 		}
@@ -50,6 +56,7 @@ public GameObject bulletPrefab;
 			// bullet.GetComponent<FireBallScript>().SetSpeed(fireSpeed);
 
 			Destroy(bullet, 10f);
+		animator.SetTrigger("spit");
 	}
 
 	public void Reload()
@@ -61,8 +68,11 @@ public GameObject bulletPrefab;
 		Debug.Log("OUCH");
 		bs.Break();
 		health--;
+		animator.SetTrigger("damage");
 	}
 	private void Die(){
-		Destroy(gameObject);
+		animator.SetTrigger("kill");
+		animator.SetBool("isded", true);
+		Destroy(gameObject, 0.5f);
 	}
 }
