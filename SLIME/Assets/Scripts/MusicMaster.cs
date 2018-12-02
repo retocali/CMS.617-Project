@@ -8,7 +8,9 @@ public class MusicMaster : MonoBehaviour {
 	public AudioClip original;
 	public AudioClip roar;
 	public float gapTime = 0.5f;
-	
+	private int shots = 1;
+	private float defVol;
+	private float vol = 1f;
 	private static AudioSource audsrc;
 	private static MusicMaster instance;
 	// Use this for initialization
@@ -16,7 +18,7 @@ public class MusicMaster : MonoBehaviour {
 		audsrc = GetComponent<AudioSource>();
 		if (original == null)
 			original = audsrc.clip;
-
+		defVol = audsrc.volume;
 		instance = this;
 	}
 	
@@ -38,9 +40,14 @@ public class MusicMaster : MonoBehaviour {
 	{
 		audsrc.Stop();
 		yield return new WaitForSeconds(gapTime);
-		audsrc.clip = roar;
-		audsrc.Play();
+		if (shots == 1) {
+			shots--;
+			audsrc.volume = vol;
+			audsrc.PlayOneShot(roar);
+		}
         yield return new WaitForSeconds(roar.length+gapTime);
+		if (shots == 0) { shots++; }
+		audsrc.volume = defVol;
 		audsrc.clip = clip;
 		audsrc.Play();
 	}

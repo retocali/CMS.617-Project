@@ -132643,11 +132643,16 @@ Prefab:
     - target: {fileID: 114216201351747750, guid: 8f5b43c25559c514c9b64f375fab5745,
         type: 2}
       propertyPath: spawnUrgencyAt.Array.data[0]
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114216201351747750, guid: 8f5b43c25559c514c9b64f375fab5745,
         type: 2}
       propertyPath: destroyUrgencyAt.Array.data[0]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114216201351747750, guid: 8f5b43c25559c514c9b64f375fab5745,
+        type: 2}
+      propertyPath: urgencySpeed
       value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
