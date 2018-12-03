@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FinalBossScript : MonoBehaviour {
-
-public GameObject bulletPrefab;
+    
+    public GameObject bulletPrefab;
 	public Transform bulletSpawn;
 
 	private float lastShot;
