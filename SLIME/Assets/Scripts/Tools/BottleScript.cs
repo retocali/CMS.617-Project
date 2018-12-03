@@ -7,16 +7,20 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 {
 	public bool broke = false;
 
+	public AudioClip outSound;
+	public AudioClip inSound;
+	private AudioSource audsrc;
+
 	private GameObject player;
-	private PlayerScript ps;
+	private PlayerScript ps = null;
 	private Controller2D c2d;
 	private ParticleSystem partSys;
 
 	private Vector3 velocity;
-    private Vector3 addedVelocity;
+	private Vector3 addedVelocity;
 
 
-    private const float gravity = -20f;
+	private const float gravity = -20f;
 	private const float minSpeedX = 0.25f;
 	private const float maxSpeedX = 15f;
 	private const float maxSpeedY = 500f;
@@ -39,6 +43,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		velocity = Vector3.zero;
 		c2d = GetComponent<Controller2D>();
 		partSys = GetComponent<ParticleSystem>();
+		audsrc = GetComponent<AudioSource>();
 		defaultColor = transform.GetChild(0).GetComponent<SpriteRenderer>().material.color;	
 		initialLoc = transform.position;
 		ReloadMaster.AddToMaster(this);
@@ -140,7 +145,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 			colorCount = colorDuration;
 			return;
 		}
-
+		audsrc.PlayOneShot(outSound);
 		player.transform.position += new Vector3(0, 1.26f, 0);
 		ps.AddVelocity(new Vector3(0, 1, 0)*shoot);
 		ps = null;
@@ -157,6 +162,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 			ps = null;
 			return;
 		}
+		if (player == null) { audsrc.PlayOneShot(inSound); }
 		gapTime = timeToRelease;
 		player = p;
 	}

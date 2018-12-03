@@ -7,6 +7,7 @@ public class MusicMaster : MonoBehaviour {
 	public AudioClip urgency;
 	public AudioClip original;
 	public AudioClip roar;
+	private static bool playingUrgency = false;
 	public float gapTime = 0.5f;
 	private int shots = 1;
 	private float defVol;
@@ -23,13 +24,17 @@ public class MusicMaster : MonoBehaviour {
 	}
 	
 	public static void SpawnUrgency()
-	{
+	{	
+		if (playingUrgency) {return;}
 		instance.PlayMusicWrapper(instance.urgency);
+		playingUrgency = true;
 	}
 
 	public static void DespawnUrgency()
 	{
+		if (!playingUrgency) {return;}
 		instance.PlayMusicWrapper(instance.original);
+		playingUrgency = false;
 	}
 	private void PlayMusicWrapper(AudioClip clip)
 	{
@@ -46,7 +51,7 @@ public class MusicMaster : MonoBehaviour {
 			audsrc.PlayOneShot(roar);
 		}
         yield return new WaitForSeconds(roar.length+gapTime);
-		if (shots == 0) { shots++; }
+		if (shots == 0) { shots++; }	
 		audsrc.volume = defVol;
 		audsrc.clip = clip;
 		audsrc.Play();

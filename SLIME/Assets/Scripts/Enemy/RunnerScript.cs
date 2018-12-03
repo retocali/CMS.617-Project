@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Controller2D))]
 public class RunnerScript : EnemyClass {
 
+	public AudioClip switchSound;
 	private float xAcceleration = 20f;
 
 	// after cycles frames the direction switches
@@ -37,6 +38,7 @@ public class RunnerScript : EnemyClass {
 	new void Update () {
 		if (delayCounter != 0) 
 		{
+			if (audsrc.isPlaying()) {audsrc.Stop();}
 			delayCounter--;
 			velocity.x = 0;
 			animor.SetBool("idle", true);
@@ -44,12 +46,12 @@ public class RunnerScript : EnemyClass {
 			c2d.Move(velocity*Time.deltaTime);
 			return;
 		}
-
+		
 		currentCycle++;
 		if (currentCycle % cycles == 0)
 		{
 			xAcceleration = -xAcceleration;
-			
+			audsrc.PlayOneShot(switchSound);
 			if (turnAroundDelay > 0) 
 			{
 				animor.SetBool("idle", true);
@@ -57,6 +59,7 @@ public class RunnerScript : EnemyClass {
 				velocity.x = 0;
 			}	
 			delayCounter = turnAroundDelay;
+			audsrc.Play();
 			return;
 		}
 		

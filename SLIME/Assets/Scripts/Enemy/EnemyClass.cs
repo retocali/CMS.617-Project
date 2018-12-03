@@ -7,6 +7,7 @@ public class EnemyClass : MonoBehaviour {
 
 	protected Controller2D c2d;
     protected Animator animor;
+	protected AudioSource audsrc;
 	
 	public    bool spawned     = false;
 	protected bool dead       = false;
@@ -22,6 +23,7 @@ public class EnemyClass : MonoBehaviour {
 	protected void Start() 
 	{
 		c2d = GetComponent<Controller2D>();
+		audsrc = GetComponent<AudioSource>();
 		initialLoc = transform.position;
 		animor = GetComponentInChildren<Animator>();
 		ReloadMaster.AddToMaster(this);

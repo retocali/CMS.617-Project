@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class DropperScript : EnemyClass 
 {	
+	public AudioClip drop;
+	public AudioClip land;
 	public bool sensitive = true;
-	private bool falling = false;
-	private Transform player;
 
+	private Transform player;
+	private bool falling = false;
 	private float XRange = 4f;
 	private float YRange = 0f;
 	private float time = 1f;
@@ -27,7 +29,11 @@ public class DropperScript : EnemyClass
 		if (!falling && !PlayerInRange()) 
 		{
 			return;
-		}
+		} else {
+			if (!falling) {
+				audsrc.PlayOneShot(drop);
+			}
+		} 
 		falling = true;
 		
 		ApplyGravity(ref velocity, Time.deltaTime);
@@ -35,6 +41,7 @@ public class DropperScript : EnemyClass
 
         if (c2d.collision.below) 
 		{
+			if (!dead) { audsrc.PlayOneShot(land); }
 			dead = true;
 			if (spawned) {
 				Destroy(gameObject, 0.25f);

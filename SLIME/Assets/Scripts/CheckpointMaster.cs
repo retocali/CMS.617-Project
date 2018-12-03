@@ -103,7 +103,7 @@ public class CheckpointMaster : MonoBehaviour {
 		if (player.GetComponent<PlayerScript>().IsDead() == true) {
 			SpawnPlayer();
 			if (urgency != null && useSpawns && urgencyAlive) {
-				killUrgency(urgency);
+				Destroy(urgency);
 				spawnUrgency();
 			}
 			var splitterScript = gameObject.GetComponent<SplitterMasterScript>();
