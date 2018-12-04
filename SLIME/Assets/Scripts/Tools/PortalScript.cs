@@ -22,10 +22,21 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 	private float t = 0;
 	private float animateTime = 5f;
 	private float initAngle = 0f;	
+	private Transform loadplayer;
+	private Transform beam;
+	private Transform stars;
+	private Transform firstStar;
+	private Transform lastStar;
+
 	private void Start() 
 	{
 		t = time;
 		r =	GetComponent<CircleCollider2D>().radius*transform.localScale.x;
+		loadplayer = load.transform.GetChild(1).transform;
+		beam = load.transform.GetChild(2).transform;
+		stars = load.transform.GetChild(0).transform.GetChild(0);
+		firstStar = stars.transform.GetChild(0);
+		lastStar  = stars.transform.GetChild(1);
 	}
 
 	private void Update() {
@@ -38,14 +49,21 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 		{
 			Data.lastAttemptedScene = sceneName;
 			SceneManager.LoadSceneAsync(sceneName);
-			t = time;
+			t = animateTime;
 		} 
-		else if (t <= animateTime+0.25)
+		else if (t <= animateTime+1f)
 		{
-			load.GetComponentInChildren<Text>().text = "Loading Level: " + sceneName.Substring(1) + "..";
+			load.GetComponentInChildren<Text>().text = "Level " + sceneName.Substring(1);
 			load.SetActive(true);
-		}
-		
+			loadplayer.position += new Vector3((Time.deltaTime/animateTime)*Screen.width, Random.Range(-1f, 1f));
+			moveStars();
+		}	
+	}
+
+	private void moveStars()
+	{
+		stars.position += new Vector3((Time.deltaTime)*8000, Random.Range(-1f, 1f));
+		stars.position = new Vector3(stars.position.x % 400, stars.position.y, 0) ;
 	}
 
 	private void WithPlayer()

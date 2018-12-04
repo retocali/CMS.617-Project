@@ -15,13 +15,16 @@ public class EndGameScript : MonoBehaviour {
 	void Update () {
 		if (touched)
 		{
-			player.position = transform.position;
+			player.GetComponent<PlayerScript>().MultiplyVelocity(0);
+
 			time -= Time.deltaTime;
 			if (time < 0)
 			{
 				Data.markLevelCompleted(SceneManager.GetActiveScene().name);
-				SceneManager.LoadSceneAsync("EndGame");
+				SceneManager.LoadSceneAsync("hub-world");
+				time = 2f;
 			}
+			transform.localScale *= 1.05f;
 		}
 	}
 	
@@ -29,8 +32,7 @@ public class EndGameScript : MonoBehaviour {
     {
         if (collider.gameObject.tag == "Player") {
 			touched = true;
-			collider.gameObject.GetComponent<PlayerScript>().inactive = true;
-			collider.gameObject.GetComponent<PlayerScript>().MultiplyVelocity(0);
+			collider.enabled = false;
 			player = collider.gameObject.transform;
 		}
     }
