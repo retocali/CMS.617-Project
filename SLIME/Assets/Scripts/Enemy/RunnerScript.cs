@@ -36,9 +36,10 @@ public class RunnerScript : EnemyClass {
 
 	// Update is called once per frame
 	new void Update () {
+		audsrc.Stop();
 		if (delayCounter != 0) 
 		{
-			if (audsrc.isPlaying()) {audsrc.Stop();}
+			// if (audsrc.isPlaying()) {}
 			delayCounter--;
 			velocity.x = 0;
 			animor.SetBool("idle", true);
@@ -51,7 +52,7 @@ public class RunnerScript : EnemyClass {
 		if (currentCycle % cycles == 0)
 		{
 			xAcceleration = -xAcceleration;
-			audsrc.PlayOneShot(switchSound);
+			// audsrc.PlayOneShot(switchSound);
 			if (turnAroundDelay > 0) 
 			{
 				animor.SetBool("idle", true);
@@ -59,7 +60,7 @@ public class RunnerScript : EnemyClass {
 				velocity.x = 0;
 			}	
 			delayCounter = turnAroundDelay;
-			audsrc.Play();
+			// audsrc.Play();
 			return;
 		}
 		

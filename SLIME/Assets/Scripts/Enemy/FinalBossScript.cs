@@ -14,7 +14,7 @@ public class FinalBossScript : MonoBehaviour {
 	public float fireSpeed;
 	public GameObject player;
 
-	private int health = 3;
+	public int health = 3;
 
 	private Animator animator;
 
@@ -33,9 +33,6 @@ public class FinalBossScript : MonoBehaviour {
 		if (Time.time > lastShot + (fireRate) + Random.value * fireRate && checkpointMaster.getCurrentCheckpointIndex() > 0){
 			lastShot = Time.time;
 			Fire();
-		}
-		if(health == 0){
-			Die();
 		}
 	}
 	
@@ -66,6 +63,9 @@ public class FinalBossScript : MonoBehaviour {
 	public void Hurt(BottleScript bs)
 	{
 		Debug.Log("OUCH");
+		if (health == 0){
+			Die();
+		}
 		bs.Break();
 		health--;
 		animator.SetTrigger("damage");
