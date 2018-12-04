@@ -15,6 +15,8 @@ public class FinalBossScript : MonoBehaviour {
 	public GameObject player;
 
 	private int health = 3;
+	private float timer = 0;
+	private const float gapTime = 0.5f;
 
 	private Animator animator;
 
@@ -36,6 +38,9 @@ public class FinalBossScript : MonoBehaviour {
 		}
 		if(health == 0){
 			Die();
+		}
+		if (time > 0) {
+			timer -= Time.deltaTime;
 		}
 	}
 	
@@ -65,9 +70,14 @@ public class FinalBossScript : MonoBehaviour {
 	}
 	public void Hurt(BottleScript bs)
 	{
+		if (timer > 0) 
+		{	
+			return;
+		}
 		Debug.Log("OUCH");
 		bs.Break();
 		health--;
+		timer = gapTime;
 		animator.SetTrigger("damage");
 	}
 	private void Die(){
