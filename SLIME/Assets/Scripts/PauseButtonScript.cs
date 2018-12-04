@@ -33,8 +33,7 @@ public class PauseButtonScript : MonoBehaviour,
 
 	public void Select()
 	{
-		transform.parent.parent.gameObject.GetComponent<PauseMaster>().DeselectAll();
-		transform.parent.parent.gameObject.GetComponent<PauseMaster>().index = index;
+		transform.parent.parent.gameObject.GetComponent<PauseMaster>().Select(index);
 		transform.GetChild(0).gameObject.SetActive(true);
 		transform.GetChild(1).GetComponent<Text>().color = Color.white;
 	}

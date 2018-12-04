@@ -13,6 +13,9 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
 
     private GameObject player;
 
+    public AudioClip bounceSound;
+    private AudioSource audsrc;
+
     private Animator animator;
 
     private Vector3 deltav;
@@ -30,6 +33,7 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
         {
             Debug.Log("Bounce!");
 
+            audsrc.PlayOneShot(bounceSound);
             
             PlayerScript ps = player.GetComponent<PlayerScript>();
             BottleScript bs = player.GetComponent<BottleScript>();
@@ -77,7 +81,7 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
                 Debug.LogWarning("Animator on " + gameObject.name + " does not exist");
             }
         } 
-        
+        audsrc = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame

@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class TeleporterScript : EnemyClass 
 {
+	public AudioClip fadeinSound;
+	public AudioClip fadeOutSound;
 
 	public Vector3[] locations;
 	public float[] times;
 	
 	private int i;
 	private float currentTime;
-	private float delayTime = 0.85f;
+	private float delayTime = 0.15f;
 	private float delay = 0;
 	private Transform portal;
 
@@ -57,10 +59,10 @@ public class TeleporterScript : EnemyClass
 			delay -= Time.deltaTime;
 			if (delay <= 0) {
 				portal.position = locations[(i+1) % locations.Length];
-                animor.SetTrigger("teleport");
 			}
 		}
 		if (currentTime >= times[i]) {
+			// animor.SetTrigger("teleport");
 			currentTime = 0;
 			i = (i+1) % locations.Length;
 			transform.position = locations[i];

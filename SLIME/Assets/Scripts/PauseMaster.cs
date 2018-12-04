@@ -6,17 +6,25 @@ using UnityEngine.SceneManagement;
 
 public class PauseMaster : MonoBehaviour 
 {
-	public GameObject pausedScreen;
+    public AudioClip pauseIn;
+    public AudioClip pauseOut;
+    public AudioClip select;
+    private AudioSource audsrc;
+
+    public GameObject pausedScreen;
     public GameObject PauseButton;
     public GameObject MuteButton;
     public GameObject RestartButton;
     public GameObject QuitButton;
     public GameObject ExitButton;
     public GameObject[] buttons;
+
     public int index = 0;
+    
     private float time = 0;
     private float last = 0;
     private float wait = 0.25f;
+    private float vol = 0.5f;
 
     private bool paused = false;
     private string homeScreen = "hub-world";
@@ -29,6 +37,7 @@ public class PauseMaster : MonoBehaviour
         index = 0;
         AudioListener.volume =  Data.muted ? 0 : 1;
         MuteButton.GetComponentInChildren<Text>().text = Data.muted ? muteOn : muteOff;
+        audsrc = GetComponent<AudioSource>();
 	}
 
     public void TogglePause() {
@@ -37,15 +46,18 @@ public class PauseMaster : MonoBehaviour
 		
         if (paused) 
         { 
+            audsrc.PlayOneShot(pauseIn, vol);
             Time.timeScale=0; 
         } 
         else 
         { 
+            audsrc.PlayOneShot(pauseOut, vol);
             Time.timeScale=1; 
         }  
         last = 0;
         time = 0;
         index = 0;
+        MusicMaster.toggleBackground();
     }
 
 	private void UnPause() {
@@ -113,14 +125,14 @@ public class PauseMaster : MonoBehaviour
         }
         if(RestartButton.GetComponent<PauseButtonScript>().pressed)
         {
-			UnPause();
+         	UnPause();
             Debug.Log("Restarting");
             RestartButton.GetComponent<PauseButtonScript>().pressed = false;
         	SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
         }
         if(QuitButton.GetComponent<PauseButtonScript>().pressed)
         {
-			UnPause();
+         	UnPause();
             Debug.Log("Quitting");
             QuitButton.GetComponent<PauseButtonScript>().pressed = false;
             SceneManager.LoadSceneAsync(homeScreen);
@@ -139,5 +151,11 @@ public class PauseMaster : MonoBehaviour
         {
             buttons[i].GetComponent<PauseButtonScript>().Deselect();
         }
+    }
+    public void Select(int i)
+    {
+        DeselectAll();
+        index = i;
+        audsrc.PlayOneShot(select, vol);
     }
 }

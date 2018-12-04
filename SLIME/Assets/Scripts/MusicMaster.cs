@@ -56,4 +56,9 @@ public class MusicMaster : MonoBehaviour {
 		audsrc.clip = clip;
 		audsrc.Play();
 	}
+	public static void toggleBackground()
+	{
+		if (audsrc.isPlaying) {audsrc.Stop();}
+		else {audsrc.Play();}
+	}
 }

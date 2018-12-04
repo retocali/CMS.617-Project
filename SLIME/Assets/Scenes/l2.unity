@@ -6957,6 +6957,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 82743049262866412, guid: 104e7430279b445ada08d6d5bd00ad9d,
+        type: 2}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: 0.76083374
+      objectReference: {fileID: 0}
+    - target: {fileID: 82743049262866412, guid: 104e7430279b445ada08d6d5bd00ad9d,
+        type: 2}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: 0.9952431
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 104e7430279b445ada08d6d5bd00ad9d, type: 2}
   m_IsPrefabAsset: 0
