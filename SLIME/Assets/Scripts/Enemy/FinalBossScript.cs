@@ -17,27 +17,33 @@ public class FinalBossScript : MonoBehaviour {
 
 	public GameObject partSys;
 
-	private int health = 3;
+	public int health = 3;
+
 	private float timer = 0;
 	private const float gapTime = 0.5f;
 
+	private CameraScript camera;
 
 	private Animator animator;
 
-	private CheckpointMaster checkpointMaster;
+	public static bool shouldShoot;
+
+	private Vector3 playerStart;
+
 
 	// Use this for initialization
 	void Start () {
+		shouldShoot = false;
 		lastShot = -fireRate;
 		animator = GetComponent<Animator>();
-		checkpointMaster = GameObject.FindGameObjectWithTag("GameMaster").GetComponent<CheckpointMaster>();
-
+		camera = Camera.main.gameObject.GetComponent<CameraScript>();
+		playerStart = player.transform.position;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (Time.time > lastShot + (fireRate) + Random.value * fireRate && checkpointMaster.getCurrentCheckpointIndex() > 0){
+		if (Time.time > lastShot + (fireRate) + Random.value * fireRate && FinalBossGateManager.hasShownBoss && shouldShoot){
 			lastShot = Time.time;
 			Fire();
 		}
@@ -75,6 +81,7 @@ public class FinalBossScript : MonoBehaviour {
 	}
 	public void Hurt(BottleScript bs)
 	{
+		StartCoroutine("showBossHurt");
 		if (timer > 0) 
 		{	
 			return;
@@ -83,12 +90,15 @@ public class FinalBossScript : MonoBehaviour {
 		bs.Break();
 		health--;
 		timer = gapTime;
-		animator.SetTrigger("damage");
+		
 		if (health == 0){
 			Die();
+		}else{
+			animator.SetTrigger("damage");
 		}
 	}
 	private void Die(){
+		Debug.Log("Death");
 		GameObject particles = Instantiate (
 			partSys,
 			bulletSpawn.position,
@@ -98,6 +108,32 @@ public class FinalBossScript : MonoBehaviour {
 		// particles.GetComponent<ExplodingBossScript>().Explode();
 		animator.SetTrigger("kill");
 		animator.SetBool("isded", true);
+		StartCoroutine("showBossDying");
+		player.transform.position = playerStart;
+	}
+
+	IEnumerator showBossHurt(){
+		shouldShoot = false;
+		DestroyAllObjectsWithTag("fireball");
+		camera.CameraFocusTimed(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), 2);
+		yield return new WaitForSeconds(2);
+		shouldShoot = true;
+
+	}
+
+	void DestroyAllObjectsWithTag(string tag)
+	{
+		var gameObjects = GameObject.FindGameObjectsWithTag (tag);
+		
+		for(var i = 0 ; i < gameObjects.Length ; i ++)
+		{
+			Destroy(gameObjects[i]);
+		}
+	}
+
+	IEnumerator showBossDying(){
+		camera.CameraFocusTimed(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), 4);
+		yield return new WaitForSeconds(4);
 		// Destroy(gameObject, 0.5f);
 		gameObject.SetActive(false);
 	}
