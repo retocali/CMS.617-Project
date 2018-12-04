@@ -5,6 +5,8 @@ using System;
  [RequireComponent(typeof(Controller2D))]
 public class HookScript : MonoBehaviour, ToolsInterface
  {
+	 public AudioClip releaseSound;
+	 private AudioSource audsrc;
  	 private bool hooked = false;
  	 private bool moved = false;
  	 private GameObject player;
@@ -17,6 +19,7 @@ public class HookScript : MonoBehaviour, ToolsInterface
 	void Start () {
 		y = gameObject.transform.position.y;
 		x = gameObject.transform.position.x;
+		audsrc = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -60,6 +63,7 @@ public class HookScript : MonoBehaviour, ToolsInterface
 			else if (input.x == 0 && input.y == 0 && moved || player.GetComponent<PlayerScript>().IsDead()) {
 				// player.transform.position = Vector3.MoveTowards(player.transform.position, 
 				// 												gameObject.transform.position, 0.05f);
+				audsrc.PlayOneShot(releaseSound);
 				Release();
 				moved = false;
 				return;

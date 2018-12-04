@@ -5,6 +5,10 @@ using System.Linq;
 
 public class SquisherScript : MonoBehaviour, ToolsInterface {
 
+
+	public AudioClip releaseSound;
+	private AudioSource audsrc;
+
 	public GameObject splitter;
 
 	int numSlimes = 0;
@@ -23,6 +27,7 @@ public class SquisherScript : MonoBehaviour, ToolsInterface {
 	void Start () {
 		y = gameObject.transform.position.y;
 		x = gameObject.transform.position.x;
+		audsrc = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -56,6 +61,7 @@ public class SquisherScript : MonoBehaviour, ToolsInterface {
 	}
 
 	public void Release(){
+		audsrc.PlayOneShot(releaseSound);
 		Destroy(player2);
 		mainPlayer.transform.position += new Vector3(0, -1.2f, 0);
 		mainPlayer.GetComponent<PlayerScript>().AddVelocity(new Vector3(0, 12, 0));

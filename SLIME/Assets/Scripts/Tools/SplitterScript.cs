@@ -7,6 +7,9 @@ public class SplitterScript : MonoBehaviour, ToolsInterface {
 
 	private bool split = false;
 	
+	public AudioClip releaseSound;
+	private AudioSource audsrc;
+
  	public GameObject player;
 	public GameObject player2;
 	
@@ -32,6 +35,7 @@ public class SplitterScript : MonoBehaviour, ToolsInterface {
 		
 		width  = cc.size.x;
 		height = cc.size.y;
+		audsrc = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -47,6 +51,7 @@ public class SplitterScript : MonoBehaviour, ToolsInterface {
 			time += Time.deltaTime;
 			if (time > waitTime) {
 				Split();
+				audsrc.PlayOneShot(releaseSound);
 			} else {
 				Hold();
 			}

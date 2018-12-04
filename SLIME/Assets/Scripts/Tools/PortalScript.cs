@@ -12,6 +12,10 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 	private GameObject player;
 	private PlayerScript ps;
 	private float r = 0;
+	public Sprite finished;
+	
+	public AudioClip endSound;
+	private AudioSource audsrc;
 
 	public Direction outDirection = Direction.Left;
 
@@ -32,11 +36,15 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 	{
 		t = time;
 		r =	GetComponent<CircleCollider2D>().radius*transform.localScale.x;
+		audsrc = GetComponent<AudioSource>();
 		loadplayer = load.transform.GetChild(1).transform;
 		beam = load.transform.GetChild(2).transform;
 		stars = load.transform.GetChild(0).transform.GetChild(0);
 		firstStar = stars.transform.GetChild(0);
 		lastStar  = stars.transform.GetChild(1);
+		if (Data.checkLevelCompleted(sceneName)) {
+			GetComponent<SpriteRenderer>().sprite = finished;
+		}
 	}
 
 	private void Update() {
@@ -47,6 +55,7 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 		
 		if (t <= 0)
 		{
+			audsrc.PlayOneShot(endSound);
 			Data.lastAttemptedScene = sceneName;
 			SceneManager.LoadSceneAsync(sceneName);
 			t = animateTime;

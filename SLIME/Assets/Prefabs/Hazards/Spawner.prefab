@@ -185,6 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawned: 0
   spawnPrefab: {fileID: 0}
+  releaseSound: {fileID: 8300000, guid: 263c1a8bafc394901a44ede561478d64, type: 3}
   sensitive: 1
   time: 2
   number: 10

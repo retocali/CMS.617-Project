@@ -6,6 +6,9 @@ public class SpawnerScript : EnemyClass
 {
 	public GameObject spawnPrefab;
 	
+	public AudioClip releaseSound;
+	private AudioSource audsrc;
+	
 	public bool sensitive = false;
 	public float time = 2f;
 	public int number = 10;
@@ -27,6 +30,7 @@ public class SpawnerScript : EnemyClass
 		sprend = GetComponent<SpriteRenderer>();
 		initialLoc = transform.position;
 		ReloadMaster.AddToMaster(this);
+		audsrc.GetComponent<AudioSource>();
 	}
 	
 	public override void Respawn()
@@ -75,6 +79,7 @@ public class SpawnerScript : EnemyClass
 	}
 	private void Spawn()
 	{
+		audsrc.PlayOneShot(releaseSound);
 		float step = (Mathf.PI/number);
 		for (float rad = Mathf.PI/4; rad < 3*Mathf.PI/4; rad += step)
 		{
