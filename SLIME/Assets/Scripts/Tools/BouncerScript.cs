@@ -33,7 +33,7 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
         {
             Debug.Log("Bounce!");
 
-            audsrc.PlayOneShot(bounceSound);
+            audsrc.PlayOneShot(bounceSound, 0.5f);
             
             PlayerScript ps = player.GetComponent<PlayerScript>();
             BottleScript bs = player.GetComponent<BottleScript>();
