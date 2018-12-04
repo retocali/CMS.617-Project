@@ -42,12 +42,16 @@ public class ReloadMaster : MonoBehaviour {
 			i.gameObject.GetComponent<BottleScript>().enabled = true;
 			i.gameObject.GetComponent<BottleScript>().broke = false; // I fixed it
 		}
-		instance.ReloadFinalBoss();
+		if( instance.finalBossMan != null) {
+			instance.ReloadFinalBoss();
+		}
+		
 	}
 
 	private void ReloadFinalBoss()
 	{
 		if (finalBossMan != null)
+			finalBossMan.SetActive(true);
 			finalBossMan.GetComponent<FinalBossScript>().Reload();
 	}
 

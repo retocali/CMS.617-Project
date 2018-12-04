@@ -12,27 +12,38 @@ public class FinalBossScript : MonoBehaviour {
 	public float fireRate;
 
 	public float fireSpeed;
+	public float spread;
 	public GameObject player;
 
-	private int health = 3;
+	public GameObject partSys;
+
+	public int health = 3;
+
 	private float timer = 0;
 	private const float gapTime = 0.5f;
 
+	private CameraScript camera;
+
 	private Animator animator;
 
-	private CheckpointMaster checkpointMaster;
+	public static bool shouldShoot;
+
+	private Vector3 playerStart;
+
 
 	// Use this for initialization
 	void Start () {
+		shouldShoot = false;
 		lastShot = -fireRate;
 		animator = GetComponent<Animator>();
-		checkpointMaster = GameObject.FindGameObjectWithTag("GameMaster").GetComponent<CheckpointMaster>();
+		camera = Camera.main.gameObject.GetComponent<CameraScript>();
+		playerStart = player.transform.position;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (Time.time > lastShot + (fireRate) + Random.value * fireRate && checkpointMaster.getCurrentCheckpointIndex() > 0){
+		if (Time.time > lastShot + (fireRate) + Random.value * fireRate && FinalBossGateManager.hasShownBoss && shouldShoot){
 			lastShot = Time.time;
 			Fire();
 		}
@@ -51,8 +62,8 @@ public class FinalBossScript : MonoBehaviour {
 			bulletPrefab,
 			bulletSpawn.position,
 			bulletSpawn.rotation);
-
-			Vector3 direction = (player.transform.position - transform.position).normalized * fireSpeed;
+			Vector3 delta = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
+			Vector3 direction = (player.transform.position - transform.position + delta*spread).normalized * fireSpeed;
 
 			// Add velocity to the bullet
 			bullet.GetComponent<Rigidbody2D>().velocity = direction;
@@ -70,6 +81,7 @@ public class FinalBossScript : MonoBehaviour {
 	}
 	public void Hurt(BottleScript bs)
 	{
+		StartCoroutine("showBossHurt");
 		if (timer > 0) 
 		{	
 			return;
@@ -78,11 +90,51 @@ public class FinalBossScript : MonoBehaviour {
 		bs.Break();
 		health--;
 		timer = gapTime;
-		animator.SetTrigger("damage");
+		
+		if (health == 0){
+			Die();
+		}else{
+			animator.SetTrigger("damage");
+		}
 	}
 	private void Die(){
+		Debug.Log("Death");
+		GameObject particles = Instantiate (
+			partSys,
+			bulletSpawn.position,
+			bulletSpawn.rotation);
+		Debug.Log(particles);
+		particles.gameObject.GetComponent<ExplodingBossScript>().Explode();
+		// particles.GetComponent<ExplodingBossScript>().Explode();
 		animator.SetTrigger("kill");
 		animator.SetBool("isded", true);
-		Destroy(gameObject, 0.5f);
+		StartCoroutine("showBossDying");
+		player.transform.position = playerStart;
+	}
+
+	IEnumerator showBossHurt(){
+		shouldShoot = false;
+		DestroyAllObjectsWithTag("fireball");
+		camera.CameraFocusTimed(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), 2);
+		yield return new WaitForSeconds(2);
+		shouldShoot = true;
+
+	}
+
+	void DestroyAllObjectsWithTag(string tag)
+	{
+		var gameObjects = GameObject.FindGameObjectsWithTag (tag);
+		
+		for(var i = 0 ; i < gameObjects.Length ; i ++)
+		{
+			Destroy(gameObjects[i]);
+		}
+	}
+
+	IEnumerator showBossDying(){
+		camera.CameraFocusTimed(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), 4);
+		yield return new WaitForSeconds(4);
+		// Destroy(gameObject, 0.5f);
+		gameObject.SetActive(false);
 	}
 }

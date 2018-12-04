@@ -41,11 +41,11 @@ public class HopperScript : EnemyClass
 
         if(velocity.x < 0)
         {
-            sprend.flipX = true;
+            sprend.flipX = false;
         }
         else if(velocity.x > 0)
         {
-            sprend.flipX = false;
+            sprend.flipX = true;
         }
 
 		if (delayCounter != 0) 

@@ -10,6 +10,12 @@ public class FinalBossGateManager : MonoBehaviour {
     private TilemapCollider2D tc2d;
     private TilemapRenderer tmr;
 
+    private CameraScript camera;
+
+    private Transform bossTransform;
+
+    public static bool hasShownBoss = false;
+
 	// Use this for initialization
 	void Start () {
         checkpointMaster = GameObject.FindGameObjectWithTag("GameMaster").GetComponent<CheckpointMaster>();
@@ -19,6 +25,9 @@ public class FinalBossGateManager : MonoBehaviour {
 
         tc2d.enabled = false;
         tmr.enabled = false;
+
+        camera = Camera.main.gameObject.GetComponent<CameraScript>();
+        bossTransform = GameObject.FindGameObjectWithTag("FinalBoss").transform;
     }
 	
 	// Update is called once per frame
@@ -27,6 +36,19 @@ public class FinalBossGateManager : MonoBehaviour {
         {
             tc2d.enabled = true;
             tmr.enabled = true;
+            if(hasShownBoss == false){
+                StartCoroutine("showBoss");
+            }
+            hasShownBoss = true;
         }
+
+
+
 	}
+
+    IEnumerator showBoss(){
+        camera.CameraFocusTimed(new Vector2(bossTransform.position.x, bossTransform.position.y), 2);
+        yield return new WaitForSeconds(2);
+        FinalBossScript.shouldShoot = true;
+    }
 }

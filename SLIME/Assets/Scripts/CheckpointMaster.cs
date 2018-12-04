@@ -103,6 +103,7 @@ public class CheckpointMaster : MonoBehaviour {
 		if (player.GetComponent<PlayerScript>().IsDead() == true) {
 			SpawnPlayer();
 			if (urgency != null && useSpawns && urgencyAlive) {
+				Debug.Log("DIE URG");
 				Destroy(urgency);
 				spawnUrgency();
 			}

@@ -37,6 +37,7 @@ public class RunnerScript : EnemyClass {
 
 	// Update is called once per frame
 	new void Update () {
+		audsrc.Stop();
 		if (delayCounter != 0) 
 		{
 			if (delayCounter == turnAroundDelay) {
