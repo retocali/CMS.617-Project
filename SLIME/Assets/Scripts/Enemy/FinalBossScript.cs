@@ -39,7 +39,7 @@ public class FinalBossScript : MonoBehaviour {
 		if(health == 0){
 			Die();
 		}
-		if (time > 0) {
+		if (timer > 0) {
 			timer -= Time.deltaTime;
 		}
 	}
