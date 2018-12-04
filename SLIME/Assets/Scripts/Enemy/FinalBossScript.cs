@@ -12,7 +12,10 @@ public class FinalBossScript : MonoBehaviour {
 	public float fireRate;
 
 	public float fireSpeed;
+	public float spread;
 	public GameObject player;
+
+	public GameObject partSys;
 
 	private int health = 3;
 	private float timer = 0;
@@ -28,6 +31,7 @@ public class FinalBossScript : MonoBehaviour {
 		lastShot = -fireRate;
 		animator = GetComponent<Animator>();
 		checkpointMaster = GameObject.FindGameObjectWithTag("GameMaster").GetComponent<CheckpointMaster>();
+
 	}
 	
 	// Update is called once per frame
@@ -52,8 +56,8 @@ public class FinalBossScript : MonoBehaviour {
 			bulletPrefab,
 			bulletSpawn.position,
 			bulletSpawn.rotation);
-
-			Vector3 direction = (player.transform.position - transform.position).normalized * fireSpeed;
+			Vector3 delta = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
+			Vector3 direction = (player.transform.position - transform.position + delta*spread).normalized * fireSpeed;
 
 			// Add velocity to the bullet
 			bullet.GetComponent<Rigidbody2D>().velocity = direction;
@@ -76,17 +80,25 @@ public class FinalBossScript : MonoBehaviour {
 			return;
 		}
 		Debug.Log("OUCH");
-		if (health == 0){
-			Die();
-		}
 		bs.Break();
 		health--;
 		timer = gapTime;
 		animator.SetTrigger("damage");
+		if (health == 0){
+			Die();
+		}
 	}
 	private void Die(){
+		GameObject particles = Instantiate (
+			partSys,
+			bulletSpawn.position,
+			bulletSpawn.rotation);
+		Debug.Log(particles);
+		particles.gameObject.GetComponent<ExplodingBossScript>().Explode();
+		// particles.GetComponent<ExplodingBossScript>().Explode();
 		animator.SetTrigger("kill");
 		animator.SetBool("isded", true);
-		Destroy(gameObject, 0.5f);
+		// Destroy(gameObject, 0.5f);
+		gameObject.SetActive(false);
 	}
 }
