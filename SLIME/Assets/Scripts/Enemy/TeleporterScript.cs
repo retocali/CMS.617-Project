@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class TeleporterScript : EnemyClass 
 {
-	public AudioClip fadeinSound;
-	public AudioClip fadeOutSound;
+	public AudioClip teleportSound;
 
 	public Vector3[] locations;
 	public float[] times;
@@ -68,6 +67,7 @@ public class TeleporterScript : EnemyClass
 			transform.position = locations[i];
 			delay = delayTime*times[i];
             animor.SetTrigger("apear");
+			audsrc.PlayOneShot(teleportSound);
         }
 		ApplyGravity(ref velocity, Time.deltaTime);
 		base.Update();

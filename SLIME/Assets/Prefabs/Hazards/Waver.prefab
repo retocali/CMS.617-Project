@@ -90,7 +90,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 40
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -109,8 +109,8 @@ AudioSource:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.80825806
-      value: 1.0010643
+      time: 0.6501465
+      value: 0.9952431
       inSlope: 0.0001353649
       outSlope: 0.0001353649
       tangentMode: 0
@@ -220,6 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawned: 0
   parameters: []
+  switchSound: {fileID: 8300000, guid: 7ae59f4be769141d28fad6fbd6f97af5, type: 3}
 --- !u!212 &212528015841380092
 SpriteRenderer:
   m_ObjectHideFlags: 1

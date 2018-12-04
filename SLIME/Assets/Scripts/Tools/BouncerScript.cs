@@ -31,7 +31,6 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
         
         if (disableTime <= 0)
         {
-            Debug.Log("Bounce!");
 
             audsrc.PlayOneShot(bounceSound, 0.5f);
             
@@ -66,7 +65,6 @@ public class BouncerScript : MonoBehaviour, ToolsInterface
 
     // Use this for initialization
     void Start () {
-		Debug.Log(transform.position);
 
         
         deltav = new Vector3(magnitude * Mathf.Cos(directionDeg * Mathf.PI / 180), magnitude * Mathf.Sin(directionDeg * Mathf.PI / 180));

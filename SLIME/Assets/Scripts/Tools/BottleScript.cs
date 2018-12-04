@@ -145,7 +145,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 			colorCount = colorDuration;
 			return;
 		}
-		audsrc.PlayOneShot(outSound);
+		audsrc.PlayOneShot(outSound, 0.5f);
 		player.transform.position += new Vector3(0, 1.26f, 0);
 		ps.AddVelocity(new Vector3(0, 1, 0)*shoot);
 		ps = null;
@@ -162,7 +162,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 			ps = null;
 			return;
 		}
-		if (player == null) { audsrc.PlayOneShot(inSound); }
+		if (player == null) { audsrc.PlayOneShot(inSound, 0.5f); }
 		gapTime = timeToRelease;
 		player = p;
 	}

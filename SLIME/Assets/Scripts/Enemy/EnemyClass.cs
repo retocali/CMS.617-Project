@@ -55,7 +55,7 @@ public class EnemyClass : MonoBehaviour {
 
 	protected void Warn(string s)
 	{
-		Debug.LogError(s);
+		Debug.LogWarning(s);
 		functional = false;
 	}	
 	/**

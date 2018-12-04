@@ -315,6 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawned: 0
+  teleportSound: {fileID: 8300000, guid: 3df250af9163e4ea1b1bde070638eb3b, type: 3}
   locations:
   - {x: -3, y: 7, z: 0}
   - {x: 3, y: 7, z: 0}

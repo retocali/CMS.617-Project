@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FlierScript : EnemyClass {
 
+	public AudioClip switchSound;
 	public Vector2[] directions;
 	public float[] times;
 
@@ -39,6 +40,7 @@ public class FlierScript : EnemyClass {
 		if (currentTime >= times[i]) {
 			currentTime = 0;
 			i = (i+1) % directions.Length;
+			audsrc.PlayOneShot(switchSound, 0.5f);
 		}
 		
 		velocity.x = speed * directions[i].x;

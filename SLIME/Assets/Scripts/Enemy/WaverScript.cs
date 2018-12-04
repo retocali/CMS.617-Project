@@ -6,6 +6,7 @@ public class WaverScript : EnemyClass
 {
 
 	public Curve[] parameters;
+	public AudioClip switchSound;
 
 	private int i;
 	private float degrees;
@@ -24,21 +25,26 @@ public class WaverScript : EnemyClass
 		i = 0;
 		if (parameters.Length == 0) {
 			Warn("Parameters must not be empty, use a spike instead");
+			functional = false;
+			
+		} else {
+			degrees = parameters[0].startDegrees;
 		}
-		degrees = parameters[0].startDegrees;
 		base.Start();
 	}
 	
 	public override void Respawn()
 	{
 		i = 0;
-		degrees = parameters[0].startDegrees;
+		if (functional)
+			degrees = parameters[0].startDegrees;
+			
 		base.Respawn();
 	}
 
 
 	// Update is called once per frame
-	void FixedUpdate () 
+	new	void Update () 
 	{
 		if (!functional) { 
 			Warn(transform.name+" not functional"); 
@@ -50,6 +56,7 @@ public class WaverScript : EnemyClass
 		{
 			i = (i+1) % parameters.Length;
 			degrees = parameters[i].startDegrees;
+			audsrc.PlayOneShot(switchSound, 0.5f);
 		}
 		
 		float t = degrees*Mathf.Deg2Rad;

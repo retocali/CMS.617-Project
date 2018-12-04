@@ -6,6 +6,7 @@ public class HopperScript : EnemyClass
 {
 	private float xSpeed = 10f;
 	private float jump = 10f;
+	public AudioClip hopSound;
 
 	// after cycles frames the direction switches
 	public uint cycles = 100;
@@ -74,6 +75,7 @@ public class HopperScript : EnemyClass
 		ApplyVelocityModifiers();
 		if (c2d.collision.below) { 
 			velocity.y = jump; 
+			audsrc.PlayOneShot(hopSound, 0.5f);
 		}
 		
 		if (c2d.collision.above) {
