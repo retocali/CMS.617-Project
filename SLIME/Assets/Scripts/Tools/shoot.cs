@@ -6,7 +6,8 @@ public class shoot : MonoBehaviour {
 
 	public GameObject bulletPrefab;
 	public Transform bulletSpawn;
-
+	public AudioClip shootSound;
+	private AudioSource audsrc;
 	private float lastShot;
 
 	public float fireRate;
@@ -16,6 +17,7 @@ public class shoot : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		lastShot = -fireRate;
+		audsrc = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -37,7 +39,7 @@ public class shoot : MonoBehaviour {
 
 		// Add velocity to the bullet
 		bullet.GetComponent<Rigidbody2D>().velocity = fireSpeed;
-	
+		audsrc.PlayOneShot(shootSound, 0.15f);
 		Destroy(bullet, 1.5f);
 	}
 }

@@ -75,7 +75,7 @@ public class HopperScript : EnemyClass
 		ApplyVelocityModifiers();
 		if (c2d.collision.below) { 
 			velocity.y = jump; 
-			audsrc.PlayOneShot(hopSound, 0.5f);
+			audsrc.PlayOneShot(hopSound, 0.25f);
 		}
 		
 		if (c2d.collision.above) {

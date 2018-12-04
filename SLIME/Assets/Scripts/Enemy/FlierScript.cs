@@ -40,7 +40,7 @@ public class FlierScript : EnemyClass {
 		if (currentTime >= times[i]) {
 			currentTime = 0;
 			i = (i+1) % directions.Length;
-			audsrc.PlayOneShot(switchSound, 0.5f);
+			audsrc.PlayOneShot(switchSound, 0.15f);
 		}
 		
 		velocity.x = speed * directions[i].x;

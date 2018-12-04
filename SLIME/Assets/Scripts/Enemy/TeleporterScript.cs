@@ -67,7 +67,7 @@ public class TeleporterScript : EnemyClass
 			transform.position = locations[i];
 			delay = delayTime*times[i];
             animor.SetTrigger("apear");
-			audsrc.PlayOneShot(teleportSound);
+			audsrc.PlayOneShot(teleportSound, 0.5f);
         }
 		ApplyGravity(ref velocity, Time.deltaTime);
 		base.Update();
