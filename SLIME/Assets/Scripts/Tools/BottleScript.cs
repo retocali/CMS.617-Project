@@ -124,7 +124,7 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		}
 		broke = true;
 		Debug.Log("Break");
-		Release();
+		Release(true);
 		GetComponent<BoxCollider2D>().enabled = false;
 		GetComponent<Controller2D>().enabled = false;
 		partSys.Play();
@@ -132,13 +132,13 @@ public class BottleScript : MonoBehaviour, ToolsInterface
 		GetComponent<BottleScript>().enabled = false;
 	}
 
-	private void Release()
+	private void Release(bool force = false)
 	{	
 		if(ps == null) {
 			return;
 		}
 		float clearance = player.transform.lossyScale.y;
-		if (c2d.VerticalRaycast(clearance).collider != null) 
+		if (c2d.VerticalRaycast(clearance).collider != null && !force) 
 		{
 			Debug.Log("Cannot release");
 			transform.GetChild(0).GetComponent<SpriteRenderer>().material.color = new Color(0, 0.5f, 1f, 0.5f);

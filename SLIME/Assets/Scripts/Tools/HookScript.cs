@@ -57,7 +57,7 @@ public class HookScript : MonoBehaviour, ToolsInterface
 					player.transform.Translate(0.01f, 0, 0);
 				}	
 			}
-			else if (input.x == 0 && input.y == 0 && moved) {
+			else if (input.x == 0 && input.y == 0 && moved || p.GetComponent<PlayerScript>().IsDead()) {
 				// player.transform.position = Vector3.MoveTowards(player.transform.position, 
 				// 												gameObject.transform.position, 0.05f);
 				Release();
