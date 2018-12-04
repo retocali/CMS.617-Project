@@ -79,9 +79,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e7a37b7cf23724b49a4b9f7052a3a7bd, type: 3}
+  m_audioClip: {fileID: 8300000, guid: e6bcda4eef6cb4f09aa5e47fa78c7aca, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -109,8 +109,8 @@ AudioSource:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.80825806
-      value: 1.0010643
+      time: 0.6501465
+      value: 0.9952431
       inSlope: 0.0001353649
       outSlope: 0.0001353649
       tangentMode: 0
@@ -134,7 +134,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawned: 0
-  switchSound: {fileID: 8300000, guid: 9f21cef36c685423ba3ba0249f73b7db, type: 3}
+  switchSound: {fileID: 8300000, guid: cb6670c9ae8164710a6cb0456b83401d, type: 3}
   cycles: 100
   cycleOffset: 50
 --- !u!212 &212868604369098790

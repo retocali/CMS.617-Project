@@ -262,6 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224561405190793654}
   - component: {fileID: 114233281342964728}
+  - component: {fileID: 82552809795091094}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -405,6 +406,101 @@ Transform:
   m_Father: {fileID: 224561405190793654}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &82552809795091094
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518536210681404}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &114007431940982442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -542,6 +638,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e547edda719434358bf967ef5ed8eec8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseIn: {fileID: 8300000, guid: 6dc9727d01e7a4785b4c359e1aa8e45d, type: 3}
+  pauseOut: {fileID: 8300000, guid: 0c7424985c3d04c4a8982eccd1a2ff41, type: 3}
+  select: {fileID: 8300000, guid: cc4c1c71aa22941a59256327d38430d1, type: 3}
+  press: {fileID: 8300000, guid: ef1bd324dcbdd4dad85f7da4ee9cf9ae, type: 3}
   pausedScreen: {fileID: 1385506518849500}
   PauseButton: {fileID: 1974732414022424}
   MuteButton: {fileID: 1206226622186220}
@@ -853,7 +953,7 @@ MonoBehaviour:
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 10
+    m_MinSize: 20
     m_MaxSize: 30
     m_Alignment: 1
     m_AlignByGeometry: 0
@@ -861,7 +961,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Paused
+  m_Text: UNPAUSE
 --- !u!114 &114642382195936518
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1639,7 +1739,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 25}
+  m_SizeDelta: {x: 100, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224716270232901666
 RectTransform:

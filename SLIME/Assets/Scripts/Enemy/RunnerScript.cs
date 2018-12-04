@@ -24,6 +24,7 @@ public class RunnerScript : EnemyClass {
 		currentCycle = cycleOffset;
 		base.Start();
 		GetComponent<SpriteRenderer>().flipX = xAcceleration > 0;
+		Debug.Log("Loop:"+audsrc.loop);
 	}
 	
 	public override void Respawn()
@@ -39,7 +40,10 @@ public class RunnerScript : EnemyClass {
 		audsrc.Stop();
 		if (delayCounter != 0) 
 		{
-			// if (audsrc.isPlaying()) {}
+			if (delayCounter == turnAroundDelay) {
+				audsrc.Stop();
+				audsrc.PlayOneShot(switchSound);
+			}
 			delayCounter--;
 			velocity.x = 0;
 			animor.SetBool("idle", true);
@@ -52,7 +56,6 @@ public class RunnerScript : EnemyClass {
 		if (currentCycle % cycles == 0)
 		{
 			xAcceleration = -xAcceleration;
-			// audsrc.PlayOneShot(switchSound);
 			if (turnAroundDelay > 0) 
 			{
 				animor.SetBool("idle", true);
@@ -60,10 +63,10 @@ public class RunnerScript : EnemyClass {
 				velocity.x = 0;
 			}	
 			delayCounter = turnAroundDelay;
-			// audsrc.Play();
 			return;
 		}
 		
+		if (!audsrc.isPlaying) {audsrc.Play();}
 		animor.SetBool("idle", false);
 		ApplyGravity(ref velocity, Time.deltaTime);
 		velocity.x += Time.deltaTime*xAcceleration;

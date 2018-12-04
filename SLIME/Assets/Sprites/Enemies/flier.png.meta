@@ -1,9 +1,15 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: dbf97702a145398478f4c5f8b595993c
 TextureImporter:
   fileIDToRecycleName:
     21300000: flier_0
     21300002: flier_1
+=======
+guid: d314368602dc0460daa8edc0b0019041
+TextureImporter:
+  fileIDToRecycleName: {}
+>>>>>>> 06215cf4e483e9d812a6d38558548252b976cd5a
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -42,7 +48,11 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
+<<<<<<< HEAD
   spriteMode: 2
+=======
+  spriteMode: 1
+>>>>>>> 06215cf4e483e9d812a6d38558548252b976cd5a
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -71,6 +81,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+<<<<<<< HEAD
   - serializedVersion: 2
     buildTarget: Standalone
     maxTextureSize: 2048
@@ -173,6 +184,15 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: bcf58b4b66319e640a29b50289235729
+=======
+  spriteSheet:
+    serializedVersion: 2
+    sprites: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 7335ad1c37b2b491f95f6877032db3c4
+>>>>>>> 06215cf4e483e9d812a6d38558548252b976cd5a
     vertices: []
     indices: 
     edges: []
