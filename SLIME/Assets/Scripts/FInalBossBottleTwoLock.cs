@@ -35,6 +35,10 @@ public class FInalBossBottleTwoLock : MonoBehaviour {
 			}
 			hasShownGates = true;
 
+		}else{
+			hasShownGates = false;
+			tc2d.enabled = true;
+			tmr.enabled = true;
 		}
 	}
 
