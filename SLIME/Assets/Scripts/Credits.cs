@@ -15,7 +15,7 @@ public class Credits : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         transform.Translate(Vector3.up * Time.deltaTime * speed);
-        if (transform.position.y> 13 && !loaded)
+        if (transform.position.y> 10 && !loaded)
         {
             speed=0;
             loaded = true;
