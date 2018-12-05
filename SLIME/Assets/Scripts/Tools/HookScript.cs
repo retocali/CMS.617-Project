@@ -13,6 +13,14 @@ public class HookScript : MonoBehaviour, ToolsInterface
 	 private int timeToRelease = 5;
  	 private float y; 
  	 private float x;
+
+	  private Vector3 playerPos;
+
+     private Vector3 posI;
+
+	 public GameObject indicator;
+
+	 private GameObject aim;
  	// Use this for initialization
 	void Start () {
 		y = gameObject.transform.position.y;
@@ -35,25 +43,29 @@ public class HookScript : MonoBehaviour, ToolsInterface
 		{
 			if (input.y == -1) {
 				moved = true;
-				if (player.transform.position.y >= y - 0.5) {
+				if (playerPos.y >= y - 0.5) {
+					playerPos += new Vector3(0, -0.01f, 0);
 					player.transform.Translate(0, -0.01f, 0);
 				}	
 			}
 			if (input.y == 1) {
 				moved = true;
-				if (player.transform.position.y <= y + 0.5) {
+				if (playerPos.y <= y + 0.5) {
+					playerPos += new Vector3(0, 0.01f, 0);
 					player.transform.Translate(0, 0.01f, 0);
 				}	
 			}
 			if (input.x == -1) {
 				moved = true;
-				if (player.transform.position.x >= x - 0.5 ){
+				if (playerPos.x >= x - 0.5 ){
+					playerPos += new Vector3(-0.01f, 0, 0);
 					player.transform.Translate(-0.01f, 0, 0);
 				}	
 			}
 			if (input.x == 1) {
 				moved = true;
-				if (player.transform.position.x <= x + 0.5 ){
+				if (playerPos.x <= x + 0.5 ){
+					playerPos += new Vector3(0.01f, 0, 0);
 					player.transform.Translate(0.01f, 0, 0);
 				}	
 			}
@@ -64,6 +76,35 @@ public class HookScript : MonoBehaviour, ToolsInterface
 				moved = false;
 				return;
  			}
+
+
+			var diff = gameObject.transform.position - playerPos;
+			Debug.Log(diff);
+
+			var rend = gameObject.GetComponent<LineRenderer>();
+
+			rend.SetPosition(0,new Vector3(0,0,0));
+			rend.SetPosition(1, new Vector3(diff.y * 2.5f, -diff.x *2.5f, 0));
+
+			
+			if (player.transform.position.x > x) {
+				posI += new Vector3(diff.x, 0, 0);
+			}
+
+			if (player.transform.position.x < x) {
+				posI += new Vector3(-diff.x, 0, 0);
+			}
+			if (player.transform.position.y > y) {
+				posI += new Vector3(0, -diff.y, 0);
+			}
+			if (player.transform.position.y < y) {
+				posI += new Vector3(0, diff.y, 0);
+			}
+			// Destroy(aim);
+			// aim = (GameObject)Instantiate (
+			// indicator,
+			// gameObject.transform.position + diff,
+			// new Quaternion(0,0,0,0));
 		}
  			
 			
@@ -72,22 +113,35 @@ public class HookScript : MonoBehaviour, ToolsInterface
 	}
 	private void Release()
 	{	
-		var diff = gameObject.transform.position - player.transform.position;
+		var rend = gameObject.GetComponent<LineRenderer>();
+		rend.SetPosition(0, new Vector3(0,0,0));
+		rend.SetPosition(1, new Vector3(0,0,0));
+		var diff = gameObject.transform.position - playerPos;
 		var pX = Math.Abs(diff.x) * elasticity;
 		var pY = Math.Abs(diff.y) * elasticity;
- 		if (player.transform.position.x >= x) {
+ 		if (player.transform.position.x > x) {
 			pX *= -1;
 		}
-		if (player.transform.position.y >= y) {
+		if (player.transform.position.y > y) {
 			pY *= -1;
 		}
- 		player.transform.position = transform.position;
-		if (pY < 0) {
-			player.transform.position += new Vector3(0, -1.2f, 0);
-		}
-		else {
-			player.transform.position += new Vector3(0, 1.2f, 0);
-		}
+ 		var center = new Vector3(pX, pY, 0).normalized * 2.4f;
+
+		// if (pY < 0) {
+		// 	player.transform.position += new Vector3(0, -1.2f, 0);
+		// }
+		// else {
+		// 	player.transform.position += new Vector3(0, 1.2f, 0);
+		// }
+		// if (pX < 0) {
+		// 	player.transform.position += new Vector3(-1.2f, 0, 0);
+		// }
+		// else {
+		// 	player.transform.position += new Vector3(1.2f, 0, 0);
+		// }
+
+		player.transform.position += center;
+
 		
 		player.GetComponent<PlayerScript>().AddVelocity(new Vector3(pX, pY, 0));
 		hooked = false;
@@ -104,10 +158,12 @@ public class HookScript : MonoBehaviour, ToolsInterface
 		
 
 		player = p;
+		player.GetComponent<PlayerScript>().MultiplyVelocity(0);
+		posI = transform.position;
+		playerPos = gameObject.transform.position;
 		hooked = true;
 		gapTime = timeToRelease;
 		p.transform.position = gameObject.transform.position;
-		player.GetComponent<PlayerScript>().MultiplyVelocity(0);
 		player.GetComponent<PlayerScript>().UnStun();
 	}
 }
