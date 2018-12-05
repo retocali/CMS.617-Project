@@ -15,7 +15,6 @@ public class Credits : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         transform.Translate(Vector3.up * Time.deltaTime * speed);
-        Debug.Log(transform.position.y);
         if (transform.position.y> 13 && !loaded)
         {
             speed=0;
@@ -24,8 +23,4 @@ public class Credits : MonoBehaviour {
             SceneManager.LoadSceneAsync("hub-world");
         }
 	}
-
-    private void OnBecameInvisible() {
-        Debug.Log("YOO");
-    }
 }
