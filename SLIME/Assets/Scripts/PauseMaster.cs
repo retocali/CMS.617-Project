@@ -17,6 +17,7 @@ public class PauseMaster : MonoBehaviour
     public GameObject RestartButton;
     public GameObject QuitButton;
     public GameObject ExitButton;
+    public GameObject CreditsButton = null;
     public GameObject[] buttons;
 
     public int index = 0;
@@ -141,6 +142,14 @@ public class PauseMaster : MonoBehaviour
             Debug.Log("See ya nerds!");
             ExitButton.GetComponent<PauseButtonScript>().pressed = false;
             Application.Quit();
+        }
+        if (CreditsButton != null)
+        {
+            if (CreditsButton.GetComponent<PauseButtonScript>().pressed) {
+            
+            CreditsButton.GetComponent<PauseButtonScript>().pressed = false;
+            SceneManager.LoadSceneAsync("EndGame");
+        }
         }
         
         last = Time.realtimeSinceStartup;
