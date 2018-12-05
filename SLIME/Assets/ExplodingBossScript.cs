@@ -35,7 +35,6 @@ public class ExplodingBossScript : MonoBehaviour {
 		gameObject.GetComponent<ParticleSystem>().Play();
 		end = true;
 
-
 	}
 
 }
