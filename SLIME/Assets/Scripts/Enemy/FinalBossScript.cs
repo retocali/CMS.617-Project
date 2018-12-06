@@ -32,6 +32,8 @@ public class FinalBossScript : MonoBehaviour {
 
     public AudioClip roar;
 
+	private bool dead = false;
+
 
 	// Use this for initialization
 	void Start () {
@@ -45,15 +47,17 @@ public class FinalBossScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (Time.time > lastShot + (fireRate) + Random.value * fireRate && FinalBossGateManager.hasShownBoss && shouldShoot){
-			lastShot = Time.time;
-			Fire();
-		}
-		if(health == 0){
-			Die();
-		}
-		if (timer > 0) {
-			timer -= Time.deltaTime;
+		if( !dead) {
+			if (Time.time > lastShot + (fireRate) + Random.value * fireRate && FinalBossGateManager.hasShownBoss && shouldShoot){
+				lastShot = Time.time;
+				Fire();
+			}
+			if(health == 0){
+				Die();
+			}
+			if (timer > 0) {
+				timer -= Time.deltaTime;
+			}
 		}
 	}
 	
@@ -100,6 +104,7 @@ public class FinalBossScript : MonoBehaviour {
 		}
 	}
 	private void Die(){
+		dead = true;
 		Debug.Log("Death");
 		GameObject particles = Instantiate (
 			partSys,

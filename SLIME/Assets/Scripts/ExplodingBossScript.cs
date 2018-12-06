@@ -12,6 +12,8 @@ public class ExplodingBossScript : MonoBehaviour {
 
 	public float time = 2;
 
+	private bool loaded = false;
+
 
 	// Use this for initialization
 	void Start () {
@@ -23,8 +25,9 @@ public class ExplodingBossScript : MonoBehaviour {
 	void Update () {
 
 			time -= Time.deltaTime;
-			if (time < 0)
+			if (time < 0 && !loaded)
 			{
+				loaded = true;
 				SceneManager.LoadSceneAsync("EndGame");
 			}
 
