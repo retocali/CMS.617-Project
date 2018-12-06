@@ -140,7 +140,7 @@ public class FinalBossScript : MonoBehaviour {
 	}
 
 	IEnumerator showBossDying(){
-		camera.CameraFocusTimed(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), 4);
+		camera.CameraFocusOn(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y));
         gameObject.GetComponent<AudioSource>().PlayOneShot(roar);
         yield return new WaitForSeconds(4);
 		// Destroy(gameObject, 0.5f);

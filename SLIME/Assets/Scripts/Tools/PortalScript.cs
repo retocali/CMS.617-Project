@@ -62,7 +62,10 @@ public class PortalScript : MonoBehaviour, ToolsInterface
 		} 
 		else if (t <= animateTime+1f)
 		{
-			load.GetComponentInChildren<Text>().text = "Level " + sceneName.Substring(1);
+			if (sceneName != "lfinal")
+				load.GetComponentInChildren<Text>().text = "Level " + sceneName.Substring(1);
+			else
+				load.GetComponentInChildren<Text>().text = "Final Level";
 			load.SetActive(true);
 			loadplayer.position += new Vector3((Time.deltaTime/animateTime)*Screen.width, Random.Range(-1f, 1f));
 			moveStars();

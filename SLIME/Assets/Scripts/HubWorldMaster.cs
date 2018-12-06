@@ -15,7 +15,7 @@ public class HubWorldMaster : MonoBehaviour {
 				if (p.sceneName == Data.lastAttemptedScene) {
 					player.transform.position = p.Exit();
 					Vector3 velocity = p.Exit()-p.gameObject.transform.position;
-					if(p.sceneName == "final") {
+					if(p.sceneName == "lfinal") {
 						player.GetComponent<PlayerScript>().AddVelocity(velocity*20);
 					}
 					else {
