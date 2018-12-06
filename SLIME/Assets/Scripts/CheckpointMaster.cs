@@ -113,7 +113,7 @@ public class CheckpointMaster : MonoBehaviour {
 				splitterScript.resetSplitters();
 			}
 		}
-		if (Input.GetKeyDown("1"))
+		if (Input.GetKeyDown("1") && Application.isEditor)
 		{
 			index = (index + 1) % currentCheckpoint.Length;
 			cur = currentCheckpoint[index];
