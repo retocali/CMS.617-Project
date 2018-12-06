@@ -30,6 +30,8 @@ public class FinalBossScript : MonoBehaviour {
 
 	private Vector3 playerStart;
 
+    public AudioClip roar;
+
 
 	// Use this for initialization
 	void Start () {
@@ -116,6 +118,7 @@ public class FinalBossScript : MonoBehaviour {
 		shouldShoot = false;
 		DestroyAllObjectsWithTag("fireball");
 		camera.CameraFocusTimed(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), 2);
+        gameObject.GetComponent<AudioSource>().PlayOneShot(roar);
 		yield return new WaitForSeconds(2);
 		shouldShoot = true;
 
@@ -133,7 +136,8 @@ public class FinalBossScript : MonoBehaviour {
 
 	IEnumerator showBossDying(){
 		camera.CameraFocusTimed(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), 4);
-		yield return new WaitForSeconds(4);
+        gameObject.GetComponent<AudioSource>().PlayOneShot(roar);
+        yield return new WaitForSeconds(4);
 		// Destroy(gameObject, 0.5f);
 		gameObject.SetActive(false);
 	}

@@ -16,9 +16,14 @@ public class FinalBossGateManager : MonoBehaviour {
 
     public static bool hasShownBoss = false;
 
+    public AudioClip roar;
+
+    private GameObject finalboss;
+
 	// Use this for initialization
 	void Start () {
         checkpointMaster = GameObject.FindGameObjectWithTag("GameMaster").GetComponent<CheckpointMaster>();
+        finalboss = GameObject.FindGameObjectWithTag("FinalBoss");
 
         tc2d = GetComponent<TilemapCollider2D>();
         tmr = GetComponent<TilemapRenderer>();
@@ -48,6 +53,7 @@ public class FinalBossGateManager : MonoBehaviour {
 
     IEnumerator showBoss(){
         camera.CameraFocusTimed(new Vector2(bossTransform.position.x, bossTransform.position.y), 2);
+        finalboss.GetComponent<AudioSource>().PlayOneShot(roar);
         yield return new WaitForSeconds(2);
         FinalBossScript.shouldShoot = true;
     }
