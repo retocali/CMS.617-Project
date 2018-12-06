@@ -9,12 +9,17 @@ public class Credits : MonoBehaviour {
     private bool loaded = false;
 	// Use this for initialization
 	void Start () {
+        loaded = false;
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        
         transform.Translate(Vector3.up * Time.deltaTime * speed);
+        Debug.Log(Vector3.up);
+        Debug.Log(Time.deltaTime);
+        Debug.Log(speed);
         if (transform.position.y> 10 && !loaded)
         {
             speed=0;

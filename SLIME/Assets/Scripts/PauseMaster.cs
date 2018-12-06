@@ -146,7 +146,7 @@ public class PauseMaster : MonoBehaviour
         if (CreditsButton != null)
         {
             if (CreditsButton.GetComponent<PauseButtonScript>().pressed) {
-            
+            Time.timeScale = 1;
             CreditsButton.GetComponent<PauseButtonScript>().pressed = false;
             SceneManager.LoadSceneAsync("EndGame");
         }
