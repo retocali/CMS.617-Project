@@ -6,7 +6,7 @@ public class HubWorldMaster : MonoBehaviour {
 
 	public PortalScript[] portals;
 	public GameObject player;
-	private float magnitude = 5f;
+	private float magnitude = 4f;
 
 	// Use this for initialization
 	void Start () {
@@ -15,7 +15,12 @@ public class HubWorldMaster : MonoBehaviour {
 				if (p.sceneName == Data.lastAttemptedScene) {
 					player.transform.position = p.Exit();
 					Vector3 velocity = p.Exit()-p.gameObject.transform.position;
-					player.GetComponent<PlayerScript>().AddVelocity(velocity*magnitude);
+					if(p.sceneName == "final") {
+						player.GetComponent<PlayerScript>().AddVelocity(velocity*20);
+					}
+					else {
+						player.GetComponent<PlayerScript>().AddVelocity(velocity*magnitude);
+					}
 					return;
 				}
 			}
